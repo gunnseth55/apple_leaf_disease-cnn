@@ -1,0 +1,36 @@
+# Python caches and tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments and local configuration
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# Packaging output
+build/
+dist/
+*.egg-info/
+
+# Jupyter temporary files
+.ipynb_checkpoints/
+
+# Downloaded datasets and generated experiment output
+data/
+artifacts/
+*.pt
+*.pth
+*.ckpt
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "appleleaf"
+version = "0.1.0"
+description = "Baseline CNN for Apple leaf disease classification"
+requires-python = ">=3.10"
+dependencies = [
+    "kagglehub>=0.3",
+    "matplotlib>=3.8",
+    "numpy>=1.26",
+    "pandas>=2.1",
+    "Pillow>=10.0",
+    "scikit-learn>=1.4",
+    "seaborn>=0.13",
+    "torch>=2.2",
+    "torchvision>=0.17",
+]
+
+[project.scripts]
+appleleaf-download = "appleleaf.cli.download_data:main"
+appleleaf-train = "appleleaf.cli.train:main"
+appleleaf-evaluate = "appleleaf.cli.evaluate:main"
+appleleaf-background-audit = "appleleaf.cli.background_audit:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
