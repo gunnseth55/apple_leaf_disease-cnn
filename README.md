@@ -110,6 +110,60 @@ background-only condition is evidence that class information is leaking through
 the background. Solid-colour conditions are stronger distribution-shift stress
 tests and should not be interpreted as deployment accuracy.
 
+## Explain individual predictions
+
+Generate Grad-CAM explanations for selected images from the held-out test split:
+
+```powershell
+appleleaf-explain `
+  --checkpoint artifacts\apple_baseline_checkpoint.pt `
+  --dataset-path C:\path\to\plantvillage `
+  --output-dir artifacts\explanations\baseline `
+  --indices 0 1 2 3 4
+```
+
+Omit `--indices` to select two images from every class automatically, avoiding a
+healthy-class-heavy sample:
+
+```powershell
+appleleaf-explain `
+  --checkpoint artifacts\apple_baseline_checkpoint.pt `
+  --dataset-path C:\path\to\plantvillage `
+  --output-dir artifacts\explanations\balanced\baseline `
+  --samples-per-class 2
+```
+
+For the background-augmented checkpoint:
+
+```powershell
+appleleaf-explain `
+  --checkpoint artifacts\background_augmented\apple_background_augmented_checkpoint.pt `
+  --dataset-path C:\path\to\plantvillage `
+  --output-dir artifacts\explanations\background_augmented `
+  --indices 0 1 2 3 4
+```
+
+Each output figure contains the exact source image and leaf-mask boundary, the
+Grad-CAM influence heatmap, the true and predicted classes, confidence, and all
+four class probabilities. `explanations.csv` records these values plus the
+fraction of heatmap intensity inside and outside the leaf.
+
+Grad-CAM is a coarse explanation of which regions most influenced a class
+score. It does not identify medically validated lesion boundaries and should not
+be described as pixel-level disease segmentation.
+
+To see the actual background replacements used during augmented training:
+
+```powershell
+appleleaf-preview-augmentation `
+  --dataset-path C:\path\to\plantvillage `
+  --output artifacts\augmentation_preview.png
+```
+
+The current PlantVillage `segmented` directory contains leaf/background masks,
+not disease-lesion masks. Exact spot-level detection therefore requires a
+pixel-annotated lesion dataset and a separately evaluated segmentation model.
+
 Each command also works without installing console entry points:
 
 ```powershell

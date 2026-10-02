@@ -190,15 +190,82 @@ testing on realistic external photographs.
 
 ## Next planned work
 
-1. Evaluate both checkpoints on external or field images with natural
+- [ ] Evaluate both checkpoints on external or field images with natural
    backgrounds.
-2. Visually inspect more masks for missing leaf regions or strong boundary
+- [ ] Visually inspect more masks for missing leaf regions or strong boundary
    artifacts.
-3. Add Grad-CAM comparisons for the baseline and augmented models.
-4. Tune the probability and realism of background augmentation to recover
+- [x] Add Grad-CAM comparisons for the baseline and augmented models (completed
+  2026-10-03).
+- [ ] Tune the probability and realism of background augmentation to recover
    original-image accuracy.
-5. Only then compare this CNN with a pretrained architecture such as ResNet18 or
+- [ ] Only then compare this CNN with a pretrained architecture such as ResNet18 or
    EfficientNet-B0.
+
+## 2026-10-03 — Per-image prediction explanations
+
+### Goal
+
+Make every selected test prediction inspectable: show which image was evaluated,
+where the CNN found influential evidence, and how its class scores led to the
+final prediction.
+
+### Changes
+
+- Added `appleleaf-explain`, which operates on explicit indices from the
+  deterministic held-out test split.
+- Added Grad-CAM using the final convolutional feature tensor.
+- Added a three-panel explanation figure containing:
+  - the exact test image with the segmentation boundary;
+  - a Grad-CAM overlay showing influential regions;
+  - probabilities for all four classes.
+- Added prediction correctness, confidence, source path, and inside/outside-leaf
+  attention fractions to `explanations.csv`.
+- Generated matched examples for test indices 0 through 7 using both models.
+
+### Revised balanced observation
+
+The first examples were healthy-class-heavy, so the selection was replaced with
+two deterministic examples from each of the four classes. Grad-CAM was also
+changed to use the feature map before the final max-pooling layer, increasing
+the native explanation resolution from 8x8 to 16x16.
+
+Across the eight balanced examples, the baseline placed an average of 51.05% of
+its positive Grad-CAM intensity inside the leaf. The background-augmented model
+placed 75.06% inside. This small example is descriptive rather than a complete
+statistical evaluation, but it agrees with the controlled-background audit.
+
+One particularly informative healthy image at test index 1 showed only 6.84%
+inside-leaf attention for the baseline; its strongest influence appeared in the
+background and shadow. The augmented model moved 72.27% of its attention inside
+the leaf on the same image, although it incorrectly predicted black rot. This
+also demonstrates why an explanation must be shown together with correctness
+and class probabilities rather than treated as proof that the model is right.
+
+### Interpretation limitation
+
+Grad-CAM is derived from gradients of a class score with respect to the final
+convolutional features. Because this model's final feature map is spatially
+coarse, the heatmap identifies influential regions, not exact disease pixels or
+clinically verified lesion borders.
+
+### Background-transformation preview
+
+Added `appleleaf-preview-augmentation` to display class-balanced original
+training images beside their leaf masks and white, blue, black, and random
+texture backgrounds. This separates two different visual questions:
+
+- the preview shows how training inputs are altered;
+- Grad-CAM shows where a trained model finds influential evidence on an
+  untouched test image.
+
+### Requirement for exact lesion detection
+
+Inspection of the local PlantVillage data confirmed that its `segmented`
+variant labels the whole leaf against the background. It does not provide
+ground-truth masks around disease lesions. Exact lesion localization cannot be
+trained or objectively scored from the current class labels. The next disease
+localization phase must introduce pixel-level lesion annotations and evaluate a
+segmentation model with metrics such as intersection-over-union and Dice score.
 
 ## Maintenance convention
 
