@@ -5,6 +5,37 @@ developed in `apple_leaf_baseline.ipynb`. The notebook remains available for
 exploration, while the Python pipeline runs in a reproducible order without
 depending on notebook state.
 
+Two versions of the same CNN are compared:
+
+- **Baseline:** trained on the original PlantVillage colour images.
+- **Background augmented:** trained with the same architecture and
+  hyperparameters, but with randomized training backgrounds so background
+  appearance is unreliable as a class cue.
+
+See [PROJECT_PROGRESS.md](PROJECT_PROGRESS.md) for the dated experiment log,
+analysis, decisions, and changes made during development.
+
+## Current results
+
+The baseline reached 90.32% test accuracy, while the background-augmented model
+reached 83.79%. The controlled validation audit shows why the second model is
+still useful:
+
+| Audit condition | Baseline accuracy | Augmented accuracy |
+| --- | ---: | ---: |
+| Original | 89.05% | 84.63% |
+| White background | 46.95% | 80.84% |
+| Blue background | 19.79% | 81.26% |
+| Black background | 19.79% | 80.42% |
+| Background only | 63.16% | 51.79% |
+
+The augmented model sacrifices some original-image accuracy but is substantially
+less sensitive to controlled background changes. Its background-only accuracy
+falls to the 51.79% majority-class baseline, supporting the conclusion that the
+original training data encouraged shortcut learning. These solid-colour tests
+measure robustness under controlled shifts; they are not estimates of field
+deployment accuracy.
+
 ## Setup
 
 Create and activate a virtual environment, then install the project:
@@ -58,6 +89,12 @@ Evaluate an existing checkpoint without retraining:
 
 ```powershell
 appleleaf-evaluate --checkpoint artifacts\apple_baseline_checkpoint.pt
+```
+
+Evaluate the augmented checkpoint:
+
+```powershell
+appleleaf-evaluate --checkpoint artifacts\background_augmented\apple_background_augmented_checkpoint.pt
 ```
 
 Run the optional segmented-background sensitivity analysis:
