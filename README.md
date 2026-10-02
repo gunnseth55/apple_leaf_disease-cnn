@@ -15,6 +15,10 @@ Two versions of the same CNN are compared:
 See [PROJECT_PROGRESS.md](PROJECT_PROGRESS.md) for the dated experiment log,
 analysis, decisions, and changes made during development.
 
+Pixel-level lesion segmentation is developed as a separate package and workflow.
+See [LESION_DETECTION.md](LESION_DETECTION.md); it does not reuse the
+classification training scripts or treat whole-leaf masks as lesion labels.
+
 ## Current results
 
 The baseline reached 90.32% test accuracy, while the background-augmented model

@@ -26,6 +26,9 @@ appleleaf-evaluate = "appleleaf.cli.evaluate:main"
 appleleaf-background-audit = "appleleaf.cli.background_audit:main"
 appleleaf-explain = "appleleaf.cli.explain:main"
 appleleaf-preview-augmentation = "appleleaf.cli.preview_augmentation:main"
+appleleaf-lesion-train = "appleleaf_lesion.cli.train:main"
+appleleaf-lesion-evaluate = "appleleaf_lesion.cli.evaluate:main"
+appleleaf-lesion-prepare-zenodo = "appleleaf_lesion.cli.prepare_zenodo:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

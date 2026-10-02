@@ -1,0 +1,16 @@
+image_path,mask_path,disease,source
+data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/images/val/black_rot_1.png,data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/masks/val/black_rot_1.png,black_rot,real
+data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/images/val/black_rot_2.png,data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/masks/val/black_rot_2.png,black_rot,real
+data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/images/val/black_rot_3.png,data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/masks/val/black_rot_3.png,black_rot,real
+data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/images/val/black_rot_4.png,data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/masks/val/black_rot_4.png,black_rot,real
+data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/images/val/black_rot_5.png,data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/masks/val/black_rot_5.png,black_rot,real
+data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/images/val/cedar_rust_1.png,data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/masks/val/cedar_rust_1.png,cedar_rust,real
+data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/images/val/cedar_rust_2.png,data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/masks/val/cedar_rust_2.png,cedar_rust,real
+data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/images/val/cedar_rust_3.png,data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/masks/val/cedar_rust_3.png,cedar_rust,real
+data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/images/val/cedar_rust_4.png,data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/masks/val/cedar_rust_4.png,cedar_rust,real
+data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/images/val/cedar_rust_5.png,data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/masks/val/cedar_rust_5.png,cedar_rust,real
+data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/images/val/scab_1.png,data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/masks/val/scab_1.png,scab,real
+data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/images/val/scab_2.png,data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/masks/val/scab_2.png,scab,real
+data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/images/val/scab_3.png,data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/masks/val/scab_3.png,scab,real
+data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/images/val/scab_4.png,data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/masks/val/scab_4.png,scab,real
+data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/images/val/scab_5.png,data/lesion_zenodo/restricted/Restricted_Plant_Village_Dataset/masks/val/scab_5.png,scab,real

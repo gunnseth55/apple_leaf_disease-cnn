@@ -267,6 +267,80 @@ trained or objectively scored from the current class labels. The next disease
 localization phase must introduce pixel-level lesion annotations and evaluate a
 segmentation model with metrics such as intersection-over-union and Dice score.
 
+## 2026-10-03 — Separate lesion-segmentation pipeline
+
+### Goal
+
+Move from image-level classification explanations to trainable and measurable
+pixel-level disease-lesion detection without mixing the new task into the
+existing classifier.
+
+### Changes
+
+- Created the independent `src/appleleaf_lesion/` package.
+- Implemented a binary U-Net with an ImageNet-pretrained ResNet34 encoder.
+- Implemented equally weighted Dice and focal loss.
+- Added paired image/mask loading with synchronized flips and ImageNet
+  normalization.
+- Added best-checkpoint selection using validation Dice.
+- Added Dice, IoU, pixel precision, and pixel recall metrics.
+- Added a separate evaluation command producing ground-truth masks, probability
+  maps, and red lesion overlays.
+- Documented the required train/validation/test manifest format in
+  `LESION_DETECTION.md`.
+
+### Verification
+
+The complete train, checkpoint-load, evaluation, and visualization workflow was
+smoke-tested on generated geometric masks. This validates the software path only;
+the resulting smoke-test metrics have no biological meaning.
+
+### Current blocker
+
+The cached PlantVillage data supplies whole-leaf segmentation masks but no
+pixel-level lesion masks. Real lesion training must not start until a suitable
+annotated dataset is obtained and its mask semantics are visually verified.
+
+## 2026-10-03 — Lesion dataset acquisition and validation
+
+### Dataset selected
+
+Downloaded the PlantVillage Apple Synthetic Segmentation Dataset from Zenodo
+(DOI `10.5281/zenodo.18659728`). Both published MD5 checksums were verified
+before extraction.
+
+### Split design
+
+- Training: 30 manually annotated real pairs plus 300 synthetic pairs
+- Validation: 15 manually annotated real pairs
+- Test: 30 manually annotated real pairs
+- Each split is balanced across scab, black rot, and cedar rust
+
+Synthetic samples are restricted to training so final performance is measured
+on real PlantVillage leaves with manually created lesion annotations.
+
+### Mask-semantic correction
+
+Visual and numeric inspection found three mask regions rather than a conventional
+binary mask:
+
+- black: image background;
+- white: unaffected leaf;
+- saturated red, blue, or green: disease lesion.
+
+The initial generic nonzero-mask interpretation would have mislabeled the entire
+leaf as diseased. The loader was corrected to isolate only saturated lesion
+colours while retaining support for conventional black/white lesion masks.
+
+### Verification
+
+Generated reproducible manifests with 330 training, 15 validation, and 30 test
+pairs. A one-epoch pretrained ResNet34 U-Net smoke test completed end to end.
+Its test Dice of 0.1563 is intentionally not treated as a result: the overlay
+correctly finds lesions but contains extensive false positives after only one
+epoch. The test confirms image/mask alignment, loss calculation, checkpointing,
+metrics, and visualization before full training.
+
 ## Maintenance convention
 
 For every future experiment, append a dated section containing:
