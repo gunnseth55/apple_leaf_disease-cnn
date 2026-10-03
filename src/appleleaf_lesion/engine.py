@@ -30,6 +30,41 @@ def metrics_from_totals(true_positive, false_positive, false_negative, epsilon=1
     return {"dice": dice, "iou": iou, "precision": precision, "recall": recall}
 
 
+def calibrate_threshold(model, loader, device, thresholds=None):
+    """Select the probability threshold with the best validation Dice score.
+
+    Calibration must be performed on validation data only. Keeping it separate
+    from ``run_epoch`` makes it harder to accidentally tune on the test split.
+    """
+    if thresholds is None:
+        thresholds = [round(step / 100, 2) for step in range(10, 91, 5)]
+    thresholds = [float(threshold) for threshold in thresholds]
+    if not thresholds:
+        raise ValueError("At least one calibration threshold is required")
+
+    totals = {threshold: [0, 0, 0] for threshold in thresholds}
+    model.eval()
+    with torch.no_grad():
+        for images, masks, _ in loader:
+            logits = model(images.to(device)).cpu()
+            for threshold in thresholds:
+                batch_totals = segmentation_totals(logits, masks, threshold)
+                totals[threshold] = [
+                    current + batch
+                    for current, batch in zip(totals[threshold], batch_totals)
+                ]
+
+    scores = {
+        threshold: metrics_from_totals(*threshold_totals)
+        for threshold, threshold_totals in totals.items()
+    }
+    # Prefer the threshold closest to 0.5 when Dice ties (common in tiny sets).
+    best_threshold = max(
+        thresholds, key=lambda threshold: (scores[threshold]["dice"], -abs(threshold - 0.5))
+    )
+    return best_threshold, scores[best_threshold]
+
+
 def run_epoch(model, loader, criterion, device, threshold=0.5, optimizer=None):
     training = optimizer is not None
     model.train(training)

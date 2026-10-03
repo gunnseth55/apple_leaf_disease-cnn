@@ -5,7 +5,7 @@ import torch
 
 from appleleaf.engine import choose_device, seed_everything
 from appleleaf_lesion.config import LesionConfig
-from appleleaf_lesion.engine import run_epoch, train_model
+from appleleaf_lesion.engine import calibrate_threshold, run_epoch, train_model
 from appleleaf_lesion.losses import DiceFocalLoss
 from appleleaf_lesion.model import ResNet34UNet
 from appleleaf_lesion.workflow import build_loaders, save_checkpoint
@@ -52,7 +52,8 @@ def main():
     history, best_epoch, best_dice = train_model(
         model, train_loader, val_loader, criterion, optimizer, device, config
     )
-    test_metrics = run_epoch(model, test_loader, criterion, device, config.threshold)
+    threshold, calibrated_val_metrics = calibrate_threshold(model, val_loader, device)
+    test_metrics = run_epoch(model, test_loader, criterion, device, threshold)
     config.artifacts_dir.mkdir(parents=True, exist_ok=True)
     history.to_csv(config.artifacts_dir / "training_history.csv", index=False)
     save_checkpoint(
@@ -62,8 +63,13 @@ def main():
         best_epoch,
         test_metrics,
         pretrained_encoder=not args.no_pretrained,
+        threshold=threshold,
     )
     print(f"Restored epoch {best_epoch}; validation Dice: {best_dice:.4f}")
+    print(
+        f"Calibrated threshold: {threshold:.2f}; "
+        f"validation Dice: {calibrated_val_metrics['dice']:.4f}"
+    )
     print("Test: " + " | ".join(f"{key}={value:.4f}" for key, value in test_metrics.items()))
 
 

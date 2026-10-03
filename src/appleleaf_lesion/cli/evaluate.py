@@ -20,6 +20,12 @@ def parse_args():
     parser.add_argument("--output-dir", type=Path, default=Path("artifacts/lesion_evaluation"))
     parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--examples", type=int, default=8)
+    parser.add_argument(
+        "--threshold",
+        type=float,
+        default=None,
+        help="Override the probability threshold stored in the checkpoint",
+    )
     parser.add_argument("--device", choices=("auto", "cpu", "cuda"), default="auto")
     return parser.parse_args()
 
@@ -30,13 +36,18 @@ def denormalize(image):
     return np.clip(image.transpose(1, 2, 0) * standard_deviation + mean, 0, 1)
 
 
-def save_example(image, truth, probability, source, output):
-    predicted = probability >= 0.5
+def save_example(image, truth, probability, source, output, threshold=0.5):
+    predicted = probability >= threshold
     overlay = image.copy()
     overlay[predicted] = 0.55 * overlay[predicted] + 0.45 * np.array([1.0, 0.0, 0.0])
     figure, axes = plt.subplots(1, 4, figsize=(14, 4))
     panels = (image, truth, probability, overlay)
-    titles = ("Image", "Ground-truth lesion", "Lesion probability", "Prediction overlay")
+    titles = (
+        "Image",
+        "Ground-truth lesion",
+        "Lesion probability",
+        f"Prediction overlay (p >= {threshold:.2f})",
+    )
     for axis, panel, title in zip(axes, panels, titles):
         axis.imshow(panel, cmap="magma" if panel.ndim == 2 else None, vmin=0, vmax=1)
         axis.set_title(title)
@@ -54,7 +65,13 @@ def main():
     validate_manifest(args.manifest)
     dataset = LesionDataset(args.manifest, int(checkpoint["image_size"]))
     loader = DataLoader(dataset, batch_size=args.batch_size, shuffle=False)
-    threshold = float(checkpoint.get("threshold", 0.5))
+    threshold = (
+        float(args.threshold)
+        if args.threshold is not None
+        else float(checkpoint.get("threshold", 0.5))
+    )
+    if not 0 <= threshold <= 1:
+        raise SystemExit("Threshold must be between 0 and 1")
     args.output_dir.mkdir(parents=True, exist_ok=True)
     tp = fp = fn = 0
     example_number = 0
@@ -78,6 +95,7 @@ def main():
                     probability[0],
                     source,
                     args.output_dir / f"example_{example_number:03d}.png",
+                    threshold,
                 )
                 example_number += 1
     metrics = metrics_from_totals(tp, fp, fn)

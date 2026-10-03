@@ -35,7 +35,13 @@ def build_loaders(manifest_dir, config):
 
 
 def save_checkpoint(
-    path, model, config, best_epoch, test_metrics, pretrained_encoder=True
+    path,
+    model,
+    config,
+    best_epoch,
+    test_metrics,
+    pretrained_encoder=True,
+    threshold=None,
 ):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -48,7 +54,7 @@ def save_checkpoint(
             "architecture": "unet_resnet34",
             "pretrained_encoder": pretrained_encoder,
             "image_size": config.image_size,
-            "threshold": config.threshold,
+            "threshold": config.threshold if threshold is None else float(threshold),
             "best_epoch": best_epoch,
             "test_metrics": test_metrics,
             "config": config.to_dict(),

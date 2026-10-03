@@ -60,6 +60,7 @@ lesion target.
 - Dice loss + focal loss with equal weights
 - AdamW optimizer
 - Best checkpoint selected by validation Dice score
+- Probability threshold calibrated on the validation split after training
 - Dice, intersection-over-union, pixel precision, and pixel recall evaluation
 
 ## Train
@@ -98,5 +99,7 @@ appleleaf-lesion-evaluate `
 
 The evaluation command creates `metrics.json` and side-by-side figures showing
 the image, ground-truth lesion mask, predicted probability map, and red lesion
-overlay. Unlike Grad-CAM, this output can be evaluated as pixel-level lesion
-localization because it is compared with an annotated ground-truth mask.
+overlay. The overlay and metrics both use the validation-calibrated threshold
+stored in the checkpoint. For older checkpoints, it can be overridden with
+`--threshold`. Unlike Grad-CAM, this output can be evaluated as pixel-level
+lesion localization because it is compared with an annotated ground-truth mask.
