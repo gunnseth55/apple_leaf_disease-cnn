@@ -341,6 +341,61 @@ correctly finds lesions but contains extensive false positives after only one
 epoch. The test confirms image/mask alignment, loss calculation, checkpointing,
 metrics, and visualization before full training.
 
+## 2026-10-04 — Paired augmentation and hard-negative lesion experiment
+
+### Question
+
+Test whether stronger paired augmentation improves lesion segmentation, then
+whether healthy leaves with confusing structures reduce false positives on
+stem ends, leaf tips, folds, and holes.
+
+### Changes
+
+- Extended training-only augmentation with paired flips, rotation, translation,
+  scale, and shear. The same geometry is applied to each image and mask, using
+  nearest-neighbour interpolation for masks.
+- Added image-only brightness, contrast, saturation, and hue jitter.
+- Selected 40 confidently healthy Plant Pathology 2020 images containing stems,
+  folds, holes, shadows, sunlight, and natural backgrounds.
+- Created aligned all-black lesion masks for these healthy hard negatives.
+- Expanded `lesion_manifests/train.csv` from 330 to 370 pairs. Validation and
+  test manifests were unchanged.
+- Added reusable scripts under `scripts/` for candidate collection, empty-mask
+  creation, and duplicate-safe manifest updates.
+
+### Results
+
+The original 30-epoch model scored Dice 0.6806, IoU 0.5159, precision 0.6059,
+and recall 0.7763 on the fixed test split.
+
+With paired augmentation, the best checkpoint was restored from epoch 20. Its
+validation Dice was 0.6603, increasing to 0.6653 after calibrating the threshold
+to 0.70. Test Dice improved to 0.6873, IoU to 0.5236, and precision to 0.6281;
+recall decreased to 0.7589. Results are stored in
+`artifacts/lesion_evaluation_augmented`.
+
+With the 40 hard negatives added, the best checkpoint was restored from epoch
+27. Validation Dice was 0.6617 and remained 0.6618 after threshold calibration
+to 0.55. Test Dice fell to 0.6485, IoU to 0.4798, and precision to 0.5584, while
+recall increased to 0.7733. The checkpoint and evaluation are stored in
+`artifacts/lesion_detection_hard_negatives` and
+`artifacts/lesion_evaluation_hard_negatives`.
+
+### Visual inspection and decision
+
+Despite the aggregate regression, the hard-negative model stopped marking the
+previously observed stem ends and leaf tips as lesions. It also stopped marking
+holes in several examples, although one hole remained a false positive. This
+shows that targeted healthy examples addressed the intended error type, but the
+current mixture or training setup reduced overall segmentation quality.
+
+The augmented model remains the preferred general checkpoint because it has the
+best test Dice, IoU, and precision. The hard-negative checkpoint is retained as
+experimental evidence rather than replacing it. A future experiment should
+seek the same structural false-positive improvement with less effect on lesion
+segmentation, for example through fewer or more tightly matched hard negatives
+or controlled sampling.
+
 ## Maintenance convention
 
 For every future experiment, append a dated section containing:

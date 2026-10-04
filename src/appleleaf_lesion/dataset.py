@@ -5,7 +5,70 @@ import pandas as pd
 import torch
 from PIL import Image
 from torch.utils.data import Dataset
-from torchvision.transforms import functional
+from torchvision.transforms import ColorJitter, InterpolationMode, functional
+
+
+class PairedLesionAugmentation:
+    """Strong spatial augmentation for an image/mask pair plus image-only colour jitter."""
+
+    def __init__(self):
+        self.colour_jitter = ColorJitter(
+            brightness=0.25,
+            contrast=0.25,
+            saturation=0.25,
+            hue=0.05,
+        )
+
+    @staticmethod
+    def _uniform(low, high):
+        return float(torch.empty(1).uniform_(low, high).item())
+
+    def __call__(self, image, mask):
+        if torch.rand(()) < 0.5:
+            image, mask = functional.hflip(image), functional.hflip(mask)
+        if torch.rand(()) < 0.5:
+            image, mask = functional.vflip(image), functional.vflip(mask)
+
+        if torch.rand(()) < 0.7:
+            angle = self._uniform(-25.0, 25.0)
+            image = functional.rotate(
+                image, angle, interpolation=InterpolationMode.BILINEAR, fill=0
+            )
+            mask = functional.rotate(
+                mask, angle, interpolation=InterpolationMode.NEAREST, fill=0
+            )
+
+        if torch.rand(()) < 0.7:
+            width, height = functional.get_image_size(image)
+            translate = [
+                round(self._uniform(-0.10, 0.10) * width),
+                round(self._uniform(-0.10, 0.10) * height),
+            ]
+            angle = self._uniform(-10.0, 10.0)
+            scale = self._uniform(0.90, 1.10)
+            shear = [self._uniform(-8.0, 8.0), self._uniform(-8.0, 8.0)]
+            image = functional.affine(
+                image,
+                angle,
+                translate,
+                scale,
+                shear,
+                interpolation=InterpolationMode.BILINEAR,
+                fill=0,
+            )
+            mask = functional.affine(
+                mask,
+                angle,
+                translate,
+                scale,
+                shear,
+                interpolation=InterpolationMode.NEAREST,
+                fill=0,
+            )
+
+        if torch.rand(()) < 0.8:
+            image = self.colour_jitter(image)
+        return image, mask
 
 
 class LesionDataset(Dataset):
@@ -18,6 +81,7 @@ class LesionDataset(Dataset):
             raise ValueError(f"Manifest must contain columns: {sorted(required)}")
         self.image_size = image_size
         self.training = training
+        self.augmentation = PairedLesionAugmentation() if training else None
 
     def __len__(self):
         return len(self.records)
@@ -32,12 +96,10 @@ class LesionDataset(Dataset):
         mask = functional.resize(
             mask,
             [self.image_size, self.image_size],
-            interpolation=functional.InterpolationMode.NEAREST,
+            interpolation=InterpolationMode.NEAREST,
         )
-        if self.training and torch.rand(()) < 0.5:
-            image, mask = functional.hflip(image), functional.hflip(mask)
-        if self.training and torch.rand(()) < 0.5:
-            image, mask = functional.vflip(image), functional.vflip(mask)
+        if self.augmentation is not None:
+            image, mask = self.augmentation(image, mask)
         image = functional.to_tensor(image)
         image = functional.normalize(
             image,

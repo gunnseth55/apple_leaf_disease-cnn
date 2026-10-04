@@ -59,6 +59,8 @@ lesion target.
 - 256x256 input by default
 - Dice loss + focal loss with equal weights
 - AdamW optimizer
+- Strong training-only augmentation: paired flips, rotation, translation,
+  scaling, and shear, with image-only colour jitter
 - Best checkpoint selected by validation Dice score
 - Probability threshold calibrated on the validation split after training
 - Dice, intersection-over-union, pixel precision, and pixel recall evaluation
