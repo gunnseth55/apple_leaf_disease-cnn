@@ -107,6 +107,28 @@ Sampling uses replacement and retains 330 draws per epoch. The expected source
 mix is 99 real and 231 synthetic draws, while validation and test data remain
 unchanged.
 
+To test a small, controlled hard-negative exposure without changing the number
+of optimization steps, train from `train.csv` and reserve 5% of the same 330
+draws for healthy hard negatives:
+
+```powershell
+appleleaf-lesion-train `
+  --manifest-dir lesion_manifests `
+  --train-manifest lesion_manifests\train.csv `
+  --real-sampling-fraction 0.30 `
+  --hard-negative-sampling-fraction 0.05 `
+  --samples-per-epoch 330 `
+  --epochs 30 `
+  --batch-size 8 `
+  --artifacts-dir artifacts\lesion_detection_real30_synthetic70_hardneg05
+```
+
+Here, the 30/70 ratio applies within the 95% lesion-image portion of each
+epoch. The expected overall probability mass is therefore 28.5% real lesion,
+66.5% synthetic lesion, and 5% healthy hard negative. Validation and test
+remain the same manually annotated real lesion images used by the preceding
+30/70 experiment.
+
 The pretrained encoder weights are downloaded by PyTorch on first use. Use
 `--no-pretrained` only for offline smoke tests, not for the main experiment.
 

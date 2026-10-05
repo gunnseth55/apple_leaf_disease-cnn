@@ -65,6 +65,30 @@ class LesionEngineTests(unittest.TestCase):
         self.assertAlmostEqual(weights[:2].sum().item(), 0.3)
         self.assertAlmostEqual(weights[2:].sum().item(), 0.7)
 
+    def test_source_sampling_weights_reserve_hard_negative_mass(self):
+        records = pd.DataFrame(
+            {
+                "source": [
+                    "real",
+                    "real",
+                    "synthetic",
+                    "synthetic",
+                    "synthetic",
+                    "hard_negative",
+                    "hard_negative",
+                ]
+            }
+        )
+
+        weights = source_sampling_weights(
+            records, real_fraction=0.3, hard_negative_fraction=0.05
+        )
+
+        self.assertAlmostEqual(weights[:2].sum().item(), 0.285)
+        self.assertAlmostEqual(weights[2:5].sum().item(), 0.665)
+        self.assertAlmostEqual(weights[5:].sum().item(), 0.05)
+        self.assertAlmostEqual(weights.sum().item(), 1.0)
+
 
 if __name__ == "__main__":
     unittest.main()

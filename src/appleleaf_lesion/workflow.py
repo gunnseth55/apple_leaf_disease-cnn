@@ -7,15 +7,20 @@ from .dataset import LesionDataset, validate_manifest
 from .model import ResNet34UNet
 
 
-def source_sampling_weights(records, real_fraction):
-    """Give real and synthetic samples the requested probability mass."""
+def source_sampling_weights(records, real_fraction, hard_negative_fraction=0.0):
+    """Assign source probability mass while preserving a real/synthetic ratio."""
     if not 0 < real_fraction < 1:
         raise ValueError("Real sampling fraction must be between 0 and 1")
+    if not 0 <= hard_negative_fraction < 1:
+        raise ValueError("Hard-negative sampling fraction must be in [0, 1)")
     if "source" not in records.columns:
         raise ValueError("Source-balanced sampling requires a 'source' column")
 
     sources = records["source"].astype(str).str.lower()
-    unsupported = sorted(set(sources) - {"real", "synthetic"})
+    supported = {"real", "synthetic"}
+    if hard_negative_fraction:
+        supported.add("hard_negative")
+    unsupported = sorted(set(sources) - supported)
     if unsupported:
         raise ValueError(
             "Source-balanced sampling supports only real and synthetic rows; "
@@ -23,16 +28,24 @@ def source_sampling_weights(records, real_fraction):
         )
     real_count = int((sources == "real").sum())
     synthetic_count = int((sources == "synthetic").sum())
+    hard_negative_count = int((sources == "hard_negative").sum())
     if not real_count or not synthetic_count:
         raise ValueError("Both real and synthetic training samples are required")
+    if hard_negative_fraction and not hard_negative_count:
+        raise ValueError("Hard-negative sampling requires hard_negative rows")
+
+    lesion_fraction = 1 - hard_negative_fraction
+    source_weights = {
+        "real": lesion_fraction * real_fraction / real_count,
+        "synthetic": lesion_fraction * (1 - real_fraction) / synthetic_count,
+    }
+    if hard_negative_fraction:
+        source_weights["hard_negative"] = (
+            hard_negative_fraction / hard_negative_count
+        )
 
     return torch.tensor(
-        [
-            real_fraction / real_count
-            if source == "real"
-            else (1 - real_fraction) / synthetic_count
-            for source in sources
-        ],
+        [source_weights[source] for source in sources],
         dtype=torch.double,
     )
 
@@ -57,11 +70,13 @@ def build_loaders(manifest_dir, config, train_manifest=None):
         )
     else:
         weights = source_sampling_weights(
-            train_dataset.records, config.real_sampling_fraction
+            train_dataset.records,
+            config.real_sampling_fraction,
+            config.hard_negative_sampling_fraction,
         )
         sampler = WeightedRandomSampler(
             weights,
-            num_samples=len(train_dataset),
+            num_samples=config.samples_per_epoch or len(train_dataset),
             replacement=True,
             generator=generator,
         )

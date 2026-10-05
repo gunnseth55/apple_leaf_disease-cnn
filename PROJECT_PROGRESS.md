@@ -471,6 +471,69 @@ The next experiment should retain 30/70 source sampling and introduce a smaller
 or controlled hard-negative exposure so that structural false positives can be
 reduced without repeating the earlier aggregate regression.
 
+## 2026-10-05 — Controlled 5% hard-negative exposure
+
+### Question
+
+Can a small, explicitly controlled exposure to healthy hard negatives reduce
+structural false positives without losing the improvement from 30/70
+real-synthetic lesion sampling?
+
+### Controlled change
+
+- Extended source-balanced sampling to support a separate hard-negative
+  probability and a fixed number of draws per epoch.
+- Trained from `lesion_manifests/train.csv`, containing 30 real lesion pairs,
+  300 synthetic lesion pairs, and 40 healthy hard negatives with empty masks.
+- Retained a 30/70 real-synthetic ratio within lesion examples while reserving
+  5% of total probability for hard negatives. The resulting overall probability
+  mass was 28.5% real lesion, 66.5% synthetic lesion, and 5% hard negative.
+- Fixed each epoch at 330 draws, matching the preceding 30/70 experiment rather
+  than increasing the number of optimization steps to the 370-row manifest
+  length.
+- Kept the same paired augmentation, ResNet34 U-Net, Dice/focal loss, seed 42,
+  256-pixel input size, batch size 8, 30 epochs, and real validation/test splits.
+- Added a unit test verifying the three source groups receive exactly the
+  requested probability mass. All five lesion tests passed before training.
+
+### Results
+
+The best checkpoint was restored from epoch 22. Validation Dice increased from
+0.6901 at the default threshold to 0.6973 after calibrating the threshold to
+0.70. On the fixed real test split, pooled Dice was 0.7009, IoU was 0.5395,
+precision was 0.6317, and recall was 0.7871.
+
+Compared with the preferred 30/70 checkpoint, Dice decreased by 0.0033, IoU by
+0.0040, and precision by 0.0158, while recall increased by 0.0152. Mean
+per-image Dice decreased from 0.7161 to 0.7107 and median per-image Dice from
+0.7244 to 0.7020.
+
+| Disease | 30/70 Dice | 5% hard-negative Dice | Change |
+| --- | ---: | ---: | ---: |
+| Black rot | 0.8317 | 0.8549 | +0.0232 |
+| Cedar rust | 0.6657 | 0.6609 | -0.0048 |
+| Scab | 0.6734 | 0.6621 | -0.0113 |
+
+The checkpoint and history are stored in
+`artifacts/lesion_detection_real30_synthetic70_hardneg05`. All 30 overlays,
+pooled metrics, per-image metrics, and per-disease metrics are stored in
+`artifacts/lesion_evaluation_real30_synthetic70_hardneg05_all_images`.
+
+### Interpretation and decision
+
+The 5% exposure improved black-rot Dice and overall recall, but it did not
+improve pooled segmentation and reduced precision, cedar-rust Dice, and scab
+Dice. Limited matched inspection of difficult cedar-rust and scab overlays did
+not show an obvious structural false-positive reduction relative to the 30/70
+checkpoint, consistent with the lower pooled precision.
+
+The 30/70 checkpoint remains the preferred general lesion model. The 5%
+hard-negative checkpoint is retained as controlled experimental evidence and
+does not replace it. A follow-up should not simply raise the hard-negative
+probability; it should first make hard-negative selection or loss contribution
+more targeted, because both the earlier uncontrolled mixture and this controlled
+5% exposure failed to improve the general test result.
+
 ## Maintenance convention
 
 For every future experiment, append a dated section containing:
