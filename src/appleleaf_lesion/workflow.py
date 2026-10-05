@@ -1,15 +1,47 @@
 from pathlib import Path
 
 import torch
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, WeightedRandomSampler
 
 from .dataset import LesionDataset, validate_manifest
 from .model import ResNet34UNet
 
 
-def build_loaders(manifest_dir, config):
+def source_sampling_weights(records, real_fraction):
+    """Give real and synthetic samples the requested probability mass."""
+    if not 0 < real_fraction < 1:
+        raise ValueError("Real sampling fraction must be between 0 and 1")
+    if "source" not in records.columns:
+        raise ValueError("Source-balanced sampling requires a 'source' column")
+
+    sources = records["source"].astype(str).str.lower()
+    unsupported = sorted(set(sources) - {"real", "synthetic"})
+    if unsupported:
+        raise ValueError(
+            "Source-balanced sampling supports only real and synthetic rows; "
+            f"found: {unsupported}"
+        )
+    real_count = int((sources == "real").sum())
+    synthetic_count = int((sources == "synthetic").sum())
+    if not real_count or not synthetic_count:
+        raise ValueError("Both real and synthetic training samples are required")
+
+    return torch.tensor(
+        [
+            real_fraction / real_count
+            if source == "real"
+            else (1 - real_fraction) / synthetic_count
+            for source in sources
+        ],
+        dtype=torch.double,
+    )
+
+
+def build_loaders(manifest_dir, config, train_manifest=None):
     manifest_dir = Path(manifest_dir)
     paths = {split: manifest_dir / f"{split}.csv" for split in ("train", "val", "test")}
+    if train_manifest is not None:
+        paths["train"] = Path(train_manifest)
     for path in paths.values():
         validate_manifest(path)
     common = {
@@ -18,13 +50,24 @@ def build_loaders(manifest_dir, config):
         "pin_memory": torch.cuda.is_available(),
     }
     generator = torch.Generator().manual_seed(config.seed)
-    return (
-        DataLoader(
-            LesionDataset(paths["train"], config.image_size, training=True),
-            shuffle=True,
+    train_dataset = LesionDataset(paths["train"], config.image_size, training=True)
+    if config.real_sampling_fraction is None:
+        train_loader = DataLoader(
+            train_dataset, shuffle=True, generator=generator, **common
+        )
+    else:
+        weights = source_sampling_weights(
+            train_dataset.records, config.real_sampling_fraction
+        )
+        sampler = WeightedRandomSampler(
+            weights,
+            num_samples=len(train_dataset),
+            replacement=True,
             generator=generator,
-            **common,
-        ),
+        )
+        train_loader = DataLoader(train_dataset, sampler=sampler, **common)
+    return (
+        train_loader,
         DataLoader(
             LesionDataset(paths["val"], config.image_size), shuffle=False, **common
         ),

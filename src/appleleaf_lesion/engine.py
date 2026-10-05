@@ -30,6 +30,16 @@ def metrics_from_totals(true_positive, false_positive, false_negative, epsilon=1
     return {"dice": dice, "iou": iou, "precision": precision, "recall": recall}
 
 
+def metrics_per_sample(logits, targets, threshold=0.5):
+    """Return segmentation metrics for each sample rather than pooling pixels."""
+    if len(logits) != len(targets):
+        raise ValueError("Logits and targets must contain the same number of samples")
+    return [
+        metrics_from_totals(*segmentation_totals(logit, target, threshold))
+        for logit, target in zip(logits, targets)
+    ]
+
+
 def calibrate_threshold(model, loader, device, thresholds=None):
     """Select the probability threshold with the best validation Dice score.
 

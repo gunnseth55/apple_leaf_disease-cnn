@@ -396,6 +396,81 @@ seek the same structural false-positive improvement with less effect on lesion
 segmentation, for example through fewer or more tightly matched hard negatives
 or controlled sampling.
 
+### Per-image and per-disease diagnosis
+
+Extended lesion evaluation to preserve the existing pooled metrics while also
+writing `per_image_metrics.csv` and `per_disease_metrics.csv`. Reporting now
+includes mean, median, and standard deviation of per-image Dice plus the five
+worst-performing images. Unit tests cover the per-sample calculation.
+
+On the preferred augmented checkpoint, pooled test Dice remained 0.6873. Mean
+per-image Dice was 0.6960, median 0.6773, and standard deviation 0.1137. The
+per-disease results were:
+
+- black rot: pooled Dice 0.8314; mean-image Dice 0.7988;
+- cedar rust: pooled Dice 0.6384; mean-image Dice 0.6346;
+- scab: pooled Dice 0.6574; mean-image Dice 0.6545.
+
+Cedar rust supplied four of the five worst individual images, with Dice scores
+from 0.4728 to 0.5844; the remaining image was scab at 0.5113. This establishes
+cedar rust as the clearest weakness hidden by the previous single global score.
+Outputs are stored in `artifacts/lesion_evaluation_augmented_per_disease`.
+
+## 2026-10-04 — 30/70 real-synthetic lesion sampling
+
+### Question
+
+Does increasing the probability of manually annotated real training images from
+their natural 9.1% share to 30% improve real-image lesion segmentation,
+especially for cedar rust and scab, without sacrificing black-rot performance?
+
+### Controlled change
+
+- Trained from `lesion_manifests/train_before_hard_negatives.csv`, containing 30
+  real and 300 synthetic lesion pairs balanced across the three diseases.
+- Used weighted sampling with replacement so each 330-sample epoch drew 30%
+  real and 70% synthetic examples in expectation.
+- Kept the existing paired geometric and colour augmentation, ResNet34 U-Net,
+  Dice/focal loss, seed 42, 256-pixel input size, batch size 8, 30 epochs, and
+  fixed validation and test splits.
+- Excluded the 40 healthy hard negatives so source sampling was the only changed
+  experimental variable.
+
+### Results
+
+The best checkpoint was restored from epoch 25. Validation Dice increased from
+0.6809 at the default threshold to 0.6903 after calibrating the threshold to
+0.70. On the fixed 30-image real test split, pooled Dice improved from 0.6873
+to 0.7043, IoU from 0.5236 to 0.5435, and precision from 0.6281 to 0.6475;
+recall increased from 0.7589 to 0.7719.
+
+| Disease | Previous Dice | 30/70 Dice | Change | 30/70 precision | 30/70 recall |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Black rot | 0.8314 | 0.8317 | +0.0003 | 0.8105 | 0.8540 |
+| Cedar rust | 0.6384 | 0.6657 | +0.0273 | 0.5771 | 0.7863 |
+| Scab | 0.6574 | 0.6734 | +0.0160 | 0.6273 | 0.7267 |
+
+Seven of ten cedar-rust images and seven of ten scab images improved in Dice.
+Black-rot pooled Dice was effectively preserved, although individual black-rot
+images moved in both directions. The checkpoint and training history are stored
+in `artifacts/lesion_detection_real30_synthetic70`; full overlays and
+per-image/per-disease metrics are stored in
+`artifacts/lesion_evaluation_real30_synthetic70_all_images`.
+
+### Interpretation and decision
+
+The controlled result supports the synthetic-to-real imbalance hypothesis.
+The 30/70 checkpoint is now the preferred general lesion model because it has
+the best pooled test Dice and IoU, improves both weak diseases, and preserves
+pooled black-rot performance.
+
+Visual inspection still shows false positives on some stems, central veins,
+leaf boundaries, and image edges, and difficult faded lesions remain imperfect.
+The improvement therefore does not replace targeted structural-negative work.
+The next experiment should retain 30/70 source sampling and introduce a smaller
+or controlled hard-negative exposure so that structural false positives can be
+reduced without repeating the earlier aggregate regression.
+
 ## Maintenance convention
 
 For every future experiment, append a dated section containing:

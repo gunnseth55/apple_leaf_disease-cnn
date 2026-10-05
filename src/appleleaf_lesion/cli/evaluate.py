@@ -4,12 +4,17 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 import torch
 from torch.utils.data import DataLoader
 
 from appleleaf.engine import choose_device
 from appleleaf_lesion.dataset import LesionDataset, validate_manifest
-from appleleaf_lesion.engine import metrics_from_totals, segmentation_totals
+from appleleaf_lesion.engine import (
+    metrics_from_totals,
+    metrics_per_sample,
+    segmentation_totals,
+)
 from appleleaf_lesion.workflow import load_model
 
 
@@ -58,12 +63,44 @@ def save_example(image, truth, probability, source, output, threshold=0.5):
     plt.close(figure)
 
 
+def summarize_by_disease(per_image):
+    rows = []
+    for disease, group in per_image.groupby("disease", sort=True):
+        totals = group[["true_positive", "false_positive", "false_negative"]].sum()
+        pooled = metrics_from_totals(
+            totals["true_positive"],
+            totals["false_positive"],
+            totals["false_negative"],
+        )
+        rows.append(
+            {
+                "disease": disease,
+                "image_count": len(group),
+                **pooled,
+                "mean_image_dice": group["dice"].mean(),
+                "median_image_dice": group["dice"].median(),
+                "std_image_dice": group["dice"].std(ddof=0),
+            }
+        )
+    return pd.DataFrame(rows)
+
+
 def main():
     args = parse_args()
     device = choose_device(args.device)
     model, checkpoint = load_model(args.checkpoint, device)
     validate_manifest(args.manifest)
     dataset = LesionDataset(args.manifest, int(checkpoint["image_size"]))
+    if "disease" not in dataset.records.columns:
+        raise SystemExit(
+            "Per-disease evaluation requires a 'disease' column in the manifest"
+        )
+    disease_by_path = dict(
+        zip(
+            dataset.records["image_path"].astype(str),
+            dataset.records["disease"].astype(str),
+        )
+    )
     loader = DataLoader(dataset, batch_size=args.batch_size, shuffle=False)
     threshold = (
         float(args.threshold)
@@ -74,6 +111,7 @@ def main():
         raise SystemExit("Threshold must be between 0 and 1")
     args.output_dir.mkdir(parents=True, exist_ok=True)
     tp = fp = fn = 0
+    per_image_rows = []
     example_number = 0
     model.eval()
     with torch.no_grad():
@@ -83,25 +121,66 @@ def main():
             tp += batch_tp
             fp += batch_fp
             fn += batch_fn
+            sample_metrics = metrics_per_sample(logits, masks, threshold)
             probabilities = torch.sigmoid(logits).numpy()
-            for image, mask, probability, source in zip(
-                images.numpy(), masks.numpy(), probabilities, paths
+            for image, target, probability, source, sample_metric, logit in zip(
+                images.numpy(),
+                masks,
+                probabilities,
+                paths,
+                sample_metrics,
+                logits,
             ):
+                sample_tp, sample_fp, sample_fn = segmentation_totals(
+                    logit, target, threshold
+                )
+                per_image_rows.append(
+                    {
+                        "image_path": source,
+                        "disease": disease_by_path[source],
+                        **sample_metric,
+                        "true_positive": sample_tp,
+                        "false_positive": sample_fp,
+                        "false_negative": sample_fn,
+                    }
+                )
                 if example_number >= args.examples:
                     continue
                 save_example(
                     denormalize(image),
-                    mask[0],
+                    target.numpy()[0],
                     probability[0],
                     source,
                     args.output_dir / f"example_{example_number:03d}.png",
                     threshold,
                 )
                 example_number += 1
+    per_image = pd.DataFrame(per_image_rows)
+    per_disease = summarize_by_disease(per_image)
+    per_image.to_csv(args.output_dir / "per_image_metrics.csv", index=False)
+    per_disease.to_csv(args.output_dir / "per_disease_metrics.csv", index=False)
+
     metrics = metrics_from_totals(tp, fp, fn)
+    metrics.update(
+        {
+            "mean_per_image_dice": per_image["dice"].mean(),
+            "median_per_image_dice": per_image["dice"].median(),
+            "std_per_image_dice": per_image["dice"].std(ddof=0),
+        }
+    )
     with (args.output_dir / "metrics.json").open("w", encoding="utf-8") as handle:
         json.dump(metrics, handle, indent=2)
     print(" | ".join(f"{key}={value:.4f}" for key, value in metrics.items()))
+    print("Per-disease results:")
+    for row in per_disease.itertuples(index=False):
+        print(
+            f"  {row.disease}: dice={row.dice:.4f} | iou={row.iou:.4f} | "
+            f"precision={row.precision:.4f} | recall={row.recall:.4f} | "
+            f"mean-image-dice={row.mean_image_dice:.4f}"
+        )
+    print("Worst five images by Dice:")
+    for row in per_image.nsmallest(5, "dice").itertuples(index=False):
+        print(f"  {row.dice:.4f} | {row.disease} | {row.image_path}")
     print(f"Evaluation saved to: {args.output_dir.resolve()}")
 
 

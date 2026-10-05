@@ -1,9 +1,15 @@
 import unittest
 
+import pandas as pd
 import torch
 from torch.utils.data import DataLoader, Dataset
 
-from appleleaf_lesion.engine import calibrate_threshold, metrics_from_totals
+from appleleaf_lesion.engine import (
+    calibrate_threshold,
+    metrics_from_totals,
+    metrics_per_sample,
+)
+from appleleaf_lesion.workflow import source_sampling_weights
 
 
 class _CalibrationDataset(Dataset):
@@ -38,6 +44,26 @@ class LesionEngineTests(unittest.TestCase):
         )
         self.assertEqual(threshold, 0.4)
         self.assertAlmostEqual(metrics["dice"], 1.0)
+
+    def test_metrics_per_sample_does_not_pool_images(self):
+        probabilities = torch.tensor([0.9, 0.1, 0.9, 0.1]).view(2, 1, 1, 2)
+        logits = torch.logit(probabilities)
+        targets = torch.tensor([1.0, 0.0, 0.0, 1.0]).view(2, 1, 1, 2)
+
+        metrics = metrics_per_sample(logits, targets, threshold=0.5)
+
+        self.assertAlmostEqual(metrics[0]["dice"], 1.0)
+        self.assertAlmostEqual(metrics[1]["dice"], 0.0, places=6)
+
+    def test_source_sampling_weights_assign_requested_probability_mass(self):
+        records = pd.DataFrame(
+            {"source": ["real", "real", "synthetic", "synthetic", "synthetic"]}
+        )
+
+        weights = source_sampling_weights(records, real_fraction=0.3)
+
+        self.assertAlmostEqual(weights[:2].sum().item(), 0.3)
+        self.assertAlmostEqual(weights[2:].sum().item(), 0.7)
 
 
 if __name__ == "__main__":

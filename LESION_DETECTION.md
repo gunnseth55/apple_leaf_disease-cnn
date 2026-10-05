@@ -64,6 +64,8 @@ lesion target.
 - Best checkpoint selected by validation Dice score
 - Probability threshold calibrated on the validation split after training
 - Dice, intersection-over-union, pixel precision, and pixel recall evaluation
+- Per-image and per-disease evaluation, including mean/median image Dice and
+  identification of the five worst-performing test images
 
 ## Train
 
@@ -87,6 +89,24 @@ appleleaf-lesion-train `
   --batch-size 8
 ```
 
+To run a controlled source-balancing experiment without the hard-negative rows,
+override only the training manifest and sample 30% real versus 70% synthetic
+images per epoch:
+
+```powershell
+appleleaf-lesion-train `
+  --manifest-dir lesion_manifests `
+  --train-manifest lesion_manifests\train_before_hard_negatives.csv `
+  --real-sampling-fraction 0.30 `
+  --epochs 30 `
+  --batch-size 8 `
+  --artifacts-dir artifacts\lesion_detection_balanced_30_70
+```
+
+Sampling uses replacement and retains 330 draws per epoch. The expected source
+mix is 99 real and 231 synthetic draws, while validation and test data remain
+unchanged.
+
 The pretrained encoder weights are downloaded by PyTorch on first use. Use
 `--no-pretrained` only for offline smoke tests, not for the main experiment.
 
@@ -105,3 +125,6 @@ overlay. The overlay and metrics both use the validation-calibrated threshold
 stored in the checkpoint. For older checkpoints, it can be overridden with
 `--threshold`. Unlike Grad-CAM, this output can be evaluated as pixel-level
 lesion localization because it is compared with an annotated ground-truth mask.
+It also writes `per_image_metrics.csv` and `per_disease_metrics.csv`. The latter
+reports pooled metrics within each disease as well as mean, median, and standard
+deviation of per-image Dice scores.
