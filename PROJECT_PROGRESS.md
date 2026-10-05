@@ -534,6 +534,37 @@ probability; it should first make hard-negative selection or loss contribution
 more targeted, because both the earlier uncontrolled mixture and this controlled
 5% exposure failed to improve the general test result.
 
+### Comparison with the earlier augmented checkpoint
+
+The 5% hard-negative checkpoint was also compared with the earlier checkpoint
+that used paired augmentation but natural 9.1/90.9 real-synthetic sampling and
+no hard negatives. On the same 30 real test images, pooled Dice increased from
+0.6873 to 0.7009, IoU from 0.5236 to 0.5395, precision from 0.6281 to 0.6317,
+and recall from 0.7589 to 0.7871. Mean per-image Dice increased from 0.6960 to
+0.7107 and median per-image Dice from 0.6773 to 0.7020.
+
+| Disease | Augmented Dice | 5% hard-negative Dice | Change |
+| --- | ---: | ---: | ---: |
+| Black rot | 0.8314 | 0.8549 | +0.0235 |
+| Cedar rust | 0.6384 | 0.6609 | +0.0226 |
+| Scab | 0.6574 | 0.6621 | +0.0047 |
+
+Twenty of the 30 matched test images improved in Dice and ten declined. By
+disease, six of ten black-rot, eight of ten cedar-rust, and six of ten scab
+images improved. The largest gain was black rot image 10 (+0.1036 Dice); the
+largest loss was cedar rust image 9 (-0.0823 Dice).
+
+False-positive pixels decreased by 180 for black rot and 916 for cedar rust but
+increased by 1,535 for scab, producing a net increase of 439 across the test
+set. This agrees with the mixed precision result and shows that the comparison
+does not establish a general structural false-positive improvement.
+
+This comparison must not be interpreted as the effect of hard negatives alone:
+the newer checkpoint differs from the augmented checkpoint in both 30/70
+real-synthetic sampling and 5% hard-negative exposure. The controlled comparison
+against the 30/70 checkpoint above isolates the hard-negative addition and shows
+that it did not improve the preferred model.
+
 ## Maintenance convention
 
 For every future experiment, append a dated section containing:
