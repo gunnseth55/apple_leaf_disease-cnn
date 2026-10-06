@@ -565,6 +565,62 @@ real-synthetic sampling and 5% hard-negative exposure. The controlled comparison
 against the 30/70 checkpoint above isolates the hard-negative addition and shows
 that it did not improve the preferred model.
 
+## 2026-10-07 — Held-out healthy structural-negative benchmark
+
+### Question
+
+Does the controlled 5% hard-negative checkpoint reduce false alarms on unseen
+healthy leaves enough to justify its small diseased-test Dice regression?
+
+### Benchmark and controls
+
+- Manually reviewed and fixed 50 healthy Plant Pathology 2020 images that were
+  absent from lesion training and from the 40 selected hard negatives.
+- Included multi-label structural coverage for stems, veins, folds, holes, edge
+  damage, shadows, sunlight, image edges, and natural backgrounds.
+- Verified all source labels as healthy and every generated lesion mask as
+  exactly empty.
+- Found no SHA-256 duplicates against the complete lesion training manifest or
+  inside the benchmark.
+- Found no near-duplicate at or below Hamming distance 4 using a 256-bit
+  difference hash; the nearest observed distance was 91.
+- Marked every manifest row evaluation-only and evaluated the three frozen
+  checkpoints without retraining, using each checkpoint's stored 0.70 threshold.
+
+### Results
+
+| Checkpoint | Any predicted lesion | FP pixel rate | Mean predicted area | Components | Mean component size | Maximum component |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Paired augmentation | 100% | 8.1856% | 5,364.52 px | 1,821 | 147.30 px | 5,001 px |
+| Preferred 30/70 | 98% | 5.3483% | 3,505.06 px | 1,754 | 99.92 px | 2,675 px |
+| 30/70 plus 5% hard negatives | 94% | 0.3578% | 234.48 px | 648 | 18.09 px | 310 px |
+
+Against pure 30/70, the 5% checkpoint reduced false-positive pixel area by
+93.3%, component count by 63.1%, and maximum component size by 88.4%. Its
+false-positive pixel rate improved in every category, with relative reductions
+from 89.5% for shadow images to 94.5% for vein images. The strict any-pixel rate
+remained high because even one thresholded pixel counts as a false alarm.
+
+Mean probabilities were 0.2526, 0.3513, and 0.4119 respectively, while maximum
+probability reached approximately 1.0 for all three. The apparently higher mean
+probability but much smaller thresholded area for the 5% model reflects a
+different score distribution/calibration and does not contradict the binary
+false-positive-area result.
+
+### Decision
+
+The healthy benchmark reveals a useful trade-off that the diseased test set
+could not: a 0.0033 pooled-Dice loss is accompanied by a dramatic reduction in
+healthy structural false-positive area. Investigate a controlled dual-objective
+or separate healthy-batch loss next. Do not blindly increase hard-negative
+exposure, and retain pure 30/70 as the general reference checkpoint during the
+next controlled comparison.
+
+The fixed benchmark is under `data/healthy_structural_benchmark`; detailed
+evaluation tables are under
+`artifacts/healthy_structural_benchmark_evaluation`; methodology and commands
+are summarized in `HEALTHY_BENCHMARK.md`.
+
 ## Maintenance convention
 
 For every future experiment, append a dated section containing:
