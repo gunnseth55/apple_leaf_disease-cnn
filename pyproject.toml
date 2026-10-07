@@ -23,6 +23,7 @@ dependencies = [
 appleleaf-download = "appleleaf.cli.download_data:main"
 appleleaf-train = "appleleaf.cli.train:main"
 appleleaf-evaluate = "appleleaf.cli.evaluate:main"
+appleleaf-evaluate-kashmir = "appleleaf.cli.evaluate_kashmir:main"
 appleleaf-background-audit = "appleleaf.cli.background_audit:main"
 appleleaf-explain = "appleleaf.cli.explain:main"
 appleleaf-preview-augmentation = "appleleaf.cli.preview_augmentation:main"

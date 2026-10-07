@@ -714,6 +714,42 @@ are under `results/2026-10-07_dualhealthy05/`. Checkpoint weights and overlay
 PNGs remain local under the existing ignore policy. All six lesion unit tests
 passed, including the auxiliary nonempty-mask rejection test, before committing.
 
+## 2026-10-08 — Kashmir external classifier evaluation
+
+Question: do the frozen baseline and background-augmented classifiers generalize
+to the locally supplied Kashmir images before integration with lesion segmentation?
+
+Added `appleleaf-evaluate-kashmir` with checkpoint class-order validation,
+deterministic folder manifest, byte-level duplicate/conflict checks, explicit
+exclusions, four-way predictions, present-class and four-class macro-F1,
+per-class precision/recall/F1, confusion matrices, confidence statistics and bins,
+all probabilities, and highest-confidence failure examples. No training or tuning
+was performed; checkpoint RGB resize/ToTensor preprocessing was retained.
+
+Of 313 image-named files, 47 are missing Git LFS image contents and six rows
+represent three images with conflicting rot/healthy labels. Explicit exclusions
+leave 260 images: 117 scab, 100 rot, 43 healthy. Rot-to-black-rot mapping remains
+provisional. No cedar-rust ground truth exists; headline macro-F1 averages the
+three represented classes while keeping all four prediction outputs.
+
+Both classifiers achieved 63/260 correct (24.23% accuracy), below the 45.00%
+majority-class reference. Baseline present-class macro-F1 was 0.2851;
+background-augmented macro-F1 was 0.2495. Baseline made 64 errors among 78
+predictions with confidence ≥0.90; augmented made 24 among 28. Excluding rot
+entirely, scab/healthy accuracy was 28.75% and 35.00%, respectively.
+
+Decision: neither classifier is validated for reliable external disease labeling.
+Preserve the results without selecting/tuning a model on this benchmark. Resolve
+missing files and the rot diagnosis for a definitive Kashmir result. Proceed next
+to an independent externally annotated lesion benchmark, then demo integration.
+Classification folders alone cannot provide segmentation ground truth.
+
+Full report: `KASHMIR_EVALUATION.md`. Original outputs:
+`artifacts/kashmir_evaluation/{baseline,background_augmented}/`. CSV/JSON/text
+snapshots: `results/2026-10-08_kashmir/`. Three focused evaluation tests passed;
+both full available-subset inference runs completed and the augmented failure
+sheet was visually inspected. Training overlap and near duplicates remain unaudited.
+
 ## Maintenance convention
 
 For every future experiment, append a dated section containing:

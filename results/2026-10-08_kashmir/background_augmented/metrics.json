@@ -1,0 +1,242 @@
+{
+  "sample_count": 260,
+  "accuracy": 0.2423076923076923,
+  "macro_f1_present_classes": 0.24949920722557262,
+  "macro_f1_all_four_classes": 0.18712440541917946,
+  "present_classes": [
+    "Apple___Apple_scab",
+    "Apple___Black_rot",
+    "Apple___healthy"
+  ],
+  "absent_classes": [
+    "Apple___Cedar_apple_rust"
+  ],
+  "per_class": {
+    "Apple___Apple_scab": {
+      "precision": 0.5813953488372093,
+      "recall": 0.21367521367521367,
+      "f1-score": 0.3125,
+      "support": 117.0
+    },
+    "Apple___Black_rot": {
+      "precision": 0.3181818181818182,
+      "recall": 0.07,
+      "f1-score": 0.11475409836065574,
+      "support": 100.0
+    },
+    "Apple___Cedar_apple_rust": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "Apple___healthy": {
+      "precision": 0.20666666666666667,
+      "recall": 0.7209302325581395,
+      "f1-score": 0.32124352331606215,
+      "support": 43.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      25,
+      6,
+      27,
+      59
+    ],
+    [
+      15,
+      7,
+      18,
+      60
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      3,
+      9,
+      0,
+      31
+    ]
+  ],
+  "confidence": {
+    "all": {
+      "count": 260,
+      "mean": 0.6264985904097558,
+      "std": 0.17903632120138416,
+      "min": 0.3229665458202362,
+      "median": 0.5711919963359833,
+      "p90": 0.9043376207351684,
+      "max": 0.9716623425483704
+    },
+    "correct": {
+      "count": 63,
+      "mean": 0.5867964568592253,
+      "std": 0.15877145324362876,
+      "min": 0.3391866087913513,
+      "median": 0.5371714234352112,
+      "p90": 0.8581975221633912,
+      "max": 0.9493395090103149
+    },
+    "incorrect": {
+      "count": 197,
+      "mean": 0.6391952117990116,
+      "std": 0.1832428136738715,
+      "min": 0.3229665458202362,
+      "median": 0.5809075832366943,
+      "p90": 0.9123628973960877,
+      "max": 0.9716623425483704
+    },
+    "high_confidence_threshold": 0.9,
+    "high_confidence_count": 28,
+    "high_confidence_error_count": 24,
+    "high_confidence_error_rate": 0.8571428571428571,
+    "by_true_class": {
+      "Apple___Apple_scab": {
+        "count": 117,
+        "mean": 0.6318388858921508,
+        "std": 0.18591082528141645,
+        "min": 0.3229665458202362,
+        "median": 0.567177414894104,
+        "p90": 0.8996617317199708,
+        "max": 0.9493395090103149
+      },
+      "Apple___Black_rot": {
+        "count": 100,
+        "mean": 0.6515343752503395,
+        "std": 0.17744091656194394,
+        "min": 0.3617445230484009,
+        "median": 0.6076684296131134,
+        "p90": 0.9348988473415376,
+        "max": 0.9716623425483704
+      },
+      "Apple___Cedar_apple_rust": {
+        "count": 0,
+        "mean": null,
+        "std": null,
+        "min": null,
+        "median": null,
+        "p90": null,
+        "max": null
+      },
+      "Apple___healthy": {
+        "count": 43,
+        "mean": 0.5537452635376953,
+        "std": 0.14043493852364974,
+        "min": 0.3391866087913513,
+        "median": 0.5260401964187622,
+        "p90": 0.7708635091781616,
+        "max": 0.8728601932525635
+      }
+    },
+    "bins": [
+      {
+        "lower": 0.0,
+        "upper": 0.1,
+        "count": 0,
+        "accuracy": null,
+        "mean_confidence": null
+      },
+      {
+        "lower": 0.1,
+        "upper": 0.2,
+        "count": 0,
+        "accuracy": null,
+        "mean_confidence": null
+      },
+      {
+        "lower": 0.2,
+        "upper": 0.30000000000000004,
+        "count": 0,
+        "accuracy": null,
+        "mean_confidence": null
+      },
+      {
+        "lower": 0.30000000000000004,
+        "upper": 0.4,
+        "count": 18,
+        "accuracy": 0.2777777777777778,
+        "mean_confidence": 0.36522671911451554
+      },
+      {
+        "lower": 0.4,
+        "upper": 0.5,
+        "count": 54,
+        "accuracy": 0.2777777777777778,
+        "mean_confidence": 0.4581001196746473
+      },
+      {
+        "lower": 0.5,
+        "upper": 0.6,
+        "count": 75,
+        "accuracy": 0.26666666666666666,
+        "mean_confidence": 0.5438846786816914
+      },
+      {
+        "lower": 0.6000000000000001,
+        "upper": 0.7000000000000001,
+        "count": 30,
+        "accuracy": 0.3,
+        "mean_confidence": 0.6548708736896515
+      },
+      {
+        "lower": 0.7000000000000001,
+        "upper": 0.8,
+        "count": 22,
+        "accuracy": 0.22727272727272727,
+        "mean_confidence": 0.7524837174198844
+      },
+      {
+        "lower": 0.8,
+        "upper": 0.9,
+        "count": 33,
+        "accuracy": 0.15151515151515152,
+        "mean_confidence": 0.8579711570884242
+      },
+      {
+        "lower": 0.9,
+        "upper": 1.0,
+        "count": 28,
+        "accuracy": 0.14285714285714285,
+        "mean_confidence": 0.9383206793240139
+      }
+    ]
+  },
+  "excluding_provisional_rot": {
+    "sample_count": 160,
+    "accuracy": 0.35
+  },
+  "metadata": {
+    "checkpoint": "C:\\Users\\gunn\\Desktop\\work\\appleleaf\\artifacts\\background_augmented\\apple_background_augmented_checkpoint.pt",
+    "checkpoint_sha256": "6ab740cdceb25d78c035874dea09e69fea19971fd6157d75fc419383593a2838",
+    "dataset_path": "C:\\Users\\gunn\\Desktop\\work\\appleleaf\\data\\external_classification\\kashmir",
+    "training_strategy": "randomized_backgrounds",
+    "image_size": 128,
+    "class_order": [
+      "Apple___Apple_scab",
+      "Apple___Black_rot",
+      "Apple___Cedar_apple_rust",
+      "Apple___healthy"
+    ],
+    "folder_mapping": {
+      "APPLE ROT LEAVES": "Apple___Black_rot",
+      "HEALTHY LEAVES": "Apple___healthy",
+      "SCAB LEAVES": "Apple___Apple_scab"
+    },
+    "rot_label_status": "provisional",
+    "duplicate_extra_rows": 0,
+    "excluded_conflicting_rows": 6,
+    "excluded_missing_image_rows": 47,
+    "source_image_rows": 313,
+    "protocol": "All readable images; frozen weights; original RGB resize + ToTensor; four-way argmax; no tuning.",
+    "limitations": [
+      "No cedar-rust ground truth: its recall/F1 are unmeasured; zero-support table entries are placeholders.",
+      "Rot-to-black-rot mapping is provisional unless independently confirmed.",
+      "Softmax confidence is uncalibrated; duplicate counts cover this dataset only, not training overlap."
+    ]
+  }
+}

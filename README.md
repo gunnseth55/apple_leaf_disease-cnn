@@ -15,6 +15,11 @@ Two versions of the same CNN are compared:
 See [PROJECT_PROGRESS.md](PROJECT_PROGRESS.md) for the dated experiment log,
 analysis, decisions, and changes made during development.
 
+The external Kashmir classifier evaluation, dataset audit, full metrics, and
+reproduction commands are in [KASHMIR_EVALUATION.md](KASHMIR_EVALUATION.md).
+Both frozen classifiers achieved 24.23% accuracy on the available 260-image
+subset; this does not validate reliable external disease identification.
+
 Pixel-level lesion segmentation is developed as a separate package and workflow.
 See [LESION_DETECTION.md](LESION_DETECTION.md); it does not reuse the
 classification training scripts or treat whole-leaf masks as lesion labels.
