@@ -129,6 +129,36 @@ epoch. The expected overall probability mass is therefore 28.5% real lesion,
 remain the same manually annotated real lesion images used by the preceding
 30/70 experiment.
 
+To preserve all lesion draws while adding a separate healthy empty-mask
+objective, use the original lesion-only manifest and select the original
+hard-negative rows through an auxiliary loader:
+
+```powershell
+python -m appleleaf_lesion.cli.train `
+  --manifest-dir lesion_manifests `
+  --train-manifest lesion_manifests\train_before_hard_negatives.csv `
+  --real-sampling-fraction 0.30 `
+  --samples-per-epoch 330 `
+  --healthy-manifest lesion_manifests\train.csv `
+  --healthy-loss-weight 0.05 `
+  --epochs 30 `
+  --batch-size 8 `
+  --image-size 256 `
+  --artifacts-dir artifacts\lesion_detection_real30_synthetic70_dualhealthy05 `
+  --device auto
+```
+
+The auxiliary loader includes only `source=hard_negative` rows, applies training
+augmentation, and cycles across lesion batches. Each optimizer step combines
+the usual lesion Dice/focal loss and `0.05 * healthy BCE`; the healthy targets
+must be empty. The loss weight is not a sampling fraction. The 50 held-out
+healthy benchmark images must never be included in this training loader.
+
+The completed run restored epoch 18 and calibrated threshold 0.55. Test Dice
+was 0.6933; healthy FP pixel rate was 0.7709%. It did not replace pure 30/70
+or hardneg05. Full results and reproduction commands are in
+[the tracked experiment snapshot](results/2026-10-07_dualhealthy05/README.md).
+
 The pretrained encoder weights are downloaded by PyTorch on first use. Use
 `--no-pretrained` only for offline smoke tests, not for the main experiment.
 

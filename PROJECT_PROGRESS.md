@@ -621,6 +621,99 @@ evaluation tables are under
 `artifacts/healthy_structural_benchmark_evaluation`; methodology and commands
 are summarized in `HEALTHY_BENCHMARK.md`.
 
+## 2026-10-07 — Separate healthy-batch objective (dualhealthy05)
+
+### Question and controlled change
+
+Can a separately weighted healthy empty-mask loss reduce structural false
+positives while preserving all 330 lesion draws and the 30/70 real-synthetic
+lesion sampling of the reference experiment?
+
+- Added `--healthy-manifest` and `--healthy-loss-weight` to the lesion training
+  CLI and configuration. The auxiliary loader selects only `source=hard_negative`
+  rows from `lesion_manifests/train.csv`: the original 40 training negatives.
+- Trained lesion batches from `train_before_hard_negatives.csv`, retaining
+  30/70 source sampling with replacement and 330 lesion draws per epoch.
+- Each lesion batch receives one separate healthy batch, cycling the shuffled
+  healthy loader when exhausted. One optimizer step combines lesion Dice/focal
+  gradients with `0.05 * healthy BCE` gradients. This is a loss weight, not a
+  5% healthy sampling probability; auxiliary batches add computation and healthy
+  exposure without replacing lesion draws.
+- Preserved the pretrained ResNet34 U-Net, paired augmentation, seed 42,
+  batch size 8, input size 256, 30 epochs, AdamW settings, and real validation
+  and test splits. Auxiliary training also updates batch-normalization statistics
+  and consumes augmentation randomness; this is not an identical lesion-batch
+  trajectory with only a scalar loss added.
+- The 50 held-out healthy benchmark images were used only for frozen-checkpoint
+  evaluation, not training or threshold calibration.
+
+### Diseased results
+
+Restored epoch 18, selected with validation Dice 0.6856 at threshold 0.50.
+Validation calibration selected threshold 0.55 with Dice 0.6878 (the calibrated
+value is from the reported terminal output). Checkpoint test loss is 0.4345.
+The 30 real test images yielded pooled Dice 0.6933, IoU 0.5306, precision
+0.6530, and recall 0.7390. Mean per-image Dice was 0.7029, median 0.7095,
+and standard deviation 0.1108.
+
+| Disease | Images | Dice | IoU | Precision | Recall | Mean image Dice |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Black rot | 10 | 0.8295 | 0.7086 | 0.8123 | 0.8474 | 0.7963 |
+| Cedar rust | 10 | 0.6395 | 0.4701 | 0.6379 | 0.6412 | 0.6432 |
+| Scab | 10 | 0.6645 | 0.4975 | 0.5996 | 0.7450 | 0.6691 |
+
+The five lowest image Dice scores were cedar_rust_2.jpg (0.4795),
+cedar_rust_8.jpg (0.5061), cedar_rust_1.jpg (0.5535), scab_4.png (0.5591),
+and cedar_rust_7.jpg (0.5889). Complete paths and scores are in the saved
+per-image CSV.
+
+### Healthy benchmark comparison
+
+All four frozen checkpoints were evaluated on the same 50 healthy images using
+their stored validation-calibrated thresholds.
+
+| Checkpoint | Threshold | Diseased Dice | Healthy images with any prediction | Healthy FP pixel rate | Mean FP area (px) | FP components | Mean component (px) | Max component (px) |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Paired augmentation | 0.70 | 0.6873 | 50/50 (100%) | 8.1856% | 5,364.52 | 1,821 | 147.30 | 5,001 |
+| Pure 30/70 | 0.70 | 0.7043 | 49/50 (98%) | 5.3483% | 3,505.06 | 1,754 | 99.92 | 2,675 |
+| 30/70 + hardneg05 | 0.70 | 0.7009 | 47/50 (94%) | 0.3578% | 234.48 | 648 | 18.09 | 310 |
+| 30/70 + dualhealthy05 | 0.55 | 0.6933 | 49/50 (98%) | 0.7709% | 505.22 | 390 | 64.77 | 881 |
+
+Dualhealthy05 reduced healthy FP area by 85.6% and component count by 77.8%
+relative to pure 30/70. Compared with hardneg05, it produced 39.8% fewer
+components but 2.15 times the FP area, with larger components. Full probability,
+category, and per-image statistics are preserved in the result snapshot.
+
+### Interpretation, limitations, and decision
+
+The auxiliary objective did not improve the combined result: diseased Dice is
+about 0.011 below pure 30/70 and 0.0076 below hardneg05 using the displayed
+scores, while healthy FP area is worse than hardneg05. Cedar rust remains
+the weakest disease. Fewer components do not imply less false-positive area.
+These are comparisons at each model's selected operating point, not a common
+threshold comparison. The strict any-pixel healthy false-alarm rate remains
+high. Small test sets and repeated comparisons do not establish statistical
+significance or field performance.
+
+Retain pure 30/70 as the general lesion reference and hardneg05 as the
+healthy-FP-area reference. Preserve dualhealthy05 as experimental evidence;
+do not promote it over either reference. Healthy benchmark checking is paused
+for now as requested; no additional training, threshold tuning, or benchmark
+runs are part of this recording step.
+
+### Artifacts and verification
+
+Original local outputs remain in:
+
+- `artifacts/lesion_detection_real30_synthetic70_dualhealthy05/`
+- `artifacts/lesion_evaluation_real30_synthetic70_dualhealthy05/`
+- `artifacts/healthy_structural_benchmark_evaluation_dualhealthy05/`
+
+Git-tracked CSV/JSON snapshots, checkpoint metadata, and reproduction commands
+are under `results/2026-10-07_dualhealthy05/`. Checkpoint weights and overlay
+PNGs remain local under the existing ignore policy. All six lesion unit tests
+passed, including the auxiliary nonempty-mask rejection test, before committing.
+
 ## Maintenance convention
 
 For every future experiment, append a dated section containing:

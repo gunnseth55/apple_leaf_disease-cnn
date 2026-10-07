@@ -8,6 +8,7 @@ from appleleaf_lesion.engine import (
     calibrate_threshold,
     metrics_from_totals,
     metrics_per_sample,
+    run_dual_objective_epoch,
 )
 from appleleaf_lesion.workflow import source_sampling_weights
 
@@ -88,6 +89,24 @@ class LesionEngineTests(unittest.TestCase):
         self.assertAlmostEqual(weights[2:5].sum().item(), 0.665)
         self.assertAlmostEqual(weights[5:].sum().item(), 0.05)
         self.assertAlmostEqual(weights.sum().item(), 1.0)
+
+    def test_dual_objective_rejects_nonempty_healthy_masks(self):
+        lesion_loader = DataLoader(_CalibrationDataset(), batch_size=2)
+        healthy_loader = DataLoader(_CalibrationDataset(), batch_size=2)
+        model = torch.nn.Conv2d(1, 1, 1)
+        optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+
+        with self.assertRaisesRegex(ValueError, "must be empty"):
+            run_dual_objective_epoch(
+                model,
+                lesion_loader,
+                healthy_loader,
+                torch.nn.BCEWithLogitsLoss(),
+                optimizer,
+                torch.device("cpu"),
+                0.5,
+                0.05,
+            )
 
 
 if __name__ == "__main__":

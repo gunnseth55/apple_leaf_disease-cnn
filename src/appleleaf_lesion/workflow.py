@@ -92,6 +92,28 @@ def build_loaders(manifest_dir, config, train_manifest=None):
     )
 
 
+def build_healthy_loader(manifest, config):
+    """Build a shuffled auxiliary loader containing only hard negatives."""
+    validate_manifest(manifest)
+    dataset = LesionDataset(manifest, config.image_size, training=True)
+    if "source" not in dataset.records.columns:
+        raise ValueError("Healthy auxiliary manifest requires a 'source' column")
+    healthy_records = dataset.records[
+        dataset.records["source"].astype(str).str.lower() == "hard_negative"
+    ].reset_index(drop=True)
+    if healthy_records.empty:
+        raise ValueError("Healthy auxiliary manifest has no hard_negative rows")
+    dataset.records = healthy_records
+    return DataLoader(
+        dataset,
+        batch_size=config.batch_size,
+        shuffle=True,
+        generator=torch.Generator().manual_seed(config.seed + 1),
+        num_workers=config.num_workers,
+        pin_memory=torch.cuda.is_available(),
+    )
+
+
 def save_checkpoint(
     path,
     model,

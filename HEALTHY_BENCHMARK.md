@@ -59,3 +59,36 @@ giving up 0.0033 pooled Dice on diseased test images. This supports investigatin
 a controlled dual-objective or separate healthy-batch loss. Do not increase the
 hard-negative share blindly, and retain the pure 30/70 checkpoint as the general
 reference until that controlled experiment is evaluated on both test sets.
+
+## Completed dual-objective comparison (2026-10-07)
+
+The separate healthy-batch run is complete. It used the original 40 training
+hard negatives with a 0.05 auxiliary BCE weight and retained 330 lesion draws
+per epoch at the 30/70 real-synthetic ratio. The held-out benchmark was not
+used for training or threshold selection.
+
+The preceding three-checkpoint table records the earlier evaluation. The latest
+four-checkpoint evaluation uses stored thresholds of 0.70 for those three
+models and 0.55 for dualhealthy05, all on the same 50 images at 256x256.
+
+| Checkpoint | Threshold | Any prediction | FP pixel rate | Mean area (px) | Components | Mean component (px) | Max component (px) |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Paired augmentation | 0.70 | 100% | 8.1856% | 5,364.52 | 1,821 | 147.30 | 5,001 |
+| Pure 30/70 | 0.70 | 98% | 5.3483% | 3,505.06 | 1,754 | 99.92 | 2,675 |
+| 30/70 + hardneg05 | 0.70 | 94% | 0.3578% | 234.48 | 648 | 18.09 | 310 |
+| 30/70 + dualhealthy05 | 0.55 | 98% | 0.7709% | 505.22 | 390 | 64.77 | 881 |
+
+Dualhealthy05 reduces FP area by 85.6% relative to pure 30/70, but has 2.15
+times the FP area of hardneg05 despite fewer components. Its diseased-test Dice
+is 0.6933, versus 0.7043 for pure 30/70 and 0.7009 for hardneg05. These are
+operating-point comparisons, not comparisons at a common threshold.
+
+Keep pure 30/70 as the general lesion reference and hardneg05 as the reference
+for healthy FP area. Dualhealthy05 does not replace them. Benchmark checking is
+paused for now; preserve these results without further test-driven tuning.
+
+Latest local outputs are in
+`artifacts/healthy_structural_benchmark_evaluation_dualhealthy05/`. Full
+checkpoint, category, probability, and per-image results are also Git-tracked
+under [results/2026-10-07_dualhealthy05](results/2026-10-07_dualhealthy05/README.md).
+See [PROJECT_PROGRESS.md](PROJECT_PROGRESS.md) for the full experiment record.

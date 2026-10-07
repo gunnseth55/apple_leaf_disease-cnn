@@ -1,0 +1,33 @@
+{
+  "architecture": "unet_resnet34",
+  "pretrained_encoder": true,
+  "image_size": 256,
+  "threshold": 0.55,
+  "best_epoch": 18,
+  "test_metrics": {
+    "loss": 0.4344685475031535,
+    "dice": 0.6933464076324352,
+    "iou": 0.5306275601145514,
+    "precision": 0.6530439467412202,
+    "recall": 0.738950576965515
+  },
+  "config": {
+    "image_size": 256,
+    "batch_size": 8,
+    "epochs": 30,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0001,
+    "focal_gamma": 2,
+    "focal_alpha": 0.75,
+    "dice_weight": 0.5,
+    "focal_weight": 0.5,
+    "threshold": 0.5,
+    "seed": 42,
+    "num_workers": 0,
+    "real_sampling_fraction": 0.3,
+    "hard_negative_sampling_fraction": 0,
+    "healthy_loss_weight": 0.05,
+    "samples_per_epoch": 330,
+    "artifacts_dir": "artifacts\\lesion_detection_real30_synthetic70_dualhealthy05"
+  }
+}

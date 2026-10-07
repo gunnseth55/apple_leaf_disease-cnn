@@ -8,7 +8,7 @@ from appleleaf_lesion.config import LesionConfig
 from appleleaf_lesion.engine import calibrate_threshold, run_epoch, train_model
 from appleleaf_lesion.losses import DiceFocalLoss
 from appleleaf_lesion.model import ResNet34UNet
-from appleleaf_lesion.workflow import build_loaders, save_checkpoint
+from appleleaf_lesion.workflow import build_healthy_loader, build_loaders, save_checkpoint
 
 
 def parse_args():
@@ -44,6 +44,18 @@ def parse_args():
         default=None,
         help="Number of weighted draws per epoch (defaults to manifest length)",
     )
+    parser.add_argument(
+        "--healthy-manifest",
+        type=Path,
+        default=None,
+        help="Manifest containing source=hard_negative rows for a separate healthy loss",
+    )
+    parser.add_argument(
+        "--healthy-loss-weight",
+        type=float,
+        default=0.0,
+        help="Weight for auxiliary empty-mask BCE; requires --healthy-manifest",
+    )
     parser.add_argument("--no-pretrained", action="store_true")
     return parser.parse_args()
 
@@ -62,6 +74,12 @@ def main():
         )
     if args.samples_per_epoch is not None and args.samples_per_epoch < 1:
         raise SystemExit("--samples-per-epoch must be positive")
+    if not 0 <= args.healthy_loss_weight <= 1:
+        raise SystemExit("--healthy-loss-weight must be in [0, 1]")
+    if (args.healthy_manifest is None) != (args.healthy_loss_weight == 0):
+        raise SystemExit(
+            "Use --healthy-manifest and a positive --healthy-loss-weight together"
+        )
     config = LesionConfig(
         image_size=args.image_size,
         batch_size=args.batch_size,
@@ -69,6 +87,7 @@ def main():
         num_workers=args.num_workers,
         real_sampling_fraction=args.real_sampling_fraction,
         hard_negative_sampling_fraction=args.hard_negative_sampling_fraction,
+        healthy_loss_weight=args.healthy_loss_weight,
         samples_per_epoch=args.samples_per_epoch,
         artifacts_dir=args.artifacts_dir,
     )
@@ -80,6 +99,16 @@ def main():
         )
     except (FileNotFoundError, ValueError) as error:
         raise SystemExit(str(error)) from error
+    healthy_loader = None
+    if args.healthy_manifest is not None:
+        try:
+            healthy_loader = build_healthy_loader(args.healthy_manifest, config)
+        except (FileNotFoundError, ValueError) as error:
+            raise SystemExit(str(error)) from error
+        print(
+            f"Separate healthy-batch objective: {len(healthy_loader.dataset)} images, "
+            f"BCE weight {config.healthy_loss_weight:.3f}"
+        )
     if config.real_sampling_fraction is not None:
         lesion_fraction = 1 - config.hard_negative_sampling_fraction
         print(
@@ -99,7 +128,14 @@ def main():
         model.parameters(), lr=config.learning_rate, weight_decay=config.weight_decay
     )
     history, best_epoch, best_dice = train_model(
-        model, train_loader, val_loader, criterion, optimizer, device, config
+        model,
+        train_loader,
+        val_loader,
+        criterion,
+        optimizer,
+        device,
+        config,
+        healthy_loader=healthy_loader,
     )
     threshold, calibrated_val_metrics = calibrate_threshold(model, val_loader, device)
     test_metrics = run_epoch(model, test_loader, criterion, device, threshold)

@@ -3,6 +3,7 @@ import time
 
 import pandas as pd
 import torch
+import torch.nn.functional as functional
 
 
 def segmentation_totals(logits, targets, threshold=0.5):
@@ -100,16 +101,101 @@ def run_epoch(model, loader, criterion, device, threshold=0.5, optimizer=None):
     return {"loss": loss_total / sample_total, **metrics_from_totals(tp, fp, fn)}
 
 
-def train_model(model, train_loader, val_loader, criterion, optimizer, device, config):
+def run_dual_objective_epoch(
+    model,
+    lesion_loader,
+    healthy_loader,
+    criterion,
+    optimizer,
+    device,
+    threshold,
+    healthy_loss_weight,
+):
+    """Train on lesion batches plus a separately weighted empty-mask objective."""
+    if not 0 < healthy_loss_weight <= 1:
+        raise ValueError("healthy_loss_weight must be in (0, 1]")
+    model.train()
+    lesion_loss_total = healthy_loss_total = 0.0
+    lesion_samples = healthy_samples = 0
+    healthy_probability_total = 0.0
+    tp = fp = fn = 0
+    healthy_iterator = iter(healthy_loader)
+    for images, masks, _ in lesion_loader:
+        try:
+            healthy_images, healthy_masks, _ = next(healthy_iterator)
+        except StopIteration:
+            healthy_iterator = iter(healthy_loader)
+            healthy_images, healthy_masks, _ = next(healthy_iterator)
+        if healthy_masks.count_nonzero():
+            raise ValueError("Healthy auxiliary masks must be empty")
+
+        images, masks = images.to(device), masks.to(device)
+        healthy_images = healthy_images.to(device)
+        healthy_masks = healthy_masks.to(device)
+        optimizer.zero_grad(set_to_none=True)
+
+        logits = model(images)
+        lesion_loss = criterion(logits, masks)
+        lesion_loss.backward()
+
+        healthy_logits = model(healthy_images)
+        healthy_loss = functional.binary_cross_entropy_with_logits(
+            healthy_logits, healthy_masks
+        )
+        (healthy_loss_weight * healthy_loss).backward()
+        optimizer.step()
+
+        lesion_loss_total += lesion_loss.item() * len(images)
+        lesion_samples += len(images)
+        healthy_loss_total += healthy_loss.item() * len(healthy_images)
+        healthy_samples += len(healthy_images)
+        healthy_probability_total += (
+            torch.sigmoid(healthy_logits).mean(dim=(1, 2, 3)).sum().item()
+        )
+        batch_tp, batch_fp, batch_fn = segmentation_totals(logits, masks, threshold)
+        tp += batch_tp
+        fp += batch_fp
+        fn += batch_fn
+    metrics = metrics_from_totals(tp, fp, fn)
+    return {
+        "loss": lesion_loss_total / lesion_samples,
+        "healthy_loss": healthy_loss_total / healthy_samples,
+        "healthy_mean_probability": healthy_probability_total / healthy_samples,
+        **metrics,
+    }
+
+
+def train_model(
+    model,
+    train_loader,
+    val_loader,
+    criterion,
+    optimizer,
+    device,
+    config,
+    healthy_loader=None,
+):
     history = []
     best_dice = -1.0
     best_epoch = None
     best_state = None
     for epoch in range(1, config.epochs + 1):
         started = time.time()
-        train = run_epoch(
-            model, train_loader, criterion, device, config.threshold, optimizer
-        )
+        if healthy_loader is None:
+            train = run_epoch(
+                model, train_loader, criterion, device, config.threshold, optimizer
+            )
+        else:
+            train = run_dual_objective_epoch(
+                model,
+                train_loader,
+                healthy_loader,
+                criterion,
+                optimizer,
+                device,
+                config.threshold,
+                config.healthy_loss_weight,
+            )
         val = run_epoch(model, val_loader, criterion, device, config.threshold)
         history.append(
             {

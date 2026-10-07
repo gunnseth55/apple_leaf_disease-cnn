@@ -18,6 +18,7 @@ class LesionConfig:
     num_workers: int = 0
     real_sampling_fraction: float | None = None
     hard_negative_sampling_fraction: float = 0.0
+    healthy_loss_weight: float = 0.0
     samples_per_epoch: int | None = None
     artifacts_dir: Path = Path("artifacts/lesion_detection")
 
