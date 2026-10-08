@@ -1,0 +1,432 @@
+{
+  "source": "C:\\Users\\gunn\\Desktop\\work\\appleleaf\\data\\external_classification\\kashmir",
+  "destination": "C:\\Users\\gunn\\Desktop\\work\\appleleaf\\data\\external_classification\\kashmir_recovered",
+  "lfs_repository": "https://github.com/bhataakib02/Apple-Disease-Dataset",
+  "pointer_count": 47,
+  "recovered_count": 47,
+  "records": [
+    {
+      "relative_path": "APPLE ROT LEAVES/5062.jpg(1).jpeg",
+      "oid": "e6e2099c925cfbcedf7c5f6a73d9c1cefa198c48a9f9d47f698e65300da1821b",
+      "size": 38569,
+      "pointer_sha256": "46f60fc9d4a01a09890470160b3fbbbcf90dfc3573969d1722ba1fc0d5067b59",
+      "width": 244,
+      "height": 407,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "APPLE ROT LEAVES/5064.jpg(1).jpeg",
+      "oid": "38007c3f16a76bf3d1aaf19bd1a24caa0f34f7659251217b17fe1d263dce3779",
+      "size": 47024,
+      "pointer_sha256": "eb4a1927400d9c76e3c7d943c93d56771a8ccd145e52f0df48c59a0e62bdf30a",
+      "width": 295,
+      "height": 393,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "APPLE ROT LEAVES/5094.jpg(1).jpeg",
+      "oid": "fc59251165116b3c1b460530bf59e03a6202c0bc17475a9ece7e2597ac0410ac",
+      "size": 52313,
+      "pointer_sha256": "0ddd33a3a88c3fdf2e01d834cd3d31093d6c51bf9c920533e037f701bee76063",
+      "width": 257,
+      "height": 634,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "APPLE ROT LEAVES/WhatsApp Image 2022-07-04 at 7.37.35 PM (11)(1).jpeg",
+      "oid": "44c4714f8f75b31e014103e446aaf134ed1d46209004a75bde4de842f4733b9a",
+      "size": 54076,
+      "pointer_sha256": "de8618d5856dafa756924143d8f3a2f3a9ddbe1653bf660157a005382ff96161",
+      "width": 382,
+      "height": 562,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "APPLE ROT LEAVES/WhatsApp Image 2022-07-04 at 7.37.35 PM (12)(1).jpeg",
+      "oid": "0609592a56364e148eeba3d2eb1fc51918f96f82cf2174726f3bae39da38fd2e",
+      "size": 34307,
+      "pointer_sha256": "e524444485daa7ed0f06fc3d8ff04713ad3173395537d155c830bccafb0a11b3",
+      "width": 210,
+      "height": 500,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5002.jpg.jpeg",
+      "oid": "ef5bdb7787bb0eabd7d7076dec1c35e1b6b1a424c9cf699436f2bd962fcd6ed9",
+      "size": 38832,
+      "pointer_sha256": "4cb668fa3995df575dbc40df4927ba6214c8dd0b439d9f4a67de605057da3b71",
+      "width": 242,
+      "height": 554,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5005.jpg.jpeg",
+      "oid": "e5403c232d96148d56bb8ab8907241347896b0a1fac5ffe94a251dd3e123e667",
+      "size": 46197,
+      "pointer_sha256": "76ba82dfa01b1d23d26294929b17c5e461d261cfbab1c5a855b147cdc78a8a46",
+      "width": 329,
+      "height": 557,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5006.jpg.jpeg",
+      "oid": "38404fe54d0f2214d1bf2bf4c204c0d0f6d36f7b2954a0993d46f50fd31ad426",
+      "size": 45624,
+      "pointer_sha256": "e1476c234a782b50dbdd441e19c801752c72c4f98dd6979e3064df4482cf9464",
+      "width": 367,
+      "height": 555,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5008.jpg.jpeg",
+      "oid": "490e1992a4ca0724ab1706e4480638c694bf0c3a12c230e00d391472809250bb",
+      "size": 43235,
+      "pointer_sha256": "4295e4871cb58b79ca0c2200542bc67870195e022be1a90b1c5d318e1afc392c",
+      "width": 330,
+      "height": 524,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5010.jpg.jpeg",
+      "oid": "a3237447fb23b12bc83e431f88faa136d3e1176c004cd59ee8a8f25ebf3d9d15",
+      "size": 43482,
+      "pointer_sha256": "57b8208da04ef7cc1083b2cd051de680091e0ab8e3eab371e3e1b00ca72dfe78",
+      "width": 328,
+      "height": 527,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5011.jpg.jpeg",
+      "oid": "670f7aea67fb8f0a4c3bc3a103d423ac6ee09c313249288721a05ec8ffca7fda",
+      "size": 37537,
+      "pointer_sha256": "3ed71de4b17f9a127361c49e261e88c31d0264377def8271b24b64c81bc590fc",
+      "width": 249,
+      "height": 479,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5012.jpg.jpeg",
+      "oid": "6a83aff8df9b3ca6a51edad1251863280b79bc0680a3239496189943f2ea6629",
+      "size": 40943,
+      "pointer_sha256": "f3f9096aa7e2a1ac662e5c22df32f893c910efde0595d890ec2c3d2568213676",
+      "width": 316,
+      "height": 538,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5015.jpg.jpeg",
+      "oid": "726cd9cd60f6c4deff27461dfe500604d4d9fb3ba31a393496746e73ae7e7869",
+      "size": 42002,
+      "pointer_sha256": "a0f8d3a6ed9a54c3cabc6301bca50ace378332e712be2eb33c101839c5a31275",
+      "width": 322,
+      "height": 557,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5016.jpg.jpeg",
+      "oid": "3932352eafd020c2559e6a9dce689d9f82b677ec3a50261c626797e1e31d3bb8",
+      "size": 43667,
+      "pointer_sha256": "cc8b7d15d84b071b2918f86d3c5777b0fb297aa200c4b8e9e4b7483f30f6c3b5",
+      "width": 322,
+      "height": 633,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5017.jpg.jpeg",
+      "oid": "d94274639a9f99ffd489ea9a04109045a91c80186c430be0aeb82cb458af80e4",
+      "size": 48000,
+      "pointer_sha256": "1d0ad0ce2571ffcb41a95b426a14728a6929849bb7b9afd88028dc207c19c2d0",
+      "width": 369,
+      "height": 688,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5037.jpg.jpeg",
+      "oid": "c18ed1602daf78451cba1e87287dea071e16b8c60693493f610fe6ff982eb6f1",
+      "size": 39121,
+      "pointer_sha256": "0838d3a20df6578c6399093b96d95af95f8b4afebbe53d0415860bf729b20d13",
+      "width": 192,
+      "height": 374,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5038.jpg.jpeg",
+      "oid": "95737eb69c1daf17047f9e1db0085aa9ad39f6eedd0ddf8c0841dcea0536f734",
+      "size": 35461,
+      "pointer_sha256": "0319fe566c3f8a555840110f1a7c9d85dd80740a20717536c950249d2681b83b",
+      "width": 172,
+      "height": 294,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5040.jpg.jpeg",
+      "oid": "0b906591d4231d4817a9b516ea62fea24d322d8005c0fb9a4501e43cbf2d6bcf",
+      "size": 46856,
+      "pointer_sha256": "8094f65a62d2984adc2c412ce71e059efe480d995df7fe97441975efbb83bc03",
+      "width": 227,
+      "height": 433,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5041.jpg.jpeg",
+      "oid": "54dbecc9e7411de928126ded4df413af534186a79051fd501dcac10225820dc9",
+      "size": 40831,
+      "pointer_sha256": "292298a942aaec570013dfa49bcaf0db27da3a22974717fab41fecb7bb16d3dc",
+      "width": 187,
+      "height": 441,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5042.jpg.jpeg",
+      "oid": "3246673cdee1ec7fa123874f388cbbafe841b17a46a0eee730581b1943808e57",
+      "size": 37428,
+      "pointer_sha256": "dac902d2eccd6ea2e530eabe37daf0da1504b55249480cbd4c5e8ab2700c5f63",
+      "width": 176,
+      "height": 368,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5044.jpg.jpeg",
+      "oid": "9c26eb63f60510a12eee3f82deb8f761b00c525c2fc77ec33f6f217e4281ce7a",
+      "size": 51492,
+      "pointer_sha256": "e2d5e6bc060288751dc560adba43a74ffd60c4731c3ad586d7ab5447e1c32f17",
+      "width": 257,
+      "height": 406,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5045.jpg.jpeg",
+      "oid": "117ff2049369b238dd06f32185d7d4842d04c3663edc6b75cfabfc1a76d20a51",
+      "size": 43869,
+      "pointer_sha256": "8364d8360b0a4159ac4bb011ab9ade203eed550a8ccfebef98f6d2fd6b206fdb",
+      "width": 231,
+      "height": 398,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5046.jpg.jpeg",
+      "oid": "4fd11408fccf57f01eef61a17189ec9dd41efee2405d938724d097a59ba25512",
+      "size": 54313,
+      "pointer_sha256": "53520e789b14635cfd87d596414f6493796e8e7579144bbf98dee3ce7d5aab41",
+      "width": 261,
+      "height": 458,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5047.jpg.jpeg",
+      "oid": "e18a5d6828ae1bd1f76a895bf6261af94ff73a0d8775663d642a51727b5efc4b",
+      "size": 64864,
+      "pointer_sha256": "1d3b61ef06cd3377e19deac0138bf43899175d3d77a555c5047e1386dffa7d8f",
+      "width": 310,
+      "height": 656,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5050.jpg.jpeg",
+      "oid": "87fcd3f7e906ad2ed5bedbd6bd0ebb3ef81fc2cb95b4408a10a6c2030d49ebec",
+      "size": 42760,
+      "pointer_sha256": "420777995a74426359016998d2f037d0d267a1615ce84d7d0e1edae7a8cf1914",
+      "width": 253,
+      "height": 417,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5051.jpg.jpeg",
+      "oid": "69747e862ac78f965dbc32677d5126cc6d52531a313a35b4d3ce0c0ea9724ce5",
+      "size": 68131,
+      "pointer_sha256": "3e8af9211b13a2b17299d13eb450e0bce77bda527efb4a0abc81ee1958a93763",
+      "width": 317,
+      "height": 589,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5052.jpg.jpeg",
+      "oid": "1cc99d8e76f569be699ff1232d205d0bd5cb3ce7912734a026a398d473a76cd8",
+      "size": 50642,
+      "pointer_sha256": "89767b0ec538a3d5dd899604af4c977357031a127ca71b765c75ee380911e939",
+      "width": 269,
+      "height": 365,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5053.jpg.jpeg",
+      "oid": "cb09a42452ee55a6d91af7d71e5beb0a1cd8c53d77a8c02035580cdb7e1ebe7a",
+      "size": 42782,
+      "pointer_sha256": "9de6a18ddf529b0a4d8fc8ba084860211338e59a1521f473b7ad061f10fdd677",
+      "width": 202,
+      "height": 421,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5058.jpg.jpeg",
+      "oid": "78d9cb40bdec088c194e1672aba9e819c8d050f28f12e25c965dfa47872224dd",
+      "size": 54943,
+      "pointer_sha256": "c50c3c99854967725fa5ad7c22b84096dd3094059046380ef9db5cbee6746753",
+      "width": 273,
+      "height": 421,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5065.jpg.jpeg",
+      "oid": "419d42d279eef54d709463f3f14abf14b7f7f2043f79ac7940f7e270af0189e5",
+      "size": 43514,
+      "pointer_sha256": "3ba0dfe2dac2252bc8743e598dc27d56d5df4625d2a53d24b96856aa17d27483",
+      "width": 227,
+      "height": 398,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5068.jpg.jpeg",
+      "oid": "cc330a6ffa4d9f5551be8d8715265f10041c2a633d7ec41803e591dd5249ef0f",
+      "size": 65360,
+      "pointer_sha256": "4a16f12e60a22f0862320294e75521396137b753c628e620afcce0c65e8c02e5",
+      "width": 310,
+      "height": 678,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5069.jpg.jpeg",
+      "oid": "fd981d118fd0ca19e3ad7afe6e88f709ba7ed352a164435cb4c7d4bdc5dc7fa5",
+      "size": 57753,
+      "pointer_sha256": "1923e3eafde2f460a6ba79ea7551d700849120fe392f3054aea013931481db81",
+      "width": 318,
+      "height": 549,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5070.jpg.jpeg",
+      "oid": "267922689b148a6f6d581cf9e1f0cbecac8434db470aa2123022e4c91d99cb8e",
+      "size": 50697,
+      "pointer_sha256": "8a65e3fe54470c9da6337533aa1c1b2d18c619a5935df4b468f110567c0df995",
+      "width": 232,
+      "height": 537,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5076.jpg.jpeg",
+      "oid": "f50570e5b0e483591019647ce5a91d35d66a062129b04dacb0aad3dfb65f0deb",
+      "size": 61252,
+      "pointer_sha256": "c23ed36436d3ace2dc1327e7dfdf26e5cb8dc06fc8626f782dfd780f99cef4cd",
+      "width": 292,
+      "height": 623,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5078.jpg.jpeg",
+      "oid": "9ea98958511402ce42634d4f6104885ba1d2f694aeb2dc9eff27bd0ebcb47136",
+      "size": 44585,
+      "pointer_sha256": "53d2326b03cc1665c7629a11aeeefc061eb19b14451c85ae1d3b20bd2f9fdeaf",
+      "width": 201,
+      "height": 513,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5082.jpg.jpeg",
+      "oid": "5b901c71d33fa9c4a050c1d604413e204c8116fbfbe42ea42f299bbb2b48889b",
+      "size": 42107,
+      "pointer_sha256": "0254becbe597028b352cefb22877d5175ea96bf6e49dabd4bc195071e94b5cf1",
+      "width": 242,
+      "height": 491,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5084.jpg.jpeg",
+      "oid": "dfcd36ba3ca4ff9bb7c219f1a8e674aee0519c90ccaaebd05c5757b53063b358",
+      "size": 51274,
+      "pointer_sha256": "8e0113c89bb97e40b4b7765d3213693945dd9d5711e1d0f3020a60f49c9cd65e",
+      "width": 286,
+      "height": 425,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5086.jpg.jpeg",
+      "oid": "f82d3ff5c6ced9717b52dbbbcd84e9418d74078546664319896ed33a7277cdf3",
+      "size": 41475,
+      "pointer_sha256": "efd3077fd5f43e8ab47ae1f3fa039db525d46d4da2bd6af679b4e4c8cd286ecb",
+      "width": 225,
+      "height": 432,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5087.jpg.jpeg",
+      "oid": "f914b62f9ba3740671f5ed3c62ceecede368600699069483a7b68b5dd36de83f",
+      "size": 44983,
+      "pointer_sha256": "2d641a6b34cb599642e941d30758116ebe0ef60da12c61e1a700dc327913890d",
+      "width": 230,
+      "height": 372,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5089.jpg.jpeg",
+      "oid": "e0b7027d7fc65c017496e2ee731e0175ad50b88703599259812dc05cbb87d35c",
+      "size": 46101,
+      "pointer_sha256": "3a42c4466ef63676768099aff14b247a5875e62dac01dc5c0557043843612857",
+      "width": 245,
+      "height": 437,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5090.jpg.jpeg",
+      "oid": "762a83850a7354711efe207c1ba7dafa11c35dc9c77c4d85a95043582d766713",
+      "size": 54719,
+      "pointer_sha256": "90ff6b3f7fa43e223372b7be002cc735ba7bacb7ce2c006189b618b2da899b0d",
+      "width": 293,
+      "height": 559,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5091.jpg.jpeg",
+      "oid": "5d86b50824eaf23a1b446518741d276d9e57d4a00350ef8444a81cc5c8af1005",
+      "size": 42917,
+      "pointer_sha256": "03bc363bd847ff06ff3537fac82cdb2b1b78dfa2ad08621d779bbd6d8ecc7597",
+      "width": 282,
+      "height": 386,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5092.jpg.jpeg",
+      "oid": "187e127299e1c69135ad562022189f12e6f776079b9c289aab2ffbaba04dc5e7",
+      "size": 56901,
+      "pointer_sha256": "3dc80e44bde5fc5d12b1bfe2f92b74db425b23f377204b0f661844b15c1c8ab0",
+      "width": 310,
+      "height": 503,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5093.jpg.jpeg",
+      "oid": "53d3ddafb4a04c0f3046198ec827653b93284d2666c4b738bada508e7f0cbdb3",
+      "size": 63737,
+      "pointer_sha256": "ed30161336941568b1570cb98060e7b38c58353538796f0251b9ba820ba93084",
+      "width": 361,
+      "height": 524,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5095.jpg.jpeg",
+      "oid": "a662b270552e27651a0a160239f0803f1601efb44e8120728866cb12c897375f",
+      "size": 56771,
+      "pointer_sha256": "167e5adeddfc94e54d90b829cc16048d860cd2992bbf7b2ae363a293f8728fc6",
+      "width": 320,
+      "height": 524,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5098.jpg.jpeg",
+      "oid": "e55f2e75a75c061ffec2db5367a1af17ab4ac70f1d5352d0f1b387c4fcbf6009",
+      "size": 112741,
+      "pointer_sha256": "c161d30fb421dd7e33a5e2e9bf80b33693b3612214017aa11deb3ac62ff8edf1",
+      "width": 731,
+      "height": 955,
+      "status": "recovered_size_hash_and_image_verified"
+    },
+    {
+      "relative_path": "SCAB LEAVES/5099.jpg.jpeg",
+      "oid": "7926327d9c802839b09b655f83c7ebc5d67153d52fbd1d66e4e0c58a18c5ae46",
+      "size": 131627,
+      "pointer_sha256": "a631537b5180c40bd93e50f1a40e3b58fb8c9afef1b0080531a80623b70c18e9",
+      "width": 617,
+      "height": 931,
+      "status": "recovered_size_hash_and_image_verified"
+    }
+  ]
+}

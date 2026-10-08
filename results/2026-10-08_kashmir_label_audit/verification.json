@@ -1,0 +1,19 @@
+{
+  "verification_date": "2026-10-08",
+  "verified_readable_images": 313,
+  "original_pointers_and_recovered_size_sha256_verified": 47,
+  "unchanged_nonpointer_images_verified": 266,
+  "saved_file_and_pixel_hashes_match": true,
+  "draft_status_counts": {
+    "exclude_conflicting_folder_labels": 25,
+    "candidate_pending_label_verification": 283,
+    "exclude_exact_same_class_duplicate": 5
+  },
+  "draft_candidate_folder_counts": {
+    "APPLE ROT LEAVES": 91,
+    "HEALTHY LEAVES": 43,
+    "SCAB LEAVES": 149
+  },
+  "rot_mapping_confirmed": false,
+  "errors": []
+}

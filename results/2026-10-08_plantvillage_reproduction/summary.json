@@ -1,0 +1,98 @@
+{
+  "dataset_path": "C:\\Users\\gunn\\.cache\\kagglehub\\datasets\\abdallahalidev\\plantvillage-dataset\\versions\\3",
+  "device": "cpu",
+  "versions": {
+    "python": "3.10.11",
+    "torch": "2.14.1+cpu",
+    "torchvision": "0.29.1+cpu",
+    "pillow": "12.3.0",
+    "scikit_learn": "1.7.2",
+    "numpy": "2.2.6"
+  },
+  "split": "sorted class paths; decoded RGB exact deduplication; stratified 70/15/15, seed from checkpoint",
+  "preprocessing": "PIL RGB; Resize((128,128)), bilinear; ToTensor; no normalization or augmentation",
+  "models": {
+    "baseline": {
+      "accuracy": 0.9031578947368422,
+      "macro_f1": 0.9112712052945222,
+      "report": "                  precision    recall  f1-score   support\n\n      Apple scab     0.8252    0.8947    0.8586        95\n       Black rot     0.7881    1.0000    0.8815        93\nCedar apple rust     0.9762    1.0000    0.9880        41\n         healthy     0.9906    0.8537    0.9170       246\n\n        accuracy                         0.9032       475\n       macro avg     0.8950    0.9371    0.9113       475\n    weighted avg     0.9166    0.9032    0.9045       475\n",
+      "checkpoint": "artifacts\\apple_baseline_checkpoint.pt",
+      "checkpoint_sha256": "426b3c48ccef7ba5b3fd8542b9e5dda1d317e9f51e2b71b33524bb2fd65a790a",
+      "checkpoint_test_accuracy": 0.9031578947368422,
+      "checkpoint_test_macro_f1": 0.9112712052945222,
+      "accuracy_difference": 0.0,
+      "best_epoch": 14,
+      "seed": 42,
+      "image_size": 128,
+      "class_to_index": {
+        "Apple___Apple_scab": 0,
+        "Apple___Black_rot": 1,
+        "Apple___Cedar_apple_rust": 2,
+        "Apple___healthy": 3
+      },
+      "raw_images": 3171,
+      "unique_images": 3164,
+      "split_counts": {
+        "train": 2214,
+        "validation": 475,
+        "test": 475
+      },
+      "test_class_counts": {
+        "Apple___healthy": 246,
+        "Apple___Apple_scab": 95,
+        "Apple___Black_rot": 93,
+        "Apple___Cedar_apple_rust": 41
+      },
+      "correct": 429,
+      "comparison": {
+        "labels_identical": true,
+        "predictions_identical": true,
+        "prediction_disagreements": 0,
+        "max_probability_absolute_difference": 0.0,
+        "original_saved_accuracy": 0.9031578947368422,
+        "original_predictions_sha256": "a73f457f9067aa3c9b881a79f7a414ffbdf95329b899b9b0072a59cf60514259"
+      }
+    },
+    "background_augmented": {
+      "accuracy": 0.8378947368421052,
+      "macro_f1": 0.7952677392405745,
+      "report": "                  precision    recall  f1-score   support\n\n      Apple scab     0.6967    0.8947    0.7834        95\n       Black rot     0.8247    0.8602    0.8421        93\nCedar apple rust     0.7353    0.6098    0.6667        41\n         healthy     0.9369    0.8455    0.8889       246\n\n        accuracy                         0.8379       475\n       macro avg     0.7984    0.8026    0.7953       475\n    weighted avg     0.8495    0.8379    0.8395       475\n",
+      "checkpoint": "artifacts\\background_augmented\\apple_background_augmented_checkpoint.pt",
+      "checkpoint_sha256": "6ab740cdceb25d78c035874dea09e69fea19971fd6157d75fc419383593a2838",
+      "checkpoint_test_accuracy": 0.8378947368421052,
+      "checkpoint_test_macro_f1": 0.7952677392405745,
+      "accuracy_difference": 0.0,
+      "best_epoch": 12,
+      "seed": 42,
+      "image_size": 128,
+      "class_to_index": {
+        "Apple___Apple_scab": 0,
+        "Apple___Black_rot": 1,
+        "Apple___Cedar_apple_rust": 2,
+        "Apple___healthy": 3
+      },
+      "raw_images": 3171,
+      "unique_images": 3164,
+      "split_counts": {
+        "train": 2214,
+        "validation": 475,
+        "test": 475
+      },
+      "test_class_counts": {
+        "Apple___healthy": 246,
+        "Apple___Apple_scab": 95,
+        "Apple___Black_rot": 93,
+        "Apple___Cedar_apple_rust": 41
+      },
+      "correct": 398,
+      "comparison": {
+        "labels_identical": true,
+        "predictions_identical": true,
+        "prediction_disagreements": 0,
+        "max_probability_absolute_difference": 0.0,
+        "original_saved_accuracy": 0.8378947368421052,
+        "original_predictions_sha256": "08a9a781bb57db65b0b0895d79a7bc20e08547420eba8bc9b9fbcd2deb83fe44"
+      }
+    }
+  }
+}

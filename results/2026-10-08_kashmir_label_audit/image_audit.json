@@ -1,0 +1,559 @@
+{
+  "total_files": 313,
+  "readable_images": 313,
+  "unreadable": [],
+  "folder_counts": {
+    "APPLE ROT LEAVES": 108,
+    "HEALTHY LEAVES": 46,
+    "SCAB LEAVES": 159
+  },
+  "restored_counts": {
+    "APPLE ROT LEAVES": 5,
+    "SCAB LEAVES": 42
+  },
+  "duplicates": {
+    "sha256": {
+      "duplicate_groups": [
+        [
+          {
+            "review_id": "K001",
+            "relative_path": "APPLE ROT LEAVES/1036.JPG.jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": false,
+            "sha256": "99a7b8528ae767a53fd2fb2acfaf2261382944e4f6752c47946441599564e9cc",
+            "pixel_sha256": "e9d6052ef96c6d7675d83f250c968302bad733d3b56ed9ea424e46a5679a961d",
+            "width": 419,
+            "height": 848,
+            "review_sheet": "apple_rot_leaves_01.jpg"
+          },
+          {
+            "review_id": "K129",
+            "relative_path": "HEALTHY LEAVES/1036.JPG.jpeg",
+            "folder_label": "HEALTHY LEAVES",
+            "restored": false,
+            "sha256": "99a7b8528ae767a53fd2fb2acfaf2261382944e4f6752c47946441599564e9cc",
+            "pixel_sha256": "e9d6052ef96c6d7675d83f250c968302bad733d3b56ed9ea424e46a5679a961d",
+            "width": 419,
+            "height": 848,
+            "review_sheet": "healthy_leaves_01.jpg"
+          }
+        ],
+        [
+          {
+            "review_id": "K002",
+            "relative_path": "APPLE ROT LEAVES/1062.jpg.jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": false,
+            "sha256": "d48733a369bb58129cfa87648784c488af8bd0596a89d86e8e65688b5552dc31",
+            "pixel_sha256": "0b356ba02df480287758e792d30ac2cb5557c51c8ec877b5053a592b306de66e",
+            "width": 421,
+            "height": 718,
+            "review_sheet": "apple_rot_leaves_01.jpg"
+          },
+          {
+            "review_id": "K145",
+            "relative_path": "HEALTHY LEAVES/1062.jpg.jpeg",
+            "folder_label": "HEALTHY LEAVES",
+            "restored": false,
+            "sha256": "d48733a369bb58129cfa87648784c488af8bd0596a89d86e8e65688b5552dc31",
+            "pixel_sha256": "0b356ba02df480287758e792d30ac2cb5557c51c8ec877b5053a592b306de66e",
+            "width": 421,
+            "height": 718,
+            "review_sheet": "healthy_leaves_02.jpg"
+          }
+        ],
+        [
+          {
+            "review_id": "K003",
+            "relative_path": "APPLE ROT LEAVES/1070.jpg.jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": false,
+            "sha256": "1ac1cab8a5e7c78bb58310c5234a5ca4f6e4835fbd6b29cb91f139747f540e23",
+            "pixel_sha256": "130fbb50db2c3e3b99713f68bac3c5dcd3470e6e946c46e482d629dc48c30428",
+            "width": 430,
+            "height": 974,
+            "review_sheet": "apple_rot_leaves_01.jpg"
+          },
+          {
+            "review_id": "K151",
+            "relative_path": "HEALTHY LEAVES/1070.jpg.jpeg",
+            "folder_label": "HEALTHY LEAVES",
+            "restored": false,
+            "sha256": "1ac1cab8a5e7c78bb58310c5234a5ca4f6e4835fbd6b29cb91f139747f540e23",
+            "pixel_sha256": "130fbb50db2c3e3b99713f68bac3c5dcd3470e6e946c46e482d629dc48c30428",
+            "width": 430,
+            "height": 974,
+            "review_sheet": "healthy_leaves_02.jpg"
+          }
+        ],
+        [
+          {
+            "review_id": "K095",
+            "relative_path": "APPLE ROT LEAVES/5062.jpg(1).jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": true,
+            "sha256": "e6e2099c925cfbcedf7c5f6a73d9c1cefa198c48a9f9d47f698e65300da1821b",
+            "pixel_sha256": "749c088fd435088c16b3737a603169541dd05869f0b1038b1f05a619f678ba1b",
+            "width": 244,
+            "height": 407,
+            "review_sheet": "apple_rot_leaves_04.jpg"
+          },
+          {
+            "review_id": "K096",
+            "relative_path": "APPLE ROT LEAVES/5062.jpg.jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": false,
+            "sha256": "e6e2099c925cfbcedf7c5f6a73d9c1cefa198c48a9f9d47f698e65300da1821b",
+            "pixel_sha256": "749c088fd435088c16b3737a603169541dd05869f0b1038b1f05a619f678ba1b",
+            "width": 244,
+            "height": 407,
+            "review_sheet": "apple_rot_leaves_04.jpg"
+          }
+        ],
+        [
+          {
+            "review_id": "K097",
+            "relative_path": "APPLE ROT LEAVES/5064.jpg(1).jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": true,
+            "sha256": "38007c3f16a76bf3d1aaf19bd1a24caa0f34f7659251217b17fe1d263dce3779",
+            "pixel_sha256": "510452a85a842807a4f94513ab0d4628d23dc00f7588a34791282bed9c132fed",
+            "width": 295,
+            "height": 393,
+            "review_sheet": "apple_rot_leaves_05.jpg"
+          },
+          {
+            "review_id": "K098",
+            "relative_path": "APPLE ROT LEAVES/5064.jpg.jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": false,
+            "sha256": "38007c3f16a76bf3d1aaf19bd1a24caa0f34f7659251217b17fe1d263dce3779",
+            "pixel_sha256": "510452a85a842807a4f94513ab0d4628d23dc00f7588a34791282bed9c132fed",
+            "width": 295,
+            "height": 393,
+            "review_sheet": "apple_rot_leaves_05.jpg"
+          }
+        ],
+        [
+          {
+            "review_id": "K103",
+            "relative_path": "APPLE ROT LEAVES/5094.jpg(1).jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": true,
+            "sha256": "fc59251165116b3c1b460530bf59e03a6202c0bc17475a9ece7e2597ac0410ac",
+            "pixel_sha256": "3d3b4cb72439b77867c9682aed8716a180ce7f1c5707e5b47a47cc167edf92bb",
+            "width": 257,
+            "height": 634,
+            "review_sheet": "apple_rot_leaves_05.jpg"
+          },
+          {
+            "review_id": "K104",
+            "relative_path": "APPLE ROT LEAVES/5094.jpg.jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": false,
+            "sha256": "fc59251165116b3c1b460530bf59e03a6202c0bc17475a9ece7e2597ac0410ac",
+            "pixel_sha256": "3d3b4cb72439b77867c9682aed8716a180ce7f1c5707e5b47a47cc167edf92bb",
+            "width": 257,
+            "height": 634,
+            "review_sheet": "apple_rot_leaves_05.jpg"
+          }
+        ],
+        [
+          {
+            "review_id": "K105",
+            "relative_path": "APPLE ROT LEAVES/WhatsApp Image 2022-07-04 at 7.37.35 PM (11)(1).jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": true,
+            "sha256": "44c4714f8f75b31e014103e446aaf134ed1d46209004a75bde4de842f4733b9a",
+            "pixel_sha256": "cba027cd7f90ac3c9989c7d7048ce642c95633b79b168f0e612d14bc85eb3431",
+            "width": 382,
+            "height": 562,
+            "review_sheet": "apple_rot_leaves_05.jpg"
+          },
+          {
+            "review_id": "K106",
+            "relative_path": "APPLE ROT LEAVES/WhatsApp Image 2022-07-04 at 7.37.35 PM (11).jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": false,
+            "sha256": "44c4714f8f75b31e014103e446aaf134ed1d46209004a75bde4de842f4733b9a",
+            "pixel_sha256": "cba027cd7f90ac3c9989c7d7048ce642c95633b79b168f0e612d14bc85eb3431",
+            "width": 382,
+            "height": 562,
+            "review_sheet": "apple_rot_leaves_05.jpg"
+          }
+        ],
+        [
+          {
+            "review_id": "K107",
+            "relative_path": "APPLE ROT LEAVES/WhatsApp Image 2022-07-04 at 7.37.35 PM (12)(1).jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": true,
+            "sha256": "0609592a56364e148eeba3d2eb1fc51918f96f82cf2174726f3bae39da38fd2e",
+            "pixel_sha256": "003dde6af1992ad450a8ecaf14ce0de1fd918d8ebc2c5fa2db62589ec9462142",
+            "width": 210,
+            "height": 500,
+            "review_sheet": "apple_rot_leaves_05.jpg"
+          },
+          {
+            "review_id": "K108",
+            "relative_path": "APPLE ROT LEAVES/WhatsApp Image 2022-07-04 at 7.37.35 PM (12).jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": false,
+            "sha256": "0609592a56364e148eeba3d2eb1fc51918f96f82cf2174726f3bae39da38fd2e",
+            "pixel_sha256": "003dde6af1992ad450a8ecaf14ce0de1fd918d8ebc2c5fa2db62589ec9462142",
+            "width": 210,
+            "height": 500,
+            "review_sheet": "apple_rot_leaves_05.jpg"
+          }
+        ]
+      ],
+      "conflicting_groups": [
+        [
+          {
+            "review_id": "K001",
+            "relative_path": "APPLE ROT LEAVES/1036.JPG.jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": false,
+            "sha256": "99a7b8528ae767a53fd2fb2acfaf2261382944e4f6752c47946441599564e9cc",
+            "pixel_sha256": "e9d6052ef96c6d7675d83f250c968302bad733d3b56ed9ea424e46a5679a961d",
+            "width": 419,
+            "height": 848,
+            "review_sheet": "apple_rot_leaves_01.jpg"
+          },
+          {
+            "review_id": "K129",
+            "relative_path": "HEALTHY LEAVES/1036.JPG.jpeg",
+            "folder_label": "HEALTHY LEAVES",
+            "restored": false,
+            "sha256": "99a7b8528ae767a53fd2fb2acfaf2261382944e4f6752c47946441599564e9cc",
+            "pixel_sha256": "e9d6052ef96c6d7675d83f250c968302bad733d3b56ed9ea424e46a5679a961d",
+            "width": 419,
+            "height": 848,
+            "review_sheet": "healthy_leaves_01.jpg"
+          }
+        ],
+        [
+          {
+            "review_id": "K002",
+            "relative_path": "APPLE ROT LEAVES/1062.jpg.jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": false,
+            "sha256": "d48733a369bb58129cfa87648784c488af8bd0596a89d86e8e65688b5552dc31",
+            "pixel_sha256": "0b356ba02df480287758e792d30ac2cb5557c51c8ec877b5053a592b306de66e",
+            "width": 421,
+            "height": 718,
+            "review_sheet": "apple_rot_leaves_01.jpg"
+          },
+          {
+            "review_id": "K145",
+            "relative_path": "HEALTHY LEAVES/1062.jpg.jpeg",
+            "folder_label": "HEALTHY LEAVES",
+            "restored": false,
+            "sha256": "d48733a369bb58129cfa87648784c488af8bd0596a89d86e8e65688b5552dc31",
+            "pixel_sha256": "0b356ba02df480287758e792d30ac2cb5557c51c8ec877b5053a592b306de66e",
+            "width": 421,
+            "height": 718,
+            "review_sheet": "healthy_leaves_02.jpg"
+          }
+        ],
+        [
+          {
+            "review_id": "K003",
+            "relative_path": "APPLE ROT LEAVES/1070.jpg.jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": false,
+            "sha256": "1ac1cab8a5e7c78bb58310c5234a5ca4f6e4835fbd6b29cb91f139747f540e23",
+            "pixel_sha256": "130fbb50db2c3e3b99713f68bac3c5dcd3470e6e946c46e482d629dc48c30428",
+            "width": 430,
+            "height": 974,
+            "review_sheet": "apple_rot_leaves_01.jpg"
+          },
+          {
+            "review_id": "K151",
+            "relative_path": "HEALTHY LEAVES/1070.jpg.jpeg",
+            "folder_label": "HEALTHY LEAVES",
+            "restored": false,
+            "sha256": "1ac1cab8a5e7c78bb58310c5234a5ca4f6e4835fbd6b29cb91f139747f540e23",
+            "pixel_sha256": "130fbb50db2c3e3b99713f68bac3c5dcd3470e6e946c46e482d629dc48c30428",
+            "width": 430,
+            "height": 974,
+            "review_sheet": "healthy_leaves_02.jpg"
+          }
+        ]
+      ]
+    },
+    "pixel_sha256": {
+      "duplicate_groups": [
+        [
+          {
+            "review_id": "K001",
+            "relative_path": "APPLE ROT LEAVES/1036.JPG.jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": false,
+            "sha256": "99a7b8528ae767a53fd2fb2acfaf2261382944e4f6752c47946441599564e9cc",
+            "pixel_sha256": "e9d6052ef96c6d7675d83f250c968302bad733d3b56ed9ea424e46a5679a961d",
+            "width": 419,
+            "height": 848,
+            "review_sheet": "apple_rot_leaves_01.jpg"
+          },
+          {
+            "review_id": "K129",
+            "relative_path": "HEALTHY LEAVES/1036.JPG.jpeg",
+            "folder_label": "HEALTHY LEAVES",
+            "restored": false,
+            "sha256": "99a7b8528ae767a53fd2fb2acfaf2261382944e4f6752c47946441599564e9cc",
+            "pixel_sha256": "e9d6052ef96c6d7675d83f250c968302bad733d3b56ed9ea424e46a5679a961d",
+            "width": 419,
+            "height": 848,
+            "review_sheet": "healthy_leaves_01.jpg"
+          }
+        ],
+        [
+          {
+            "review_id": "K002",
+            "relative_path": "APPLE ROT LEAVES/1062.jpg.jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": false,
+            "sha256": "d48733a369bb58129cfa87648784c488af8bd0596a89d86e8e65688b5552dc31",
+            "pixel_sha256": "0b356ba02df480287758e792d30ac2cb5557c51c8ec877b5053a592b306de66e",
+            "width": 421,
+            "height": 718,
+            "review_sheet": "apple_rot_leaves_01.jpg"
+          },
+          {
+            "review_id": "K145",
+            "relative_path": "HEALTHY LEAVES/1062.jpg.jpeg",
+            "folder_label": "HEALTHY LEAVES",
+            "restored": false,
+            "sha256": "d48733a369bb58129cfa87648784c488af8bd0596a89d86e8e65688b5552dc31",
+            "pixel_sha256": "0b356ba02df480287758e792d30ac2cb5557c51c8ec877b5053a592b306de66e",
+            "width": 421,
+            "height": 718,
+            "review_sheet": "healthy_leaves_02.jpg"
+          }
+        ],
+        [
+          {
+            "review_id": "K003",
+            "relative_path": "APPLE ROT LEAVES/1070.jpg.jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": false,
+            "sha256": "1ac1cab8a5e7c78bb58310c5234a5ca4f6e4835fbd6b29cb91f139747f540e23",
+            "pixel_sha256": "130fbb50db2c3e3b99713f68bac3c5dcd3470e6e946c46e482d629dc48c30428",
+            "width": 430,
+            "height": 974,
+            "review_sheet": "apple_rot_leaves_01.jpg"
+          },
+          {
+            "review_id": "K151",
+            "relative_path": "HEALTHY LEAVES/1070.jpg.jpeg",
+            "folder_label": "HEALTHY LEAVES",
+            "restored": false,
+            "sha256": "1ac1cab8a5e7c78bb58310c5234a5ca4f6e4835fbd6b29cb91f139747f540e23",
+            "pixel_sha256": "130fbb50db2c3e3b99713f68bac3c5dcd3470e6e946c46e482d629dc48c30428",
+            "width": 430,
+            "height": 974,
+            "review_sheet": "healthy_leaves_02.jpg"
+          }
+        ],
+        [
+          {
+            "review_id": "K095",
+            "relative_path": "APPLE ROT LEAVES/5062.jpg(1).jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": true,
+            "sha256": "e6e2099c925cfbcedf7c5f6a73d9c1cefa198c48a9f9d47f698e65300da1821b",
+            "pixel_sha256": "749c088fd435088c16b3737a603169541dd05869f0b1038b1f05a619f678ba1b",
+            "width": 244,
+            "height": 407,
+            "review_sheet": "apple_rot_leaves_04.jpg"
+          },
+          {
+            "review_id": "K096",
+            "relative_path": "APPLE ROT LEAVES/5062.jpg.jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": false,
+            "sha256": "e6e2099c925cfbcedf7c5f6a73d9c1cefa198c48a9f9d47f698e65300da1821b",
+            "pixel_sha256": "749c088fd435088c16b3737a603169541dd05869f0b1038b1f05a619f678ba1b",
+            "width": 244,
+            "height": 407,
+            "review_sheet": "apple_rot_leaves_04.jpg"
+          }
+        ],
+        [
+          {
+            "review_id": "K097",
+            "relative_path": "APPLE ROT LEAVES/5064.jpg(1).jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": true,
+            "sha256": "38007c3f16a76bf3d1aaf19bd1a24caa0f34f7659251217b17fe1d263dce3779",
+            "pixel_sha256": "510452a85a842807a4f94513ab0d4628d23dc00f7588a34791282bed9c132fed",
+            "width": 295,
+            "height": 393,
+            "review_sheet": "apple_rot_leaves_05.jpg"
+          },
+          {
+            "review_id": "K098",
+            "relative_path": "APPLE ROT LEAVES/5064.jpg.jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": false,
+            "sha256": "38007c3f16a76bf3d1aaf19bd1a24caa0f34f7659251217b17fe1d263dce3779",
+            "pixel_sha256": "510452a85a842807a4f94513ab0d4628d23dc00f7588a34791282bed9c132fed",
+            "width": 295,
+            "height": 393,
+            "review_sheet": "apple_rot_leaves_05.jpg"
+          }
+        ],
+        [
+          {
+            "review_id": "K103",
+            "relative_path": "APPLE ROT LEAVES/5094.jpg(1).jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": true,
+            "sha256": "fc59251165116b3c1b460530bf59e03a6202c0bc17475a9ece7e2597ac0410ac",
+            "pixel_sha256": "3d3b4cb72439b77867c9682aed8716a180ce7f1c5707e5b47a47cc167edf92bb",
+            "width": 257,
+            "height": 634,
+            "review_sheet": "apple_rot_leaves_05.jpg"
+          },
+          {
+            "review_id": "K104",
+            "relative_path": "APPLE ROT LEAVES/5094.jpg.jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": false,
+            "sha256": "fc59251165116b3c1b460530bf59e03a6202c0bc17475a9ece7e2597ac0410ac",
+            "pixel_sha256": "3d3b4cb72439b77867c9682aed8716a180ce7f1c5707e5b47a47cc167edf92bb",
+            "width": 257,
+            "height": 634,
+            "review_sheet": "apple_rot_leaves_05.jpg"
+          }
+        ],
+        [
+          {
+            "review_id": "K105",
+            "relative_path": "APPLE ROT LEAVES/WhatsApp Image 2022-07-04 at 7.37.35 PM (11)(1).jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": true,
+            "sha256": "44c4714f8f75b31e014103e446aaf134ed1d46209004a75bde4de842f4733b9a",
+            "pixel_sha256": "cba027cd7f90ac3c9989c7d7048ce642c95633b79b168f0e612d14bc85eb3431",
+            "width": 382,
+            "height": 562,
+            "review_sheet": "apple_rot_leaves_05.jpg"
+          },
+          {
+            "review_id": "K106",
+            "relative_path": "APPLE ROT LEAVES/WhatsApp Image 2022-07-04 at 7.37.35 PM (11).jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": false,
+            "sha256": "44c4714f8f75b31e014103e446aaf134ed1d46209004a75bde4de842f4733b9a",
+            "pixel_sha256": "cba027cd7f90ac3c9989c7d7048ce642c95633b79b168f0e612d14bc85eb3431",
+            "width": 382,
+            "height": 562,
+            "review_sheet": "apple_rot_leaves_05.jpg"
+          }
+        ],
+        [
+          {
+            "review_id": "K107",
+            "relative_path": "APPLE ROT LEAVES/WhatsApp Image 2022-07-04 at 7.37.35 PM (12)(1).jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": true,
+            "sha256": "0609592a56364e148eeba3d2eb1fc51918f96f82cf2174726f3bae39da38fd2e",
+            "pixel_sha256": "003dde6af1992ad450a8ecaf14ce0de1fd918d8ebc2c5fa2db62589ec9462142",
+            "width": 210,
+            "height": 500,
+            "review_sheet": "apple_rot_leaves_05.jpg"
+          },
+          {
+            "review_id": "K108",
+            "relative_path": "APPLE ROT LEAVES/WhatsApp Image 2022-07-04 at 7.37.35 PM (12).jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": false,
+            "sha256": "0609592a56364e148eeba3d2eb1fc51918f96f82cf2174726f3bae39da38fd2e",
+            "pixel_sha256": "003dde6af1992ad450a8ecaf14ce0de1fd918d8ebc2c5fa2db62589ec9462142",
+            "width": 210,
+            "height": 500,
+            "review_sheet": "apple_rot_leaves_05.jpg"
+          }
+        ]
+      ],
+      "conflicting_groups": [
+        [
+          {
+            "review_id": "K001",
+            "relative_path": "APPLE ROT LEAVES/1036.JPG.jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": false,
+            "sha256": "99a7b8528ae767a53fd2fb2acfaf2261382944e4f6752c47946441599564e9cc",
+            "pixel_sha256": "e9d6052ef96c6d7675d83f250c968302bad733d3b56ed9ea424e46a5679a961d",
+            "width": 419,
+            "height": 848,
+            "review_sheet": "apple_rot_leaves_01.jpg"
+          },
+          {
+            "review_id": "K129",
+            "relative_path": "HEALTHY LEAVES/1036.JPG.jpeg",
+            "folder_label": "HEALTHY LEAVES",
+            "restored": false,
+            "sha256": "99a7b8528ae767a53fd2fb2acfaf2261382944e4f6752c47946441599564e9cc",
+            "pixel_sha256": "e9d6052ef96c6d7675d83f250c968302bad733d3b56ed9ea424e46a5679a961d",
+            "width": 419,
+            "height": 848,
+            "review_sheet": "healthy_leaves_01.jpg"
+          }
+        ],
+        [
+          {
+            "review_id": "K002",
+            "relative_path": "APPLE ROT LEAVES/1062.jpg.jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": false,
+            "sha256": "d48733a369bb58129cfa87648784c488af8bd0596a89d86e8e65688b5552dc31",
+            "pixel_sha256": "0b356ba02df480287758e792d30ac2cb5557c51c8ec877b5053a592b306de66e",
+            "width": 421,
+            "height": 718,
+            "review_sheet": "apple_rot_leaves_01.jpg"
+          },
+          {
+            "review_id": "K145",
+            "relative_path": "HEALTHY LEAVES/1062.jpg.jpeg",
+            "folder_label": "HEALTHY LEAVES",
+            "restored": false,
+            "sha256": "d48733a369bb58129cfa87648784c488af8bd0596a89d86e8e65688b5552dc31",
+            "pixel_sha256": "0b356ba02df480287758e792d30ac2cb5557c51c8ec877b5053a592b306de66e",
+            "width": 421,
+            "height": 718,
+            "review_sheet": "healthy_leaves_02.jpg"
+          }
+        ],
+        [
+          {
+            "review_id": "K003",
+            "relative_path": "APPLE ROT LEAVES/1070.jpg.jpeg",
+            "folder_label": "APPLE ROT LEAVES",
+            "restored": false,
+            "sha256": "1ac1cab8a5e7c78bb58310c5234a5ca4f6e4835fbd6b29cb91f139747f540e23",
+            "pixel_sha256": "130fbb50db2c3e3b99713f68bac3c5dcd3470e6e946c46e482d629dc48c30428",
+            "width": 430,
+            "height": 974,
+            "review_sheet": "apple_rot_leaves_01.jpg"
+          },
+          {
+            "review_id": "K151",
+            "relative_path": "HEALTHY LEAVES/1070.jpg.jpeg",
+            "folder_label": "HEALTHY LEAVES",
+            "restored": false,
+            "sha256": "1ac1cab8a5e7c78bb58310c5234a5ca4f6e4835fbd6b29cb91f139747f540e23",
+            "pixel_sha256": "130fbb50db2c3e3b99713f68bac3c5dcd3470e6e946c46e482d629dc48c30428",
+            "width": 430,
+            "height": 974,
+            "review_sheet": "healthy_leaves_02.jpg"
+          }
+        ]
+      ]
+    }
+  },
+  "conflicting_rows": 6,
+  "eligible_after_exact_conflict_exclusion": 307,
+  "rot_label_status": "unconfirmed; source folder name is not a pathogen diagnosis"
+}

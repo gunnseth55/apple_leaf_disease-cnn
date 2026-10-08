@@ -1,5 +1,30 @@
 # Project Progress Log
 
+## 2026-10-08 — PlantVillage reproduction and Kashmir label audit
+
+Both saved disease checkpoints exactly reproduced the original 475-image
+PlantVillage test predictions and probabilities: baseline 90.32% accuracy,
+macro-F1 0.911271; background augmented 83.79%, macro-F1 0.795268. Their hashes
+match the checkpoints used for Kashmir. See
+[PLANTVILLAGE_REPRODUCTION.md](PLANTVILLAGE_REPRODUCTION.md).
+
+Recovered all 47 Kashmir Git LFS objects from a public mirror, validating their
+declared size, SHA-256, and RGB readability. Saved a separate recovered dataset;
+the original files and historical evaluation remain intact. Screened all 313
+images in the three represented classes and visually reviewed 84 cross-folder
+perceptual-duplicate candidates. Eight additional rot/scab conflict groups were
+found beyond the three exact rot/healthy conflicts. Conservative exclusion of
+25 conflicting rows and five same-class duplicate copies leaves 283 candidate
+images (91 rot, 43 healthy, 149 scab), with disease labels still unverified.
+
+The rot-to-black-rot mapping could not be confirmed: the mirror maps the names
+in software, but the inspected documentation does not provide supporting
+pathogen verification. The source Drive also contains leaf blotch, absent from
+our local subset. Independent disease-label review remains necessary; no new
+definitive Kashmir scores were claimed and integration remains paused. See
+[KASHMIR_LABEL_AUDIT.md](KASHMIR_LABEL_AUDIT.md) and
+`results/2026-10-08_kashmir_label_audit/` for evidence and review decisions.
+
 This document records how the Apple leaf disease classifier developed, what was
 learned from each experiment, and why each change was made. Dates are
 reconstructed from the project files and experiment sessions.

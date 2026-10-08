@@ -1,5 +1,12 @@
 # Kashmir external classification evaluation
 
+**Update, 2026-10-08:** All 47 missing images have been recovered into a separate
+dataset copy. A visual audit found additional rot/scab label conflicts. The
+rot-to-black-rot mapping remains unconfirmed; the scores below are historical
+results for the original 260-image subset. See
+[KASHMIR_LABEL_AUDIT.md](KASHMIR_LABEL_AUDIT.md) for recovery verification,
+all-class review, and the draft 283-image inventory with unverified labels.
+
 Evaluated both frozen classifiers on 2026-10-08, with checkpoint preprocessing
 (RGB, resize to 128 × 128, ToTensor) and four-way argmax. No retraining,
 threshold selection, cropping, or probability renormalization was performed.
@@ -117,9 +124,18 @@ successfully, and the augmented failure sheet was visually inspected.
 
 ## Decision and next steps
 
+On 2026-10-08, both checkpoints exactly reproduced their original PlantVillage
+test results: 90.32% baseline and 83.79% background augmented, with all saved
+predictions and probabilities identical. Checkpoint hashes also match this
+evaluation. See [PLANTVILLAGE_REPRODUCTION.md](PLANTVILLAGE_REPRODUCTION.md).
+Missing-image recovery is now complete. Independent verification of Kashmir's
+disease labels remains pending; demo integration remains paused. The subsequent
+[label audit](KASHMIR_LABEL_AUDIT.md) documents additional conflicts.
+
 Neither classifier is validated for reliable external disease identification.
-Retain both frozen checkpoints as references. Resolve the missing LFS content
-and rot diagnosis before reporting a complete Kashmir benchmark; do not tune
+Retain both frozen checkpoints as references. Missing LFS recovery is complete;
+resolve the disease labels and conflicting assignments before reporting a
+complete Kashmir benchmark; do not tune
 these models on this evaluation set.
 
 Next, evaluate the chosen lesion checkpoints on an external dataset with actual

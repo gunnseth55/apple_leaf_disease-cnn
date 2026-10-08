@@ -1,0 +1,13 @@
+review_id,folder_label,observation,label_assessment
+K008,APPLE ROT LEAVES,"Torn leaf area and brown tissue near the upper margin; no specific causal organism established.","Rot label and black-rot mapping remain unverified."
+K065,APPLE ROT LEAVES,"Yellowing with multiple dark spots and broad brown tissue; image is soft.","Visible damage is not a black-rot diagnosis."
+K090,APPLE ROT LEAVES,"Extensive brown tissue and curled margins.","Severe necrosis is nonspecific; expert diagnosis required."
+K095,APPLE ROT LEAVES,"Recovered image: predominantly yellow blade with little discrete spotting visible; exact copy of K096.","Do not count twice; yellowing alone does not establish black rot."
+K110,HEALTHY LEAVES,"Mostly green blade and visible veins; no obvious large lesion at sheet resolution.","Plausible visually healthy example; not confirmation of absence of disease."
+K120,HEALTHY LEAVES,"Green blade without obvious large necrotic lesions at sheet resolution.","Folder-derived healthy label remains unverified."
+K140,HEALTHY LEAVES,"Small reddish/orange area visible on the green blade.","Flag for expert review; do not infer a disease label from this alone."
+K151,HEALTHY LEAVES,"Large hole in leaf; exact same photo also labeled rot as K003.","Exclude both conflicting rows pending authoritative correction."
+K190,SCAB LEAVES,"Interveinal yellowing with a greener vein network; no specific scab diagnosis established.","Scab label needs verification."
+K205,SCAB LEAVES,"Small discrete reddish/brown circular spot on an otherwise green blade.","Appearance alone does not distinguish scab from other leaf spots."
+K283,SCAB LEAVES,"Recovered image: a large tan/brown patch with a darker border.","Visible lesion; pathogen and scab label remain unverified."
+K311,SCAB LEAVES,"Recovered image: yellowing and several tan circular lesions with dark margins.","Mixed/nonspecific symptoms; expert review required."

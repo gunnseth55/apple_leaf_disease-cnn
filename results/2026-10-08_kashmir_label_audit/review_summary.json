@@ -1,0 +1,20 @@
+{
+  "reviewed_images": 313,
+  "reviewed_class_sheets": 14,
+  "cross_folder_candidates_reviewed": 84,
+  "accepted_visual_conflict_pairs": 12,
+  "exact_cross_class_conflict_groups": 3,
+  "additional_visual_conflict_groups": 8,
+  "total_conflicting_rows": 25,
+  "exact_same_class_duplicate_extra_rows": 5,
+  "draft_candidates": 283,
+  "draft_candidate_folder_counts": {
+    "APPLE ROT LEAVES": 91,
+    "HEALTHY LEAVES": 43,
+    "SCAB LEAVES": 149
+  },
+  "rot_mapping_confirmed": false,
+  "pathologist_review_performed": false,
+  "benchmark_ready": false,
+  "notes": "Visual screening and conservative conflict exclusions do not validate disease identity. Near-duplicate search is not exhaustive; no source-leaf IDs are available."
+}

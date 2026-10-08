@@ -20,6 +20,13 @@ reproduction commands are in [KASHMIR_EVALUATION.md](KASHMIR_EVALUATION.md).
 Both frozen classifiers achieved 24.23% accuracy on the available 260-image
 subset; this does not validate reliable external disease identification.
 
+Both checkpoints exactly reproduced their original PlantVillage test predictions
+on 2026-10-08: see [PLANTVILLAGE_REPRODUCTION.md](PLANTVILLAGE_REPRODUCTION.md).
+
+All 47 missing Kashmir images have since been recovered. The
+[Kashmir label audit](KASHMIR_LABEL_AUDIT.md) found further conflicting labels;
+rot-to-black-rot remains unconfirmed, so the external scores remain preliminary.
+
 Pixel-level lesion segmentation is developed as a separate package and workflow.
 See [LESION_DETECTION.md](LESION_DETECTION.md); it does not reuse the
 classification training scripts or treat whole-leaf masks as lesion labels.
