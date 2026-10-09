@@ -145,4 +145,55 @@ classification and segmentation in the demo, exposing their separate outputs and
 the measured limits of disease classification. External segmentation and demo
 integration have not been performed in this step.
 
-yet to be done 
+## 2026-10-10 — Frozen EfficientNet-B0 external evaluation
+
+The user evaluated the PlantVillage-trained EfficientNet-B0 checkpoint selected
+at epoch 11 by validation macro-F1 1.0000. No external training or tuning occurred.
+Saved manifests verify the same original 260-image inventory as both CNN runs;
+this is not the recovered/audited 283-image candidate inventory. Existing label
+limitations and later-discovered visual conflicts still apply.
+
+| Model | Correct / total | Accuracy | Macro-F1 (3 present classes) |
+| --- | --- | ---: | ---: |
+| Original CNN | 63/260 | 24.23% | 0.2851 |
+| Background-augmented CNN | 63/260 | 24.23% | 0.2495 |
+| EfficientNet-B0 | 68/260 | 26.15% | 0.2248 |
+
+EfficientNet adds five correct predictions but remains below the 45.00%
+majority-class reference and has lower present-class macro-F1 than both CNNs.
+Its four-class macro-F1 is 0.1686; the terminal report includes the absent
+cedar-rust class, whereas the headline 0.2248 averages the three present classes.
+
+| Class | Precision | Recall | F1 | Support |
+| --- | ---: | ---: | ---: | ---: |
+| Scab | 0.3765 | 0.2735 | 0.3168 | 117 |
+| Rot to black rot (provisional) | 0.5000 | 0.0200 | 0.0385 | 100 |
+| Healthy | 0.2000 | 0.7907 | 0.3192 | 43 |
+
+Confusion matrix: rows = true folder-derived class; columns = predicted class.
+
+| True class | Scab | Black rot | Cedar rust | Healthy |
+| --- | ---: | ---: | ---: | ---: |
+| Scab | 32 | 2 | 1 | 82 |
+| Rot | 44 | 2 | 0 | 54 |
+| Cedar rust (absent) | 0 | 0 | 0 | 0 |
+| Healthy | 9 | 0 | 0 | 34 |
+
+Mean confidence: all 0.8440, correct 0.8175, errors 0.8534. Among 141 predictions
+with confidence >=0.90, 107 are errors (75.89%). Softmax confidence is not a
+reliability guarantee. Excluding rot, scab/healthy accuracy is 66/160 (41.25%).
+The model labels 136/217 diseased-folder images healthy.
+
+The same checkpoint separately reproduced its PlantVillage 99.79% accuracy and
+0.9982 macro-F1. Its SHA-256 matches the preserved best-checkpoint metadata in
+both evaluations. Codex verified saved arrays/manifests only; no inference or
+training was run for this recording step.
+
+Original outputs: `artifacts/kashmir_evaluation/efficientnet_b0/`. Tracked
+CSV/JSON/text snapshots: `results/2026-10-10_efficientnet_b0/kashmir/`.
+Full classifier report: `EFFICIENTNET_TRANSFER.md`.
+
+Decision: EfficientNet is a stronger PlantVillage reference, but these results
+do not validate reliable external diagnosis. Preserve the frozen checkpoint,
+resolve labels before a definitive Kashmir benchmark, and retain Kashmir as
+evaluation-only. External lesion evaluation and demo integration remain pending.

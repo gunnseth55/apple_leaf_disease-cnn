@@ -854,3 +854,61 @@ reliability. Multiple training choices differ from the CNN reference and near
 duplicates/related views have not been exhaustively audited. EfficientNet's
 external evaluation remains pending; Kashmir labels remain unresolved. Do not
 train or tune on the external evaluation set.
+
+### Best-checkpoint preservation and metadata
+
+Verified the saved `artifacts/efficientnet_b0/apple_efficientnet_b0_checkpoint.pt`
+against training history: selected epoch 11 is the earliest maximum validation
+macro-F1 (1.0000). The best checkpoint already exists and was retained unchanged.
+Recorded RGB bicubic 224 x 224 preprocessing, no crop, ImageNet normalization
+mean/std, AdamW, warmup/fine-tuning learning rates and cosine schedule, 15 completed
+epochs (3 + 12), class mapping and checkpoint name in `EFFICIENTNET_TRANSFER.md`.
+Full metadata and checkpoint SHA-256 are saved in
+`results/2026-10-10_efficientnet_b0/checkpoint_metadata.json`, with a local copy
+alongside the weights. Future checkpoints also explicitly embed normalization
+values and checkpoint name. No training or model inference was run for this step.
+
+### Evaluation reporting prepared
+
+Expanded the PlantVillage evaluation CLI to save macro-F1, per-class
+precision/recall/F1/support, CSV/PNG confusion matrices, confidence summaries,
+ten confidence bins, a correct/error confidence histogram and per-image
+probabilities. Class-wise recall is the recall column in the per-class table.
+Evaluation records checkpoint SHA-256 and preprocessing, validates class mapping,
+and refuses nonempty output directories. CLI help, Python compilation and diff
+checks passed. No training or evaluation inference was run by Codex; evaluation
+commands and output descriptions are in `EFFICIENTNET_TRANSFER.md`.
+
+## 2026-10-10 — User-run EfficientNet PlantVillage and Kashmir evaluations
+
+Question: does the improved PlantVillage classifier generalize externally?
+The user ran both evaluation commands with frozen epoch-11 weights, saved
+preprocessing and no training/tuning. PlantVillage reproduced 474/475 correct
+(99.79%), macro-F1 0.9981701493. Saved ordered labels/predictions match the
+original test output exactly; maximum probability difference is 2.2352e-08.
+
+Kashmir: 68/260 correct (26.15%), present-class macro-F1 0.2248473493, all-four
+macro-F1 0.1686355120. Per-class recall is scab 27.35%, provisional rot 2.00%,
+healthy 79.07%; cedar rust has no ground-truth support. This is five additional
+correct predictions versus either CNN, but lower present-class macro-F1 and
+accuracy below the 45.00% majority reference. The model predicts healthy for
+136/217 diseased-folder images. Excluding rot, accuracy is 66/160 (41.25%).
+
+Confidence is uncalibrated: mean 0.8440; errors 0.8534 versus correct 0.8175.
+Of 141 predictions at confidence >=0.90, 107 are wrong (75.89%). The saved
+inventory matches the original CNN's 260-image manifest exactly and excludes
+47 LFS pointers and six exact-conflict rows. Later visual conflicts and
+unverified diagnoses remain; this is not the recovered candidate inventory.
+
+Both evaluations record the preserved checkpoint hash. Codex checked saved
+outputs only, with no inference or training. Original outputs:
+`artifacts/efficientnet_b0_evaluation_full/` and
+`artifacts/kashmir_evaluation/efficientnet_b0/`. Tracked report snapshots:
+`results/2026-10-10_efficientnet_b0/{plantvillage_evaluation,kashmir}/`.
+Full tables are in `EFFICIENTNET_TRANSFER.md` and `KASHMIR_EVALUATION.md`.
+
+Decision: retain EfficientNet as the PlantVillage classifier reference, without
+claiming external diagnostic reliability. Distribution mismatch and label
+problems are possible contributors, not proven explanations. Do not tune on
+Kashmir; independent label verification and external lesion evaluation remain
+the next evidence needed before integration.

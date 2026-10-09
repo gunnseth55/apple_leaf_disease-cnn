@@ -103,6 +103,8 @@ def main():
     plan = {
         "architecture": "efficientnet_b0", "pretrained_weights": "IMAGENET1K_V1",
         "preprocessing": PREPROCESSING, "image_size": 224,
+        "normalization": {"mean": [0.485, 0.456, 0.406], "std": [0.229, 0.224, 0.225]},
+        "checkpoint_name": "apple_efficientnet_b0_checkpoint.pt",
         "class_to_index": {name: i for i, name in enumerate(APPLE_CLASSES)},
         "seed": args.seed, "config": config.to_dict(),
         "dataset_path": str(args.dataset_path.resolve()),

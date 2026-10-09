@@ -16,8 +16,10 @@ See [PROJECT_PROGRESS.md](PROJECT_PROGRESS.md) for the dated experiment log,
 analysis, decisions, and changes made during development.
 
 The user-run EfficientNet-B0 transfer-learning experiment reached **99.79% test
-accuracy (474/475)** and **0.9982 macro-F1** on the PlantVillage split. External
-evaluation is pending. See [EFFICIENTNET_TRANSFER.md](EFFICIENTNET_TRANSFER.md)
+accuracy (474/475)** and **0.9982 macro-F1** on the PlantVillage split. On the
+original 260-image Kashmir subset it reached only **26.15% accuracy** and
+**0.2248 present-class macro-F1**, with provisional labels. See
+[EFFICIENTNET_TRANSFER.md](EFFICIENTNET_TRANSFER.md)
 for verified results, the command and protocol.
 
 The external Kashmir classifier evaluation, dataset audit, full metrics, and

@@ -1,0 +1,162 @@
+{
+  "accuracy": 0.9978947368421053,
+  "macro_f1": 0.9981701492857679,
+  "report": "                  precision    recall  f1-score   support\n\n      Apple scab     1.0000    0.9895    0.9947        95\n       Black rot     1.0000    1.0000    1.0000        93\nCedar apple rust     1.0000    1.0000    1.0000        41\n         healthy     0.9960    1.0000    0.9980       246\n\n        accuracy                         0.9979       475\n       macro avg     0.9990    0.9974    0.9982       475\n    weighted avg     0.9979    0.9979    0.9979       475\n",
+  "per_class": {
+    "Apple scab": {
+      "precision": 1.0,
+      "recall": 0.9894736842105263,
+      "f1-score": 0.9947089947089947,
+      "support": 95.0
+    },
+    "Black rot": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 93.0
+    },
+    "Cedar apple rust": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 41.0
+    },
+    "healthy": {
+      "precision": 0.9959514170040485,
+      "recall": 1.0,
+      "f1-score": 0.9979716024340771,
+      "support": 246.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      94,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      93,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      41,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      246
+    ]
+  ],
+  "class_order": [
+    "Apple scab",
+    "Black rot",
+    "Cedar apple rust",
+    "healthy"
+  ],
+  "sample_count": 475,
+  "confidence": {
+    "mean": 0.9973609813890959,
+    "median": 0.9999626874923706,
+    "mean_correct": 0.9979649289247858,
+    "mean_errors": 0.7110898494720459,
+    "bins": [
+      {
+        "lower": 0.0,
+        "upper": 0.1,
+        "count": 0,
+        "correct": 0,
+        "errors": 0,
+        "accuracy": null
+      },
+      {
+        "lower": 0.1,
+        "upper": 0.2,
+        "count": 0,
+        "correct": 0,
+        "errors": 0,
+        "accuracy": null
+      },
+      {
+        "lower": 0.2,
+        "upper": 0.3,
+        "count": 0,
+        "correct": 0,
+        "errors": 0,
+        "accuracy": null
+      },
+      {
+        "lower": 0.3,
+        "upper": 0.4,
+        "count": 0,
+        "correct": 0,
+        "errors": 0,
+        "accuracy": null
+      },
+      {
+        "lower": 0.4,
+        "upper": 0.5,
+        "count": 0,
+        "correct": 0,
+        "errors": 0,
+        "accuracy": null
+      },
+      {
+        "lower": 0.5,
+        "upper": 0.6,
+        "count": 1,
+        "correct": 1,
+        "errors": 0,
+        "accuracy": 1.0
+      },
+      {
+        "lower": 0.6,
+        "upper": 0.7,
+        "count": 0,
+        "correct": 0,
+        "errors": 0,
+        "accuracy": null
+      },
+      {
+        "lower": 0.7,
+        "upper": 0.8,
+        "count": 2,
+        "correct": 1,
+        "errors": 1,
+        "accuracy": 0.5
+      },
+      {
+        "lower": 0.8,
+        "upper": 0.9,
+        "count": 0,
+        "correct": 0,
+        "errors": 0,
+        "accuracy": null
+      },
+      {
+        "lower": 0.9,
+        "upper": 1.0,
+        "count": 472,
+        "correct": 472,
+        "errors": 0,
+        "accuracy": 1.0
+      }
+    ]
+  },
+  "metadata": {
+    "checkpoint": "C:\\Users\\gunn\\Desktop\\work\\appleleaf\\artifacts\\efficientnet_b0\\apple_efficientnet_b0_checkpoint.pt",
+    "checkpoint_sha256": "d6b94fa0b61250b28930e92e1c676fce89b6575204ba510b3258f521f53d078c",
+    "architecture": "efficientnet_b0",
+    "preprocessing": "imagenet_rgb_resize",
+    "image_size": 224,
+    "seed": 42,
+    "dataset_path": "C:\\Users\\gunn\\.cache\\kagglehub\\datasets\\abdallahalidev\\plantvillage-dataset\\versions\\3",
+    "split": "PlantVillage test; no training or tuning"
+  }
+}
