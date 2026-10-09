@@ -8,7 +8,7 @@ from torch.utils.data import DataLoader
 
 from appleleaf.config import ExperimentConfig
 from appleleaf.data import attach_segmented_paths, download_dataset, prepare_splits
-from appleleaf.datasets import AUDIT_CONDITIONS, BackgroundTestDataset, build_transform
+from appleleaf.datasets import AUDIT_CONDITIONS, BackgroundTestDataset, checkpoint_transform
 from appleleaf.engine import choose_device, predict
 from appleleaf.workflow import load_model
 
@@ -33,7 +33,7 @@ def main() -> None:
     dataset_path = args.dataset_path or download_dataset()
     _, val_df, _ = prepare_splits(dataset_path, config.seed)
     val_df = attach_segmented_paths(val_df, dataset_path)
-    transform = build_transform(config.image_size)
+    transform = checkpoint_transform(checkpoint)
     results = {}
     for background_name in AUDIT_CONDITIONS:
         dataset = BackgroundTestDataset(val_df, background_name, transform)

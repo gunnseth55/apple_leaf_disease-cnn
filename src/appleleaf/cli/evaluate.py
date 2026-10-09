@@ -30,7 +30,10 @@ def main() -> None:
         seed=int(checkpoint["seed"]),
     )
     dataset_path = args.dataset_path or download_dataset()
-    (_, _, test_loader), _ = build_loaders(dataset_path, config)
+    (_, _, test_loader), _ = build_loaders(
+        dataset_path, config,
+        preprocessing=checkpoint.get("preprocessing", "rgb_resize_totensor"),
+    )
     results = predict(model, test_loader, device)
     metrics = classification_metrics(results, class_names())
     args.output_dir.mkdir(parents=True, exist_ok=True)
@@ -40,6 +43,7 @@ def main() -> None:
         results["predictions"],
         class_names(),
         args.output_dir / "confusion_matrix.png",
+        title=f"{checkpoint.get('architecture', 'Baseline CNN')} - Test Confusion Matrix",
     )
     print(f"Test accuracy: {metrics['accuracy']:.4f}")
     print(f"Test macro F1: {metrics['macro_f1']:.4f}\n")

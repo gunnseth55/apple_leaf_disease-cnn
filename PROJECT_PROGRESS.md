@@ -785,3 +785,72 @@ For every future experiment, append a dated section containing:
 - metrics and artifact locations;
 - interpretation and limitations;
 - the decision made from the result.
+
+## 2026-10-10 — EfficientNet-B0 transfer-learning code prepared
+
+Question: can an ImageNet-pretrained classifier improve on the small CNN while
+retaining the existing PlantVillage split? The user selected EfficientNet-B0 and
+explicitly reserved all training epochs for themselves.
+
+Added `appleleaf.cli.train_efficientnet` and the
+`appleleaf-train-efficientnet` console entry point. The default plan is 3 epochs
+of classifier-head warmup with frozen backbone statistics, followed by 12 epochs
+of full fine-tuning with separate backbone/head learning rates and cosine decay.
+It uses ImageNet normalization, full-image bicubic resize to 224 x 224, mild
+training-only geometry/colour augmentation, training-only class weights, and
+validation macro-F1 checkpoint selection. No Kashmir or lesion data are used.
+
+The decoded-image deduplication, seed-42 stratified split, and four-class mapping
+remain unchanged. The run saves split manifests, configuration, per-epoch best
+weights and history, then final test metrics, probabilities, curves and confusion
+matrix. Existing output folders cannot be overwritten. Architecture/preprocessing
+metadata now drive checkpoint loading, evaluation, background audits and Grad-CAM;
+legacy CNN checkpoints preserve their original preprocessing.
+
+Verification: four transfer-learning unit tests and three existing Kashmir
+evaluation tests passed. These checked configuration, preprocessing, head/backbone
+gradient flags, EfficientNet inference/checkpoint roundtrip, legacy checkpoint
+loading, and explicit output-folder rejection. An EfficientNet Grad-CAM smoke
+check produced four probabilities and a 224 x 224 map. A dry run on cached
+PlantVillage version 3 verified readability/deduplication and confirmed counts
+of 2,214 train, 475 validation and 475 test. No model download, optimizer step,
+training epoch, or benchmark inference on actual dataset images was performed.
+
+There are no new accuracy or macro-F1 results. This changes more than architecture
+(pretraining, resolution, augmentation and optimizer also change), so it is a
+transfer-learning experiment rather than an isolated architecture comparison.
+External generalization remains unproven. The user will run training and supply
+the resulting metrics before selecting a model or proceeding with integration.
+
+Commands and exact settings: `EFFICIENTNET_TRANSFER.md`. Intended local outputs:
+`artifacts/efficientnet_b0/`. Training remains **not started**.
+
+## 2026-10-10 — User-completed EfficientNet-B0 training results
+
+The user subsequently ran all 15 epochs on CPU: 3 frozen-backbone head epochs
+and 12 fine-tuning epochs. Codex did not run training. The saved configuration
+retains the original PlantVillage-only seed-42 split and transfer-learning
+protocol described above; no external images entered training or selection.
+
+The best checkpoint was epoch 11, selected by validation macro-F1 1.0000.
+Test accuracy was 0.9978947368 (**474/475, 99.79%**) and macro-F1 was
+**0.9981701493**. Per-class F1: scab 0.9947 (95 images), black rot 1.0000
+(93), cedar rust 1.0000 (41), healthy 0.9980 (246). The sole error was scab
+predicted healthy: `fb942296-ba33-40e5-ada0-6700365cf71d___FREC_Scab 2919.JPG`.
+Compared with the original CNN's 429/475 (90.32%), this is 45 additional correct
+predictions and a 9.47-percentage-point accuracy increase on the same test split.
+
+Verification recalculated accuracy and macro-F1 from saved NPZ predictions and
+matched `metrics.json` exactly. All 475 labels/predictions match the saved CSV.
+No model inference, optimizer steps or training epochs were run for recording.
+Metrics, configuration and history snapshots are saved under
+`results/2026-10-10_efficientnet_b0/`; original weights, manifests, predictions
+and figures remain under `artifacts/efficientnet_b0/`. Full per-class results
+and reproduction instructions are in `EFFICIENTNET_TRANSFER.md`.
+
+Decision: retain this frozen checkpoint as the stronger PlantVillage classifier
+candidate. The high score establishes performance on this split, not field
+reliability. Multiple training choices differ from the CNN reference and near
+duplicates/related views have not been exhaustively audited. EfficientNet's
+external evaluation remains pending; Kashmir labels remain unresolved. Do not
+train or tune on the external evaluation set.

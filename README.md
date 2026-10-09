@@ -15,6 +15,11 @@ Two versions of the same CNN are compared:
 See [PROJECT_PROGRESS.md](PROJECT_PROGRESS.md) for the dated experiment log,
 analysis, decisions, and changes made during development.
 
+The user-run EfficientNet-B0 transfer-learning experiment reached **99.79% test
+accuracy (474/475)** and **0.9982 macro-F1** on the PlantVillage split. External
+evaluation is pending. See [EFFICIENTNET_TRANSFER.md](EFFICIENTNET_TRANSFER.md)
+for verified results, the command and protocol.
+
 The external Kashmir classifier evaluation, dataset audit, full metrics, and
 reproduction commands are in [KASHMIR_EVALUATION.md](KASHMIR_EVALUATION.md).
 Both frozen classifiers achieved 24.23% accuracy on the available 260-image

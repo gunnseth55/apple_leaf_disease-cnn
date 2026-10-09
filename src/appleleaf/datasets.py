@@ -16,10 +16,23 @@ BACKGROUND_COLOURS = {
 AUDIT_CONDITIONS = (*BACKGROUND_COLOURS, "background_only")
 
 
-def build_transform(image_size: int):
+def build_transform(image_size: int, preprocessing="rgb_resize_totensor"):
+    if preprocessing == "imagenet_rgb_resize":
+        return transforms.Compose([
+            transforms.Resize((image_size, image_size), interpolation=transforms.InterpolationMode.BICUBIC),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
+        ])
+    if preprocessing != "rgb_resize_totensor":
+        raise ValueError(f"Unknown preprocessing: {preprocessing}")
     return transforms.Compose(
         [transforms.Resize((image_size, image_size)), transforms.ToTensor()]
     )
+
+
+def checkpoint_transform(checkpoint):
+    return build_transform(int(checkpoint["image_size"]),
+                           checkpoint.get("preprocessing", "rgb_resize_totensor"))
 
 
 class AppleLeafDataset(Dataset):

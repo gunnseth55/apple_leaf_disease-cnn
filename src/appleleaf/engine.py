@@ -24,9 +24,13 @@ def choose_device(requested: str = "auto") -> torch.device:
     return torch.device(requested)
 
 
-def run_epoch(model, loader, criterion, device, optimizer=None) -> dict:
+def run_epoch(model, loader, criterion, device, optimizer=None, freeze_features=False) -> dict:
     is_training = optimizer is not None
     model.train(is_training)
+    if is_training and freeze_features:
+        # Keep pretrained batch-normalization statistics and stochastic depth
+        # fixed while training only the replacement classifier head.
+        model.features.eval()
     loss_numerator = 0.0
     loss_denominator = 0.0
     labels_all, predictions_all = [], []

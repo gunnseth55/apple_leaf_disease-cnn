@@ -14,7 +14,7 @@ from PIL import Image
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, f1_score
 from torch.utils.data import DataLoader
 
-from appleleaf.datasets import AppleLeafDataset, build_transform
+from appleleaf.datasets import AppleLeafDataset, checkpoint_transform
 from appleleaf.engine import choose_device, predict
 from appleleaf.workflow import load_model
 
@@ -178,7 +178,7 @@ def main():
     fatal = [row for row in rejected if row["reason"] != "missing_git_lfs_image" or not args.exclude_missing_lfs]
     if fatal:
         raise ValueError(f"{len(fatal)} unreadable images; restore missing LFS content or explicitly use --exclude-missing-lfs")
-    loader = DataLoader(AppleLeafDataset(frame, build_transform(int(checkpoint["image_size"]))),
+    loader = DataLoader(AppleLeafDataset(frame, checkpoint_transform(checkpoint)),
                         batch_size=args.batch_size, shuffle=False, num_workers=0)
     results = predict(model, loader, device)
     metrics = summarize(results, names)
@@ -187,10 +187,12 @@ def main():
         "checkpoint_sha256": hashlib.sha256(args.checkpoint.read_bytes()).hexdigest(),
         "dataset_path": str(args.dataset_path.resolve()), "training_strategy": checkpoint.get("training_strategy", "unspecified"),
         "image_size": int(checkpoint["image_size"]), "class_order": names, "folder_mapping": FOLDER_CLASSES,
+        "architecture": checkpoint.get("architecture", "appleleaf_cnn"),
+        "preprocessing": checkpoint.get("preprocessing", "rgb_resize_totensor"),
         "rot_label_status": args.rot_label_status, "duplicate_extra_rows": int(frame.sha256.duplicated().sum()),
         "excluded_conflicting_rows": len(excluded), "excluded_missing_image_rows": len(rejected),
         "source_image_rows": len(frame) + len(excluded) + len(rejected),
-        "protocol": "All readable images; frozen weights; original RGB resize + ToTensor; four-way argmax; no tuning.",
+        "protocol": "All readable images; frozen weights; saved checkpoint preprocessing; four-way argmax; no tuning.",
         "limitations": ["No cedar-rust ground truth: its recall/F1 are unmeasured; zero-support table entries are placeholders.",
                         "Rot-to-black-rot mapping is provisional unless independently confirmed.",
                         "Softmax confidence is uncalibrated; duplicate counts cover this dataset only, not training overlap."],

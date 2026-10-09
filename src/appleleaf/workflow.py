@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader
 from .config import APPLE_CLASSES, ExperimentConfig
 from .data import attach_segmented_paths, prepare_splits
 from .datasets import AppleLeafDataset, RandomBackgroundDataset, build_transform
-from .model import AppleLeafCNN
+from .model import build_model
 
 
 def class_names() -> list[str]:
@@ -18,17 +18,20 @@ def build_loaders(
     config: ExperimentConfig,
     verify=False,
     randomize_train_backgrounds=False,
+    preprocessing="rgb_resize_totensor",
+    train_transform=None,
 ):
     train_df, val_df, test_df = prepare_splits(dataset_path, config.seed, verify)
     if randomize_train_backgrounds:
         train_df = attach_segmented_paths(train_df, dataset_path)
-    transform = build_transform(config.image_size)
+    transform = build_transform(config.image_size, preprocessing)
+    train_transform = train_transform if train_transform is not None else transform
     generator = torch.Generator().manual_seed(config.seed)
     common = {"batch_size": config.batch_size, "num_workers": config.num_workers}
     train_dataset = (
-        RandomBackgroundDataset(train_df, transform)
+        RandomBackgroundDataset(train_df, train_transform)
         if randomize_train_backgrounds
-        else AppleLeafDataset(train_df, transform)
+        else AppleLeafDataset(train_df, train_transform)
     )
     loaders = (
         DataLoader(
@@ -67,7 +70,9 @@ def save_checkpoint(path, model, config, best_epoch, metrics, training_strategy=
 
 def load_model(checkpoint_path, device):
     checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=False)
-    model = AppleLeafCNN(num_classes=len(checkpoint["class_to_index"]))
+    model = build_model(checkpoint.get("architecture", "appleleaf_cnn"),
+                        num_classes=len(checkpoint["class_to_index"]))
     model.load_state_dict(checkpoint["model_state_dict"])
     model.to(device)
+    model.eval()
     return model, checkpoint

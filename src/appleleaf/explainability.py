@@ -19,7 +19,10 @@ def grad_cam(model, image_tensor, device, target_class=None):
     # feature map instead of the coarser 8x8 tensor used by the classifier.
     features = model.features[:-1](inputs)
     features.retain_grad()
-    logits = model.classifier(model.features[-1](features))
+    final_features = model.features[-1](features)
+    if hasattr(model, "avgpool"):
+        final_features = model.avgpool(final_features).flatten(1)
+    logits = model.classifier(final_features)
     probabilities = torch.softmax(logits, dim=1)
     predicted_class = int(logits.argmax(dim=1).item())
     explained_class = predicted_class if target_class is None else int(target_class)

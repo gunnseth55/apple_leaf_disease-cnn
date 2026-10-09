@@ -22,6 +22,7 @@ dependencies = [
 [project.scripts]
 appleleaf-download = "appleleaf.cli.download_data:main"
 appleleaf-train = "appleleaf.cli.train:main"
+appleleaf-train-efficientnet = "appleleaf.cli.train_efficientnet:main"
 appleleaf-evaluate = "appleleaf.cli.evaluate:main"
 appleleaf-evaluate-kashmir = "appleleaf.cli.evaluate_kashmir:main"
 appleleaf-background-audit = "appleleaf.cli.background_audit:main"

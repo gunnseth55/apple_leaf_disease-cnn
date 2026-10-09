@@ -20,7 +20,8 @@ def plot_training_history(history, output_path: str | Path) -> None:
     _save(fig, output_path)
 
 
-def plot_confusion_matrix(labels, predictions, class_names, output_path) -> None:
+def plot_confusion_matrix(labels, predictions, class_names, output_path,
+                          title="Baseline CNN - Test Confusion Matrix") -> None:
     matrix = confusion_matrix(
         labels, predictions, labels=list(range(len(class_names)))
     )
@@ -36,7 +37,7 @@ def plot_confusion_matrix(labels, predictions, class_names, output_path) -> None
     )
     axis.set_xlabel("Predicted class")
     axis.set_ylabel("Actual class")
-    axis.set_title("Baseline CNN - Test Confusion Matrix")
+    axis.set_title(title)
     _save(fig, output_path)
 
 

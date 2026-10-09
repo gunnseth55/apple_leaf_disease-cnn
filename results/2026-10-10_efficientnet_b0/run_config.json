@@ -1,0 +1,43 @@
+{
+  "architecture": "efficientnet_b0",
+  "pretrained_weights": "IMAGENET1K_V1",
+  "preprocessing": "imagenet_rgb_resize",
+  "image_size": 224,
+  "class_to_index": {
+    "Apple___Apple_scab": 0,
+    "Apple___Black_rot": 1,
+    "Apple___Cedar_apple_rust": 2,
+    "Apple___healthy": 3
+  },
+  "seed": 42,
+  "config": {
+    "image_size": 224,
+    "batch_size": 16,
+    "epochs": 15,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0001,
+    "seed": 42,
+    "num_workers": 0,
+    "artifacts_dir": "artifacts\\efficientnet_b0"
+  },
+  "dataset_path": "C:\\Users\\gunn\\.cache\\kagglehub\\datasets\\abdallahalidev\\plantvillage-dataset\\versions\\3",
+  "split_counts": {
+    "train": 2214,
+    "validation": 475,
+    "test": 475
+  },
+  "warmup_epochs": 3,
+  "head_lr": 0.001,
+  "backbone_lr": 0.0001,
+  "finetune_head_lr": 0.0003,
+  "optimizer": "AdamW",
+  "finetune_scheduler": "CosineAnnealingLR",
+  "selection": "highest validation macro-F1; earliest epoch wins ties",
+  "training_strategy": "plantvillage_only_imagenet_transfer",
+  "training_augmentation": "horizontal/vertical flips, rotation +/-15 degrees, mild colour jitter",
+  "preprocessing_details": "RGB; full-image bicubic resize 224x224; ToTensor; ImageNet mean/std; no crop",
+  "loss": "CrossEntropyLoss with inverse-frequency weights from training split only",
+  "device": "cpu",
+  "torch_version": "2.14.1+cpu",
+  "torchvision_version": "0.29.1+cpu"
+}

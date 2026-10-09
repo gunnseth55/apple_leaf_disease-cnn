@@ -6,7 +6,7 @@ from PIL import Image
 
 from appleleaf.config import ExperimentConfig
 from appleleaf.data import attach_segmented_paths, download_dataset, prepare_splits
-from appleleaf.datasets import build_transform, load_image_and_mask
+from appleleaf.datasets import checkpoint_transform, load_image_and_mask
 from appleleaf.engine import choose_device
 from appleleaf.explainability import attention_inside_mask, grad_cam, save_explanation
 from appleleaf.workflow import class_names, load_model
@@ -40,7 +40,7 @@ def main():
     dataset_path = args.dataset_path or download_dataset()
     _, _, test_df = prepare_splits(dataset_path, config.seed)
     test_df = attach_segmented_paths(test_df, dataset_path)
-    transform = build_transform(config.image_size)
+    transform = checkpoint_transform(checkpoint)
     names = class_names()
     rows = []
 

@@ -1,0 +1,7 @@
+{
+  "accuracy": 0.9978947368421053,
+  "macro_f1": 0.9981701492857679,
+  "report": "                  precision    recall  f1-score   support\n\n      Apple scab     1.0000    0.9895    0.9947        95\n       Black rot     1.0000    1.0000    1.0000        93\nCedar apple rust     1.0000    1.0000    1.0000        41\n         healthy     0.9960    1.0000    0.9980       246\n\n        accuracy                         0.9979       475\n       macro avg     0.9990    0.9974    0.9982       475\n    weighted avg     0.9979    0.9979    0.9979       475\n",
+  "best_epoch": 11,
+  "best_val_macro_f1": 1.0
+}

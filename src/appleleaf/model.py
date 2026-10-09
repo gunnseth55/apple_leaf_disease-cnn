@@ -1,4 +1,16 @@
 import torch.nn as nn
+from torchvision.models import EfficientNet_B0_Weights, efficientnet_b0
+
+
+def build_model(architecture="appleleaf_cnn", num_classes=4, pretrained=False):
+    if architecture == "appleleaf_cnn":
+        return AppleLeafCNN(num_classes)
+    if architecture == "efficientnet_b0":
+        weights = EfficientNet_B0_Weights.IMAGENET1K_V1 if pretrained else None
+        model = efficientnet_b0(weights=weights)
+        model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
+        return model
+    raise ValueError(f"Unknown classifier architecture: {architecture}")
 
 
 class AppleLeafCNN(nn.Module):
