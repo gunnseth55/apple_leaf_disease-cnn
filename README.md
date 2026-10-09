@@ -18,9 +18,12 @@ analysis, decisions, and changes made during development.
 The user-run EfficientNet-B0 transfer-learning experiment reached **99.79% test
 accuracy (474/475)** and **0.9982 macro-F1** on the PlantVillage split. On the
 original 260-image Kashmir subset it reached only **26.15% accuracy** and
-**0.2248 present-class macro-F1**, with provisional labels. See
+**0.2248 present-class macro-F1**, marked preliminary pending label verification.
+EfficientNet remains the frozen current classifier reference. See
 [EFFICIENTNET_TRANSFER.md](EFFICIENTNET_TRANSFER.md)
 for verified results, the command and protocol.
+The [class and visual review](KASHMIR_EFFICIENTNET_REVIEW.md) records representative
+Kashmir failures without changing diagnoses, weights or thresholds.
 
 The external Kashmir classifier evaluation, dataset audit, full metrics, and
 reproduction commands are in [KASHMIR_EVALUATION.md](KASHMIR_EVALUATION.md).

@@ -912,3 +912,37 @@ claiming external diagnostic reliability. Distribution mismatch and label
 problems are possible contributors, not proven explanations. Do not tune on
 Kashmir; independent label verification and external lesion evaluation remain
 the next evidence needed before integration.
+
+## 2026-10-10 — Frozen classifier class breakdown and visual failure review
+
+At the user's request, retained EfficientNet-B0 as the current best classifier
+based on PlantVillage validation macro-F1. Verified the checkpoint SHA-256
+before and after review: unchanged. No training, inference, threshold selection,
+label changes or evaluation exclusions were performed.
+
+Added `scripts/review_kashmir_efficientnet.py` to analyze saved predictions and
+generate reproducible class tables and two contact sheets. Scab recall is
+32/117 (27.35%); healthy recall 34/43 (79.07%). The rot folder produces 54
+healthy, 44 scab, two black-rot and zero cedar-rust predictions. Cedar rust is
+predicted only once overall (1/260, 0.38%), on scab-folder K266 at confidence
+0.3332. There is no true cedar-rust support, so its recall is unmeasured.
+Healthy precision is 20.00% despite its higher recall. Joining the previous
+label audit identified 16 known visual-conflict rows still in this historical
+260-image subset; scores and exclusions were preserved.
+
+Visually inspected 12 selected photos: 11 disagreements and one rot/black-rot
+agreement for context. Selection covers highest/middle/selected lowest-confidence
+examples across major prediction patterns. Observed brown/tan patches in some
+scab-to-healthy errors, dark pink-background blades in rot-to-healthy examples,
+torn/holed blades in rot-to-scab examples, and pale underside views in some
+healthy-to-scab examples. These observations do not establish diagnoses or
+causes. One selected example (K051) is in the existing conflict group G09.
+Individual observations and selection provenance were recorded after inspection.
+
+Full report: `KASHMIR_EFFICIENTNET_REVIEW.md`. Visual sheets:
+`artifacts/kashmir_evaluation/efficientnet_b0_review/`. Tracked CSV/JSON review
+outputs: `results/2026-10-10_efficientnet_b0/kashmir_review/`.
+
+Decision: keep the classifier frozen, keep overall Kashmir accuracy 26.15% and
+present-class macro-F1 0.2248 explicitly preliminary until rot/source labels are
+verified, and do not treat visual agreement as an independent diagnostic label.

@@ -1,0 +1,13 @@
+source_class,predicted_class,count,source_support,percent_of_source_class
+Scab,Scab,32,117,27.35042735042735
+Scab,Black rot,2,117,1.7094017094017093
+Scab,Cedar rust,1,117,0.8547008547008547
+Scab,Healthy,82,117,70.08547008547009
+Rot (provisional),Scab,44,100,44.0
+Rot (provisional),Black rot,2,100,2.0
+Rot (provisional),Cedar rust,0,100,0.0
+Rot (provisional),Healthy,54,100,54.0
+Healthy,Scab,9,43,20.930232558139537
+Healthy,Black rot,0,43,0.0
+Healthy,Cedar rust,0,43,0.0
+Healthy,Healthy,34,43,79.06976744186046

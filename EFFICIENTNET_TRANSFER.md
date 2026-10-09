@@ -74,6 +74,9 @@ predictions with confidence >=0.90 are correct on this split.
 The frozen model achieved **68/260 correct (26.15%)** on the original Kashmir
 available subset, below its 45.00% majority-class reference. Present-class
 macro-F1 is **0.2248473493**; the all-four-class macro-F1 is **0.1686355120**.
+**The total Kashmir score is preliminary pending independent verification of
+rot identity and the source labels.** The class breakdown and representative
+visual review are in [KASHMIR_EFFICIENTNET_REVIEW.md](KASHMIR_EFFICIENTNET_REVIEW.md).
 The terminal classification report includes the absent cedar-rust class in its
 macro average, explaining the two macro-F1 values. Cedar-rust detection is not
 measured by these zero-support entries.

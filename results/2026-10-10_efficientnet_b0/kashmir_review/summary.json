@@ -1,0 +1,14 @@
+{
+  "status": "preliminary; folder diagnoses and rot-to-black-rot mapping unverified",
+  "checkpoint_sha256": "d6b94fa0b61250b28930e92e1c676fce89b6575204ba510b3258f521f53d078c",
+  "checkpoint_unchanged": true,
+  "sample_count": 260,
+  "review_example_count": 12,
+  "selection": "Descriptive confidence-stratified examples, not a random statistical sample",
+  "scab_recall": 0.27350427350427353,
+  "healthy_recall": 0.7906976744186046,
+  "cedar_rust_prediction_count": 1,
+  "cedar_rust_prediction_rate": 0.0038461538461538464,
+  "known_visual_conflict_rows_still_in_original_subset": 16,
+  "protocol": "Saved predictions only; no training, inference, diagnoses or exclusions changed"
+}

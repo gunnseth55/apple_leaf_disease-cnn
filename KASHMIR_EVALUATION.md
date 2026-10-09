@@ -147,6 +147,12 @@ integration have not been performed in this step.
 
 ## 2026-10-10 — Frozen EfficientNet-B0 external evaluation
 
+**Preliminary total score: rot identity and conflicting folder labels remain
+unverified.** EfficientNet-B0 remains the frozen current classifier reference,
+selected using PlantVillage validation macro-F1. A subsequent class breakdown
+and 12-example visual inspection are recorded in
+[KASHMIR_EFFICIENTNET_REVIEW.md](KASHMIR_EFFICIENTNET_REVIEW.md).
+
 The user evaluated the PlantVillage-trained EfficientNet-B0 checkpoint selected
 at epoch 11 by validation macro-F1 1.0000. No external training or tuning occurred.
 Saved manifests verify the same original 260-image inventory as both CNN runs;
