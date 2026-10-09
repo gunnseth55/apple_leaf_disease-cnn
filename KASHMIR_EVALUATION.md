@@ -144,3 +144,5 @@ classification labels only and cannot supply segmentation Dice/IoU. Then combine
 classification and segmentation in the demo, exposing their separate outputs and
 the measured limits of disease classification. External segmentation and demo
 integration have not been performed in this step.
+
+yet to be done 
