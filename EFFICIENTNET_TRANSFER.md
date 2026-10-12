@@ -3,6 +3,10 @@
 Code prepared on 2026-10-10. The user completed the 15-epoch training run on CPU;
 Codex did not run any training epochs. Saved results were verified on 2026-10-10.
 
+Model role: **final in-distribution candidate, not final deployment model**.
+Keep this checkpoint frozen. The separate user-run robustness variant is
+documented in [ROBUSTNESS_EXPERIMENT.md](ROBUSTNESS_EXPERIMENT.md).
+
 ## Completed PlantVillage results
 
 The selected checkpoint is **epoch 11**, with validation macro-F1 **1.0000**.

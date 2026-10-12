@@ -25,6 +25,11 @@ for verified results, the command and protocol.
 The [class and visual review](KASHMIR_EFFICIENTNET_REVIEW.md) records representative
 Kashmir failures without changing diagnoses, weights or thresholds.
 
+EfficientNet is the final in-distribution candidate, not the final deployment
+model. A PlantVillage-only robustness augmentation experiment and paired
+evaluation commands are ready for the user to run; no robust training has been
+performed. See [ROBUSTNESS_EXPERIMENT.md](ROBUSTNESS_EXPERIMENT.md).
+
 The external Kashmir classifier evaluation, dataset audit, full metrics, and
 reproduction commands are in [KASHMIR_EVALUATION.md](KASHMIR_EVALUATION.md).
 Both frozen classifiers achieved 24.23% accuracy on the available 260-image

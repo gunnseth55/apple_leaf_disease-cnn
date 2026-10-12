@@ -946,3 +946,68 @@ outputs: `results/2026-10-10_efficientnet_b0/kashmir_review/`.
 Decision: keep the classifier frozen, keep overall Kashmir accuracy 26.15% and
 present-class macro-F1 0.2248 explicitly preliminary until rot/source labels are
 verified, and do not treat visual agreement as an independent diagnostic label.
+
+## 2026-10-10 — Domain comparison and robustness-focused EfficientNet code
+
+Question: can training-only, label-preserving augmentation reduce the measured
+PlantVillage-to-Kashmir performance gap without changing the architecture?
+The original EfficientNet is now the final in-distribution candidate, not a
+final deployment model. Its epoch-11 checkpoint hash remains unchanged:
+`d6b94fa0b61250b28930e92e1c676fce89b6575204ba510b3258f521f53d078c`.
+No interface integration, training epochs or evaluation inference were run.
+
+`scripts/compare_image_domains.py` measured all 2,214 PV training images and
+the existing 260 Kashmir evaluation images. Visually inspected 12 PV and nine
+Kashmir filename-stratified examples, with the earlier 12 Kashmir failure examples
+as additional evidence. PV native images are 256 x 256; Kashmir median native
+aspect ratio is 0.506, median width/height 353.5/714.5. Whole-image mean-luminance
+10th–90th ranges are 94.07–135.54 versus 90.65–161.38. Appearance observations
+cover backgrounds, light, scale/orientation, leaf side, damage, apparent extent,
+image quality and lesion appearance. No expert severity/leaf-side labels exist;
+image statistics do not establish disease or causal failure mechanisms.
+
+Added `--augmentation-profile robust` to the existing EfficientNet CLI with
+separate default outputs/checkpoint name. Training data, donor crops and leaf
+masks come only from PV training rows. Augmentation adds independent nonleaf
+backgrounds or neutral/earth/foliage textures, whole-image rotation/scale/placement,
+moderate colour/light/gamma/shadow variation, blur and JPEG degradation. Mask
+foreground is preserved during compositing; no crops, lesion erasing, synthetic
+tears, disease relabeling or Kashmir donors are used. Actual masks can be imperfect.
+Previewed 16 augmented training samples from all four classes visually.
+
+Controlled variables: EfficientNet-B0, ImageNet V1 initialization, seed 42,
+2,214/475/475 split, deterministic 224 RGB ImageNet normalization, class-weighted
+cross entropy, batch 16, AdamW, three head epochs and 12 full fine-tuning epochs,
+original PV validation macro-F1 selection and cosine LR schedule. Start from
+ImageNet again rather than continuing the frozen selected checkpoint. Mixed-source
+training is deferred to an independently audited second experiment, isolating
+augmentation in the first run.
+
+Prepared `scripts/run_robustness_comparison.ps1` for user-run inference after
+training: both checkpoints on PV test, six test-split background conditions,
+and the fixed Kashmir scab/healthy subset with four-way predictions. Added
+`--split test`/optional `--include-texture` and per-class/manifest/array outputs
+to background audit, plus `--subset scab-healthy` to Kashmir evaluation.
+No renormalization or test-driven selection is allowed. Background-only remains
+a shortcut diagnostic, not a normal task. The report checks paired inventory
+identity and checkpoint hashes. Verified external black-rot/cedar sets are pending.
+
+Verification: 11 classification/data tests passed without epochs or optimizer
+steps; synthetic tensor inference only in checkpoint compatibility tests. Robust
+data tests cover foreground preservation, seed reproducibility, deterministic
+stress patterns, finite input tensors, output-folder protection and out-of-subset
+predictions counted as errors. The data-only dry run confirmed original counts
+and training-mask availability. Python compilation and PowerShell parser checks
+passed; the runner was not executed. No robust checkpoint exists yet.
+
+Measurements, sample manifest and experiment plan:
+`results/2026-10-10_robustness_plan/`. Source sheets/augmentation preview:
+`artifacts/domain_robustness_analysis/`. Full protocol, limitations and user
+commands: `ROBUSTNESS_EXPERIMENT.md`. Intended candidate outputs:
+`artifacts/efficientnet_b0_robust/`.
+
+Decision: user runs the single predefined augmentation experiment and paired
+evaluation. Retain the reference without deployment promotion. Kashmir labels
+remain preliminary and its images are untouched/evaluation-only. Because Kashmir
+has already been inspected, future genuinely unseen external data is needed to
+confirm any apparent robustness improvement independently.

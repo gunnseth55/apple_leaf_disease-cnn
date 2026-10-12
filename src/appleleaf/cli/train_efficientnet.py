@@ -13,9 +13,11 @@ from torchvision import transforms
 
 from appleleaf.config import APPLE_CLASSES, ExperimentConfig
 from appleleaf.datasets import build_transform
+from appleleaf.data import attach_segmented_paths
 from appleleaf.engine import choose_device, classification_metrics, predict, run_epoch, seed_everything
 from appleleaf.model import build_model
 from appleleaf.plots import plot_confusion_matrix, plot_training_history
+from appleleaf.robustness import ROBUST_AUGMENTATION, RobustBackgroundDataset
 from appleleaf.workflow import build_loaders, class_names
 
 
@@ -26,7 +28,8 @@ def parse_args(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dataset-path", type=Path, required=True,
                         help="PlantVillage root containing the Apple colour folders")
-    parser.add_argument("--artifacts-dir", type=Path, default=Path("artifacts/efficientnet_b0"))
+    parser.add_argument("--artifacts-dir", type=Path)
+    parser.add_argument("--augmentation-profile", choices=("mild", "robust"), default="mild")
     parser.add_argument("--epochs", type=int, default=15, help="Total epochs including head warmup")
     parser.add_argument("--warmup-epochs", type=int, default=3)
     parser.add_argument("--batch-size", type=int, default=16)
@@ -40,6 +43,12 @@ def parse_args(argv=None):
     parser.add_argument("--dry-run", action="store_true",
                         help="Verify splits and print the plan; no model download or training")
     args = parser.parse_args(argv)
+    if args.artifacts_dir is None:
+        args.artifacts_dir = Path("artifacts/efficientnet_b0_robust" if args.augmentation_profile == "robust"
+                                  else "artifacts/efficientnet_b0")
+    if (args.augmentation_profile == "robust" and
+        args.artifacts_dir.resolve() == Path("artifacts/efficientnet_b0").resolve()):
+        parser.error("robust training must use a separate output folder from the frozen reference")
     if args.epochs < 1 or not 0 <= args.warmup_epochs < args.epochs:
         parser.error("epochs must be positive and warmup epochs must be in [0, epochs)")
     if args.batch_size < 1 or args.num_workers < 0:
@@ -100,11 +109,22 @@ def main():
                                     train_transform=train_transform)
     train_loader, val_loader, test_loader = loaders
     train_df, val_df, test_df = frames
+    robust = args.augmentation_profile == "robust"
+    if robust:
+        train_df = attach_segmented_paths(train_df, args.dataset_path)
+        frames = (train_df, val_df, test_df)
+        train_loader = torch.utils.data.DataLoader(
+            RobustBackgroundDataset(train_df), batch_size=args.batch_size,
+            num_workers=args.num_workers, shuffle=True,
+            generator=torch.Generator().manual_seed(args.seed),
+        )
+    checkpoint_name = ("apple_efficientnet_b0_robust_checkpoint.pt" if robust
+                       else "apple_efficientnet_b0_checkpoint.pt")
     plan = {
         "architecture": "efficientnet_b0", "pretrained_weights": "IMAGENET1K_V1",
         "preprocessing": PREPROCESSING, "image_size": 224,
         "normalization": {"mean": [0.485, 0.456, 0.406], "std": [0.229, 0.224, 0.225]},
-        "checkpoint_name": "apple_efficientnet_b0_checkpoint.pt",
+        "checkpoint_name": checkpoint_name,
         "class_to_index": {name: i for i, name in enumerate(APPLE_CLASSES)},
         "seed": args.seed, "config": config.to_dict(),
         "dataset_path": str(args.dataset_path.resolve()),
@@ -114,8 +134,11 @@ def main():
         "finetune_head_lr": args.finetune_head_lr,
         "optimizer": "AdamW", "finetune_scheduler": "CosineAnnealingLR",
         "selection": "highest validation macro-F1; earliest epoch wins ties",
-        "training_strategy": "plantvillage_only_imagenet_transfer",
-        "training_augmentation": "horizontal/vertical flips, rotation +/-15 degrees, mild colour jitter",
+        "training_strategy": "plantvillage_only_robust_transfer" if robust else "plantvillage_only_imagenet_transfer",
+        "augmentation_profile": args.augmentation_profile,
+        "training_augmentation": (ROBUST_AUGMENTATION if robust else
+                                  "horizontal/vertical flips, rotation +/-15 degrees, mild colour jitter"),
+        "external_training_sources": [],
         "preprocessing_details": "RGB; full-image bicubic resize 224x224; ToTensor; ImageNet mean/std; no crop",
         "loss": "CrossEntropyLoss with inverse-frequency weights from training split only",
         "device": str(device), "torch_version": str(torch.__version__),
@@ -136,7 +159,7 @@ def main():
     weights = torch.tensor(len(train_df) / (4 * counts), dtype=torch.float32, device=device)
     criterion = torch.nn.CrossEntropyLoss(weight=weights)
     best_f1, best_epoch, history = -1.0, None, []
-    checkpoint_path = output / "apple_efficientnet_b0_checkpoint.pt"
+    checkpoint_path = output / checkpoint_name
     optimizer, scheduler = None, None
     for epoch in range(1, args.epochs + 1):
         warmup = epoch <= args.warmup_epochs

@@ -67,5 +67,8 @@
     "crop": false
   },
   "completed_epochs": 15,
-  "selection_verified_against": "artifacts/efficientnet_b0/training_history.csv"
+  "selection_verified_against": "artifacts/efficientnet_b0/training_history.csv",
+  "model_role": "final_in_distribution_candidate",
+  "deployment_status": "not_validated_for_deployment",
+  "weights_frozen": true
 }

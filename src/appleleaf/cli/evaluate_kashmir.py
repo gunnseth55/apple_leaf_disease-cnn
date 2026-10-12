@@ -84,6 +84,15 @@ def confidence_summary(values):
             "p90": float(np.quantile(values, .9)), "max": float(np.max(values))}
 
 
+def select_subset(frame, subset):
+    if subset == "all":
+        return frame.copy(), frame.iloc[:0].copy()
+    if subset != "scab-healthy":
+        raise ValueError(f"Unknown Kashmir subset: {subset}")
+    selected = frame.class_name.isin(("Apple___Apple_scab", "Apple___healthy"))
+    return frame.loc[selected].reset_index(drop=True), frame.loc[~selected].copy()
+
+
 def summarize(results, names):
     labels, predictions, probabilities = (results[k] for k in ("labels", "predictions", "probabilities"))
     present = sorted(np.unique(labels).tolist())
@@ -165,6 +174,8 @@ def main():
     parser.add_argument("--failure-examples", type=int, default=12)
     parser.add_argument("--rot-label-status", choices=("provisional", "confirmed"), default="provisional")
     parser.add_argument("--exclude-label-conflicts", action="store_true")
+    parser.add_argument("--subset", choices=("all", "scab-healthy"), default="all",
+                        help="Restrict ground truth only; retain all four prediction classes")
     parser.add_argument("--exclude-missing-lfs", action="store_true", help="Record and exclude image files that contain Git LFS pointers")
     args = parser.parse_args()
     if args.batch_size < 1 or args.failure_examples < 0:
@@ -178,6 +189,7 @@ def main():
     fatal = [row for row in rejected if row["reason"] != "missing_git_lfs_image" or not args.exclude_missing_lfs]
     if fatal:
         raise ValueError(f"{len(fatal)} unreadable images; restore missing LFS content or explicitly use --exclude-missing-lfs")
+    frame, excluded_subset = select_subset(frame, args.subset)
     loader = DataLoader(AppleLeafDataset(frame, checkpoint_transform(checkpoint)),
                         batch_size=args.batch_size, shuffle=False, num_workers=0)
     results = predict(model, loader, device)
@@ -190,8 +202,10 @@ def main():
         "architecture": checkpoint.get("architecture", "appleleaf_cnn"),
         "preprocessing": checkpoint.get("preprocessing", "rgb_resize_totensor"),
         "rot_label_status": args.rot_label_status, "duplicate_extra_rows": int(frame.sha256.duplicated().sum()),
+        "subset": args.subset, "excluded_subset_rows": len(excluded_subset),
+        "score_status": "preliminary; source diagnoses and conflicting assignments are not independently verified",
         "excluded_conflicting_rows": len(excluded), "excluded_missing_image_rows": len(rejected),
-        "source_image_rows": len(frame) + len(excluded) + len(rejected),
+        "source_image_rows": len(frame) + len(excluded) + len(rejected) + len(excluded_subset),
         "protocol": "All readable images; frozen weights; saved checkpoint preprocessing; four-way argmax; no tuning.",
         "limitations": ["No cedar-rust ground truth: its recall/F1 are unmeasured; zero-support table entries are placeholders.",
                         "Rot-to-black-rot mapping is provisional unless independently confirmed.",
@@ -201,6 +215,7 @@ def main():
     output.mkdir(parents=True, exist_ok=True)
     frame.to_csv(output / "manifest.csv", index=False)
     excluded.to_csv(output / "excluded_label_conflicts.csv", index=False)
+    excluded_subset.to_csv(output / "excluded_subset.csv", index=False)
     pd.DataFrame(rejected, columns=["path", "relative_path", "reason", "error"]).to_csv(output / "excluded_missing_images.csv", index=False)
     frame["true_class"] = [names[i] for i in results["labels"]]
     frame["predicted_class"] = [names[i] for i in results["predictions"]]

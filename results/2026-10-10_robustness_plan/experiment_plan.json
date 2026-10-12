@@ -1,0 +1,50 @@
+{
+  "status": "prepared_not_trained",
+  "reference_checkpoint": "artifacts/efficientnet_b0/apple_efficientnet_b0_checkpoint.pt",
+  "reference_sha256": "d6b94fa0b61250b28930e92e1c676fce89b6575204ba510b3258f521f53d078c",
+  "reference_role": "final_in_distribution_candidate",
+  "candidate_architecture": "efficientnet_b0",
+  "candidate_initialization": "ImageNet-1K V1, not reference checkpoint",
+  "candidate_checkpoint": "artifacts/efficientnet_b0_robust/apple_efficientnet_b0_robust_checkpoint.pt",
+  "augmentation": {
+    "background": {
+      "original_probability": 0.35,
+      "replacement": "equal probability: training-only nonleaf donor crop or synthetic neutral/earth/foliage texture",
+      "donor_max_leaf_fraction": 0.0,
+      "donor_attempts": 8
+    },
+    "geometry": "flips; p=0.8 rotation +/-180 degrees with expanded canvas, fit entire image, scale 0.75-1.0, random placement; p=0.2 retain geometry",
+    "colour": "p=0.8: brightness/contrast +/-0.30, saturation +/-0.15, hue +/-0.015",
+    "gamma": "p=0.3: 0.75-1.30",
+    "shadow": "p=0.3: smooth illumination gradient, darkest factor 0.70-0.90",
+    "quality": "p=0.2 Gaussian blur radius 0.3-1.0; p=0.25 JPEG quality 60-95",
+    "forbidden": "no crops, lesion erasing, synthetic damage, disease relabeling or Kashmir donors"
+  },
+  "training_sources": [
+    "PlantVillage training split only"
+  ],
+  "external_training_sources": [],
+  "split_counts": {
+    "train": 2214,
+    "validation": 475,
+    "test": 475
+  },
+  "seed": 42,
+  "epochs": 15,
+  "warmup_epochs": 3,
+  "optimizer": "AdamW",
+  "lr": {
+    "head_warmup": 0.001,
+    "backbone_finetune": 0.0001,
+    "head_finetune": 0.0003
+  },
+  "scheduler": "CosineAnnealingLR over 12 finetuning epochs",
+  "selection": "Original PlantVillage validation macro-F1; earliest ties",
+  "comparisons": [
+    "PlantVillage test",
+    "Test-split background perturbations",
+    "Kashmir scab/healthy with four-way predictions",
+    "Later independently verified black-rot and cedar-rust external sets"
+  ],
+  "external_status": "Kashmir evaluation-only, previously inspected, preliminary diagnoses"
+}

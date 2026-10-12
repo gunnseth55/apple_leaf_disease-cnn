@@ -1,0 +1,22 @@
+domain,label,path,image_id
+PlantVillage train,0,C:\Users\gunn\.cache\kagglehub\datasets\abdallahalidev\plantvillage-dataset\versions\3\plantvillage dataset\color\Apple___Apple_scab\00075aa8-d81a-4184-8541-b692b78d398a___FREC_Scab 3335.JPG,PV01
+PlantVillage train,0,C:\Users\gunn\.cache\kagglehub\datasets\abdallahalidev\plantvillage-dataset\versions\3\plantvillage dataset\color\Apple___Apple_scab\83b1935d-f1fc-4b9f-876e-c0dbbb2fcb03___FREC_Scab 3486.JPG,PV02
+PlantVillage train,0,C:\Users\gunn\.cache\kagglehub\datasets\abdallahalidev\plantvillage-dataset\versions\3\plantvillage dataset\color\Apple___Apple_scab\ff99efdc-a9f8-4360-9c64-f8274f456be5___FREC_Scab 3161.JPG,PV03
+PlantVillage train,1,C:\Users\gunn\.cache\kagglehub\datasets\abdallahalidev\plantvillage-dataset\versions\3\plantvillage dataset\color\Apple___Black_rot\00e909aa-e3ae-4558-9961-336bb0f35db3___JR_FrgE.S 8593.JPG,PV04
+PlantVillage train,1,C:\Users\gunn\.cache\kagglehub\datasets\abdallahalidev\plantvillage-dataset\versions\3\plantvillage dataset\color\Apple___Black_rot\7fb51374-f3ae-4dc9-8e0b-f25552528852___JR_FrgE.S 2894.JPG,PV05
+PlantVillage train,1,C:\Users\gunn\.cache\kagglehub\datasets\abdallahalidev\plantvillage-dataset\versions\3\plantvillage dataset\color\Apple___Black_rot\ff7087a7-3388-45dc-a9e9-0aed99539223___JR_FrgE.S 2979.JPG,PV06
+PlantVillage train,2,C:\Users\gunn\.cache\kagglehub\datasets\abdallahalidev\plantvillage-dataset\versions\3\plantvillage dataset\color\Apple___Cedar_apple_rust\025b2b9a-0ec4-4132-96ac-7f2832d0db4a___FREC_C.Rust 3655.JPG,PV07
+PlantVillage train,2,C:\Users\gunn\.cache\kagglehub\datasets\abdallahalidev\plantvillage-dataset\versions\3\plantvillage dataset\color\Apple___Cedar_apple_rust\8c16e58c-0272-4c95-a53c-1984bd6bb83e___FREC_C.Rust 0059.JPG,PV08
+PlantVillage train,2,C:\Users\gunn\.cache\kagglehub\datasets\abdallahalidev\plantvillage-dataset\versions\3\plantvillage dataset\color\Apple___Cedar_apple_rust\ffd73dc5-8b5b-4d7b-b44d-640ae3489190___FREC_C.Rust 9944.JPG,PV09
+PlantVillage train,3,C:\Users\gunn\.cache\kagglehub\datasets\abdallahalidev\plantvillage-dataset\versions\3\plantvillage dataset\color\Apple___healthy\0055dd26-23a7-4415-ac61-e0b44ebfaf80___RS_HL 5672.JPG,PV10
+PlantVillage train,3,C:\Users\gunn\.cache\kagglehub\datasets\abdallahalidev\plantvillage-dataset\versions\3\plantvillage dataset\color\Apple___healthy\7804bbbb-77aa-4556-ba93-a47fed2eb008___RS_HL 6159.JPG,PV11
+PlantVillage train,3,C:\Users\gunn\.cache\kagglehub\datasets\abdallahalidev\plantvillage-dataset\versions\3\plantvillage dataset\color\Apple___healthy\ffb59eab-a2c5-471b-96f9-7699d5504b4d___RS_HL 7390.JPG,PV12
+Kashmir external,0,C:\Users\gunn\Desktop\work\appleleaf\data\external_classification\kashmir\SCAB LEAVES\1011.JPG.jpeg,K01
+Kashmir external,0,C:\Users\gunn\Desktop\work\appleleaf\data\external_classification\kashmir\SCAB LEAVES\3086.jpg.jpeg,K02
+Kashmir external,0,C:\Users\gunn\Desktop\work\appleleaf\data\external_classification\kashmir\SCAB LEAVES\5001.jpg.jpeg,K03
+Kashmir external,1,C:\Users\gunn\Desktop\work\appleleaf\data\external_classification\kashmir\APPLE ROT LEAVES\1079.jpg.jpeg,K04
+Kashmir external,1,C:\Users\gunn\Desktop\work\appleleaf\data\external_classification\kashmir\APPLE ROT LEAVES\4028.jpg.jpeg,K05
+Kashmir external,1,C:\Users\gunn\Desktop\work\appleleaf\data\external_classification\kashmir\APPLE ROT LEAVES\WhatsApp Image 2022-07-04 at 7.37.35 PM (12).jpeg,K06
+Kashmir external,3,C:\Users\gunn\Desktop\work\appleleaf\data\external_classification\kashmir\HEALTHY LEAVES\1001.jpg.jpeg,K07
+Kashmir external,3,C:\Users\gunn\Desktop\work\appleleaf\data\external_classification\kashmir\HEALTHY LEAVES\1041.JPG.jpeg,K08
+Kashmir external,3,C:\Users\gunn\Desktop\work\appleleaf\data\external_classification\kashmir\HEALTHY LEAVES\1078.jpg.jpeg,K09

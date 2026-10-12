@@ -1,0 +1,78 @@
+{
+  "Kashmir external": {
+    "count": 260,
+    "measurements": {
+      "width": {
+        "median": 353.5,
+        "p10": 238.9,
+        "p90": 545.0
+      },
+      "height": {
+        "median": 714.5,
+        "p10": 472.9,
+        "p90": 1017.5999999999999
+      },
+      "aspect_ratio": {
+        "median": 0.50558986814712,
+        "p10": 0.3951249222362886,
+        "p90": 0.6749976815357507
+      },
+      "luminance_mean": {
+        "median": 124.28759765625,
+        "p10": 90.64965209960937,
+        "p90": 161.38031616210938
+      },
+      "luminance_std": {
+        "median": 46.71703910827637,
+        "p10": 37.07071189880371,
+        "p90": 60.78759269714355
+      },
+      "high_frequency_variance_128": {
+        "median": 768.281494140625,
+        "p10": 67.43014984130859,
+        "p90": 1424.9101806640624
+      }
+    }
+  },
+  "PlantVillage train": {
+    "count": 2214,
+    "measurements": {
+      "width": {
+        "median": 256.0,
+        "p10": 256.0,
+        "p90": 256.0
+      },
+      "height": {
+        "median": 256.0,
+        "p10": 256.0,
+        "p90": 256.0
+      },
+      "aspect_ratio": {
+        "median": 1.0,
+        "p10": 1.0,
+        "p90": 1.0
+      },
+      "luminance_mean": {
+        "median": 116.22320556640625,
+        "p10": 94.07094116210938,
+        "p90": 135.54439697265624
+      },
+      "luminance_std": {
+        "median": 39.65370559692383,
+        "p10": 26.953846549987794,
+        "p90": 52.89973297119141
+      },
+      "high_frequency_variance_128": {
+        "median": 736.9696655273438,
+        "p10": 309.4990997314453,
+        "p90": 1642.7253540039062
+      }
+    }
+  },
+  "limitations": [
+    "Luminance includes background and does not isolate illumination of the leaf.",
+    "High-frequency variance is confounded by veins, lesions, texture and compression; not a standalone blur measurement.",
+    "No acquisition IDs, calibrated disease severity or expert-confirmed Kashmir diagnoses.",
+    "Kashmir was previously inspected; it is evaluation-only, not a blind unseen benchmark."
+  ]
+}

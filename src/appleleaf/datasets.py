@@ -14,6 +14,7 @@ BACKGROUND_COLOURS = {
 }
 
 AUDIT_CONDITIONS = (*BACKGROUND_COLOURS, "background_only")
+BACKGROUND_STRESS_CONDITIONS = (*AUDIT_CONDITIONS, "smooth_texture")
 
 
 def build_transform(image_size: int, preprocessing="rgb_resize_totensor"):
@@ -114,7 +115,7 @@ def replace_background(original, mask, colour):
 
 class BackgroundTestDataset(Dataset):
     def __init__(self, dataframe, background_name: str, transform: Callable):
-        if background_name not in AUDIT_CONDITIONS:
+        if background_name not in BACKGROUND_STRESS_CONDITIONS:
             raise ValueError(f"Unknown background {background_name!r}")
         self.dataframe = dataframe.reset_index(drop=True).copy()
         self.background_name = background_name
@@ -136,6 +137,11 @@ class BackgroundTestDataset(Dataset):
                 # leaf texture/colour. A mid-grey fill avoids introducing an
                 # extreme black or white region while preserving the mask edge.
                 changed = np.where(mask[..., None], 127, original).astype(np.uint8)
+            elif self.background_name == "smooth_texture":
+                from .robustness import deterministic_texture
+                background = deterministic_texture((original.shape[1], original.shape[0]),
+                                                   row.get("image_hash", row["path"]))
+                changed = np.where(mask[..., None], original, background).astype(np.uint8)
             else:
                 changed = replace_background(
                     original, mask, BACKGROUND_COLOURS[self.background_name]
