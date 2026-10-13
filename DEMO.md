@@ -139,3 +139,23 @@ One recent upload changed from scab (50.35%) to black rot (86.25%); the other
 remained scab (42.26% to 59.62%). Those uploads have unverified disease labels,
 so changed or higher scores do not establish an accuracy improvement. Crops were
 fixed by leaf position, not optimized against prediction scores.
+
+## Same-crop segmentation recheck
+
+```powershell
+python scripts/compare_demo_segmenters.py
+```
+
+Rechecks both frozen segmenters on the seven saved crops at their own stored
+thresholds (both 0.70). Saves probability arrays, masks, overlays and two-row
+comparison figures under `artifacts/demo_segmenter_recheck/`. Masks reproduced
+the prior crop run exactly and checkpoint hashes were unchanged.
+
+Keep 30/70 as the demo default and hardneg05 as a comparison. Although hardneg05
+has a strong prior healthy-benchmark benefit, it did not consistently remove
+background markings on these field crops. In one visually checked background
+rectangle it selected 584 pixels versus 503 for 30/70. On the difficult Kashmir
+crop it selected 43.02% of the grid versus 4.68%; the healthy PV crop had 0.42%
+versus zero. These are case comparisons, not a new accuracy benchmark. Without
+a complete leaf mask and lesion ground truth, total selected area must not be
+called false-positive area. Every predicted region remains displayed.

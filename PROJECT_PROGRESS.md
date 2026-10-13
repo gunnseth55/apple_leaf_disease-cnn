@@ -1,5 +1,33 @@
 # Project Progress Log
 
+## 2026-10-14 - Same-crop segmentation checkpoint recheck
+
+Reran 30/70 and hardneg05 on the identical seven saved leaf crops with identical
+normalized 256px tensors and their stored thresholds (both 0.70). Both sets of
+masks exactly matched the prior crop test; checkpoint hashes were unchanged.
+Saved and visually inspected probability maps, raw binary masks and red overlays
+for all seven cases. No smoothing, component removal or background suppression
+was applied.
+
+Hardneg05 selected slightly less total area on the two user-upload crops
+(6.92% vs 7.70%; 20.51% vs 21.59%). However, it selected 584 background pixels
+versus 503 for 30/70 in a visually checked lower-left background rectangle of
+the second upload. Both selected zero pixels in two reviewed background
+rectangles of the first upload; this covers only those rectangles. All ROI
+coordinates and counts are recorded, with no inference modification.
+
+The healthy PV crop selected zero pixels with 30/70 versus 0.42% of the grid
+with hardneg05. On the difficult Kashmir crop, hardneg05 selected 43.02% versus
+4.68% and showed extensive marking over visually unaffected-looking structures.
+This does not invalidate its prior 50-image healthy-benchmark improvement, but
+it provides no basis to switch the general demo default. Keep 30/70 default
+and hardneg05 as comparison. No lesion ground truth exists for these crops, so
+agreement/area is not pixel-level accuracy; Kashmir labels remain preliminary.
+
+Reproduction: `python scripts/compare_demo_segmenters.py`. Full figures, raw
+probability arrays, masks and ROI counts:
+`artifacts/demo_segmenter_recheck/REPORT.md`. No training, tuning, or promotion.
+
 ## 2026-10-14 - User-selected single-leaf crop and presentation
 
 Added a crop-only Gradio ImageEditor seeded from the full upload. The applied
