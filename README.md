@@ -67,6 +67,17 @@ original training data encouraged shortcut learning. These solid-colour tests
 measure robustness under controlled shifts; they are not estimates of field
 deployment accuracy.
 
+## End-to-end demo
+
+The Gradio prototype combines the frozen EfficientNet-B0 classifier and the
+30/70 ResNet34 U-Net segmenter, with the 5% hard-negative segmenter available for
+comparison. Upload an image to view disease softmax scores and a lesion overlay.
+It illustrates the pipeline; field-image diagnosis remains unreliable.
+
+After installing the project, run `appleleaf-demo` and open
+http://127.0.0.1:7860. See [DEMO.md](DEMO.md) for checkpoint paths, inputs,
+thresholds, limitations, and options.
+
 ## Setup
 
 Create and activate a virtual environment, then install the project:

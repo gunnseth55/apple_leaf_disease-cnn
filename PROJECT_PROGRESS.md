@@ -1,5 +1,90 @@
 # Project Progress Log
 
+## 2026-10-14 - User-selected single-leaf crop and presentation
+
+Added a crop-only Gradio ImageEditor seeded from the full upload. The applied
+composite is the single input image for both models, retaining classifier 224px
+bicubic and segmenter 256px bilinear ImageNet preprocessing. Separate controls
+analyze the crop, compare crop versus full image, or analyze the full image.
+Reset/changed inputs clear outputs. Painting, erasing, additional layers and
+editor resizing are disabled. Masks retain all threshold-selected regions;
+thresholds, weights and postprocessing remain unchanged.
+
+The interface now always shows three separate panels: analyzed leaf image,
+binary mask, and red overlay at 45% opacity. Classification is labelled Softmax
+score, not certainty. Area remains explicitly relative to the 256x256 input
+grid; healthy-class/segmentation disagreement warnings remain visible.
+
+21 unit tests passed. All ten previous five-case full-image API paths still
+passed. The new paired crop check passed 14 API paths on seven fixed images
+with both segmenters, including exact actual model-input tensors, upload/editor
+pixel parity, cropped mask mapping, overlay pixel parity, and unchanged hashes.
+Four PV class outputs stayed correct. The difficult preliminary Kashmir image
+remained healthy (99.99% full versus 99.58% crop). One recent user upload changed
+scab 50.35% to black rot 86.25%; the other stayed scab with 42.26% to 59.62%.
+Those uploads lack verified disease labels, so this is crop sensitivity rather
+than proven field-accuracy improvement. Crops were fixed by leaf position, not
+optimized for favorable scores. No training or threshold tuning occurred.
+
+Reproduction: `python scripts/test_demo_crops.py`. Results:
+`artifacts/demo_crop_test/REPORT.md`. Browser drag/apply inspection was unavailable
+because no browser surfaces were exposed; editor data transport and inference
+were tested through the real Gradio API.
+
+## 2026-10-13 - Complete five-case workflow validation
+
+Tested one held-out PlantVillage example each of scab, black rot, cedar rust and
+healthy, plus one known difficult Kashmir scab-labelled image. PV cases were
+chosen by first sorted path without filtering for correct predictions; the
+Kashmir case was deliberately chosen as a prior high-confidence failure and
+retains its preliminary, evaluation-only label.
+
+All ten Gradio upload paths passed with the reference EfficientNet and each of
+the two frozen segmenters. Captured real model input tensors matched independent
+224px bicubic and 256px bilinear ImageNet preprocessing exactly. Original image
+pixels, binary mask values, nearest-neighbor mapping back to source dimensions,
+overlay pixels, scores, saved 0.70 thresholds, and checkpoint hashes passed.
+The non-square field image also passed coordinate mapping. Inspected the saved
+five-row original/overlay/mask contact sheet visually.
+
+All four PV class predictions matched their dataset labels. The difficult field
+image was predicted healthy with 99.99% softmax confidence and the reference
+segmenter highlighted 4.19% of its input grid. Added a conditional visible warning
+for healthy-classifier/nonempty-segmentation disagreement; neither output is
+silently hidden or treated as an established diagnosis. The clean healthy case
+had zero highlighted pixels with the reference segmenter; the hardneg05
+comparison selected a small number of pixels and correctly triggered a warning.
+All 20 unit tests passed, including both warning
+branches. No training, tuning, or checkpoint changes occurred.
+
+Reproduction: `python scripts/test_demo_workflow.py`. Results and contact sheet:
+`artifacts/demo_workflow_test/REPORT.md`. This validates integration and coordinate
+alignment, not field diagnosis or biological lesion accuracy.
+
+## 2026-10-13 - Local end-to-end Gradio prototype
+
+Added `appleleaf-demo` using the frozen reference EfficientNet-B0 checkpoint
+(224px) and the pure 30/70 ResNet34 U-Net (256px, saved threshold 0.70).
+The 5% hard-negative segmenter remains available through a comparison selector
+at its saved threshold 0.70. Classification and segmentation run independently,
+including for healthy predictions. Outputs include four-class softmax scores,
+the original image, a red lesion overlay, and a lossless binary PNG mask.
+
+The interface states the field-image limitation, uncalibrated confidence, and
+possible healthy-structure false positives. This is a pipeline demonstration;
+no model was promoted, trained, tuned, or modified. Kashmir remains evaluation-only.
+
+Installed Gradio and registered the CLI. All 20 repository tests passed, including
+three demo checks for evaluation-preprocessing parity, overlay alignment, and
+independent inference. Both Gradio upload API paths passed with a real lesion
+test image, including original pixel parity, binary mask export and unchanged
+checkpoint SHA-256 hashes. Changed default Gradio image exports to PNG after
+integration testing detected lossy WebP mask values. Dependency checking passed.
+Browser UI inspection was unavailable because no browser surfaces were exposed.
+
+Commands and model paths: [DEMO.md](DEMO.md). Integration verification report:
+`artifacts/demo_verification/smoke_test.json`. No new accuracy benchmark was run.
+
 ## 2026-10-08 — PlantVillage reproduction and Kashmir label audit
 
 Both saved disease checkpoints exactly reproduced the original 475-image
