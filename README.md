@@ -144,7 +144,6 @@ Run the optional segmented-background sensitivity analysis:
 ```powershell
 appleleaf-background-audit --checkpoint artifacts\apple_baseline_checkpoint.pt
 ```
-
 The audit evaluates the original images, leaf-preserving solid-background
 variants, and a `background_only` condition that masks the leaf while retaining
 the original scene. Accuracy above the reported majority-class baseline in the
@@ -201,10 +200,6 @@ appleleaf-preview-augmentation `
   --dataset-path C:\path\to\plantvillage `
   --output artifacts\augmentation_preview.png
 ```
-
-The current PlantVillage `segmented` directory contains leaf/background masks,
-not disease-lesion masks. Exact spot-level detection therefore requires a
-pixel-annotated lesion dataset and a separately evaluated segmentation model.
 
 Each command also works without installing console entry points:
 
