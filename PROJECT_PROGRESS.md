@@ -1,5 +1,110 @@
 # Project Progress Log
 
+## 2026-10-16 - Task C: preserve earlier held-out data
+
+Exported a classification role registry for all 1,821 original records and all
+2,533 file members, using Task B confirmed duplicate components. Protected all
+50 evaluation-only healthy groups (50 sources plus 50 copies) from new training
+and validation. These remain an existing, already inspected evaluation benchmark,
+not a newly unseen test set.
+
+Reconciled all 40 healthy segmentation-training images: classifier training is
+allowed, but unseen combined-pipeline validation/test is forbidden because the
+segmenter already saw them. Their restrictions propagate to all 80 file members.
+Quarantine/exclusions from Task B remain blocked. No split assignments were made.
+
+Prospective training candidates total 1,679 canonical sources (622 rust, 591 scab,
+466 healthy); 1,639 may instead receive a future unseen pipeline holdout role.
+These are overlapping eligibility pools, not split manifests, and must be
+allocated by group before training. Added a validator to reject reserved aliases
+entering training, pipeline-seen groups entering validation/test, unknown paths,
+path/group mismatches and groups spanning active roles.
+
+Live prior-use manifests and their counts were checked; canonical source hashes
+match the audit; original input manifest hashes are unchanged. Output:
+`data/field_manifests/pp2020_role_preservation/`. Reproduction and semantics:
+[PP2020_HELDOUT_PRESERVATION.md](PP2020_HELDOUT_PRESERVATION.md). No source images
+were copied/modified, no inference/training was performed and no splits assigned.
+All 36 repository tests passed, including four new role-preservation checks.
+
+## 2026-10-16 - Task B: 713 duplicate relations adjudicated
+
+Recomputed source-byte and normalized pixel identity for all 713 recorded pairs.
+All 713 are exact pixel-hash matches at dHash256 distance 0; there are no
+dHash-only candidates or false-positive pairs. 712 edges are previous-use copy
+aliases, and one connects different labelled records. Generated 60 indexed
+contact-sheet pages covering every pair with images, IDs, labels, roles and
+distances. Visually checked layout and the conflict; exact identity is verified
+on complete decoded pixels rather than inferred from thumbnails.
+
+Train_379 (scab) and Train_1173 (multiple diseases) are byte/pixel-identical but
+have conflicting original one-hot labels. Both remain quarantined with no split
+eligibility. The confirmed graph has 713 duplicate components plus 1,107
+singletons (1,820 components, 2,533 file nodes, 1,821 original labelled records).
+No copied alias is an independent extra training sample.
+
+Exported group constraints: 1,639 accepted, 40 previously-trained/training-only,
+50 evaluation-only reservations, 90 excluded multiple-disease singletons and one
+conflicting group. Cedar permissions consume verified Task A clearance while
+preserving the first audit's role provenance. Added a future split validator
+that enforces group indivisibility, quarantines and previous-use restrictions.
+No split was assigned, source image modified or label guessed.
+
+All 32 tests passed. Script: `scripts/adjudicate_pp2020_duplicates.py`. Outputs:
+`data/field_manifests/pp2020_duplicate_adjudication/`. Documentation and results:
+[PP2020_DUPLICATE_ADJUDICATION.md](PP2020_DUPLICATE_ADJUDICATION.md).
+
+## 2026-10-16 - Task A: 622 Cedar prior-use records reviewed
+
+Produced `data/field_manifests/pp2020_cedar_usage_review_verified/pp2020_cedar_usage_review.csv`
+with one row per clean rust image, prior role, evidence files, local-evidence
+status and conditional allowed future uses. All 622 copied images exactly match
+the original source and prior-audit SHA-256. The extraction script only copies
+files; no matching Cedar prediction, training or model-selection record was found.
+
+Reviewed 347 metadata files, content identities for 5,192 referenced images,
+14 historical metadata blobs, 13 existing checkpoint metadata records and
+relevant persisted shell history. No coverage errors remain. Historical Kashmir
+references resolve through recovered files rather than original Git LFS pointers.
+The extraction script's commit title mentions Kashmir evaluation, but the
+recorded evaluation artifacts concern Kashmir, not these Cedar images.
+
+All 622 prior roles are `copied`, status
+`copy_verified_no_other_use_found_in_reviewed_records`. This is bounded by
+available local history, not proof that deleted/unrecorded external uses never
+occurred. Copying alone is not contamination. Future training, validation OR
+test allocation is permitted subject to one-role-only split assignment, duplicate
+separation and a locked evaluation protocol. Any later confirmed development use
+would revoke fresh-test eligibility for that development process.
+
+Original audit candidate lists and the 50 healthy evaluation reservations were
+preserved. No source images, weights, or splits changed; no inference was run.
+All 28 tests passed. Script: `scripts/review_pp2020_cedar_usage.py`. Evidence scope,
+reproduction command and limitations: [PP2020_CEDAR_USAGE_REVIEW.md](PP2020_CEDAR_USAGE_REVIEW.md).
+
+## 2026-10-16 - Local PP2020 source and previous-use audit
+
+Reworked `scripts/audit_pp2020_for_field_training.py` to audit labelled rows
+without source-image writes, downloads, copies or split assignment. Added strict
+PIL verification/full decode, raw dimensions/mode and EXIF metadata, RGB conversion
+checks, raw/pixel SHA-256, dHash256, independent error fields, duplicate groups,
+and a previous-use registry. Required manifest/count/content failures stop the
+audit; registry/evidence gaps block candidates. Evaluation reservations propagate
+through content and near-duplicate links. Rust prior use remains unresolved;
+extraction alone is not treated as proof of testing or model selection.
+
+Local run audited all 1,821 labelled images successfully. Registry contains 40
+previous segmentation-training images, 50 evaluation-only healthy images and
+622 extracted rust images held for use-history review. Excluded 91 multiple-
+disease records and held an exact duplicate pair: Train_379 (scab) and Train_1173
+(multiple diseases). Provisional candidates: 1,057 (591 scab, 466 healthy).
+Previously trained healthy examples remain flagged as unsuitable for unseen
+evaluation. Source/registry file hashes were rechecked and unchanged.
+
+All 24 repository tests passed. Output: `data/field_manifests/pp2020_audit/`.
+Commands, output schema and remaining constraints: [PP2020_AUDIT.md](PP2020_AUDIT.md).
+No training or split assignment was performed.
+
 ## 2026-10-14 - Same-crop segmentation checkpoint recheck
 
 Reran 30/70 and hardneg05 on the identical seven saved leaf crops with identical
