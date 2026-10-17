@@ -1,5 +1,53 @@
 # Project Progress Log
 
+## 2026-10-17 - C1 mixed-source training command prepared (no epochs run)
+
+Added `python -m appleleaf.cli.train_field` because the earlier EfficientNet CLI
+supports PlantVillage only. Initializes the frozen reference into a separate
+field-C1 run, with all original weights and manifests preserved. Default protocol:
+10 full-model fine-tuning epochs, batch 16, AdamW backbone/head LR 1e-5/1e-4,
+cosine decay, 50/50 expected source mass and within-source class balancing.
+
+Uses PV train 2214 and PP2020 train 1176 (3390 replacement draws per epoch),
+separate PV/field validation 475/251, and checkpoint selection by their mean
+macro-F1 (four PV classes, three field classes). Logs all-four field macro-F1
+separately. Test manifests are used only for provenance/overlap checks; no test
+loader or inference is performed. No automatic promotion or reference overwrite.
+
+The data/checkpoint-only dry run passed; no training output directory, optimizer
+steps, model inference or epochs were executed. Added sampling/metric/safeguard
+tests without optimization. Commands and complete protocol:
+[FIELD_CLASSIFIER_TRAINING.md](FIELD_CLASSIFIER_TRAINING.md). Training is left
+for the user to run. PP2020 still provides no field black-rot supervision.
+
+## 2026-10-17 - Task D: frozen PP2020 field split v1
+
+Added `scripts/build_pp2020_field_splits.py` and built/verified
+`data/field_manifests/pp2020_split_v1/`. Joined Tasks A-C by original IDs,
+checked provenance and live prior-use manifests, propagated group restrictions,
+selected canonical originals, and verified all original file hashes.
+
+Seed 42; custom Hamilton 70/15/15 class targets with forced training groups
+charged against the overall training quota, then deterministic seeded group
+allocation by incremental squared quota error. Final train/val/test counts:
+scab 414/88/89, Cedar rust 436/93/93, healthy 326/70/70; totals 1176/251/252.
+All 40 previously trained segmentation images are train-only. All 50 reserved
+healthy groups and their copies are excluded from every new split. Train_379
+and Train_1173 remain quarantined. No alias inflates accepted image counts.
+
+Excluded CSV contains 142 original records plus 712 copy aliases; all 1821
+original IDs and all 2533 file members reconcile. Aliases record inherited group
+assignments without appearing in actual split manifests. All six requested
+files were staged, checked and published together. Reports freeze input hashes,
+seed, algorithm/implementation, counts and manifest/report hashes. No overwrite
+option exists; changed splits require an explicitly new version.
+
+All 42 tests passed. Separate `--verify` passed, including deterministic replay
+and manifest hashes. No source image writes, inference, training or epochs ran.
+Instructions, exact counts and follow-up boundaries:
+[PP2020_FIELD_SPLITS.md](PP2020_FIELD_SPLITS.md). Mixed-source fine-tuning remains
+a separate user-run experiment; PP2020 still has no Black Rot field supervision.
+
 ## 2026-10-16 - Task C: preserve earlier held-out data
 
 Exported a classification role registry for all 1,821 original records and all
