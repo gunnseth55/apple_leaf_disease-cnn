@@ -110,3 +110,10 @@ use only PlantVillage train and this PP2020 train manifest for optimization,
 and validate each source separately. Neither PP2020 test nor PlantVillage test
 may guide checkpoint selection or tuning. PP2020 supplies no black-rot field
 category. No mixed-source training command is introduced by Task D.
+
+The subsequent user-run C1 experiment completed on 2026-10-18 using these frozen
+manifests. Epoch 10 was selected with PV validation macro-F1 1.0000, PP2020
+present-three-class validation macro-F1 0.9508 and combined score 0.9754. The
+manifest/report hashes still match the training configuration; PP2020 test remains
+unevaluated for C1. See [FIELD_CLASSIFIER_TRAINING.md](FIELD_CLASSIFIER_TRAINING.md)
+for complete results and checkpoint provenance. No split was changed.

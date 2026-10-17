@@ -15,6 +15,15 @@ Two versions of the same CNN are compared:
 See [PROJECT_PROGRESS.md](PROJECT_PROGRESS.md) for the dated experiment log,
 analysis, decisions, and changes made during development.
 
+The user-run C1 mixed-source EfficientNet-B0 experiment completed 10 epochs on
+PlantVillage + PP2020. Selected epoch 10 achieved **1.0000 PV validation macro-F1**
+and **0.9508 PP2020 present-class validation macro-F1** (95.22% accuracy), for a
+combined selection score of **0.9754**. Both test sets remain unevaluated for C1;
+the frozen reference and split manifests are unchanged. Full results and the
+selected checkpoint are in [FIELD_CLASSIFIER_TRAINING.md](FIELD_CLASSIFIER_TRAINING.md).
+This is validation performance, not confirmation of reliable field diagnosis or
+orchard black rot.
+
 The user-run EfficientNet-B0 transfer-learning experiment reached **99.79% test
 accuracy (474/475)** and **0.9982 macro-F1** on the PlantVillage split. On the
 original 260-image Kashmir subset it reached only **26.15% accuracy** and

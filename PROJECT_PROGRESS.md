@@ -1,5 +1,32 @@
 # Project Progress Log
 
+## 2026-10-18 - C1 mixed-source training completed by user
+
+The user ran `python -m appleleaf.cli.train_field --epochs 10 --batch-size 16
+--device auto`. All ten epochs completed; epoch 10 was selected by the highest
+mean of separate PV four-class and PP2020 present-three-class validation macro-F1.
+Selected score: 0.975387500653458. PV validation accuracy/macro-F1 are
+1.000000/1.000000 on 475 images. PP2020 validation accuracy is 0.952191 (239/251),
+present-three-class macro-F1 is 0.950775, and all-four-class macro-F1 is 0.713081.
+The latter includes the absent black-rot class and is not the selection metric.
+
+PP2020 validation macro-F1 improved from 0.7807 to 0.9508; PV stayed between
+0.9963 and 1.0000. Validation largely plateaued after epoch 5, with a small final
+improvement. Total logged epoch time: 7947.0 seconds (~2 h 12 min). Full epoch
+table: [FIELD_CLASSIFIER_TRAINING.md](FIELD_CLASSIFIER_TRAINING.md).
+
+Selected artifact:
+`artifacts/efficientnet_b0_field_c1_v1/apple_efficientnet_b0_field_c1_checkpoint.pt`.
+SHA-256: `2d2b223e25f0d2fc21bf26a3ff158dbc61294043e80a0ca0bac8618ba2a2fac7`.
+Verified saved history, summary, configuration and checkpoint metadata. Reference
+weights and all recorded frozen manifest/report hashes still match. The summary
+explicitly records `test_evaluated: false`.
+
+No additional epochs, test evaluation or deployment promotion were performed
+while recording these results. Next: source-wise frozen test comparison against
+the reference. Validation improvement does not establish field-test accuracy or
+orchard black-rot performance.
+
 ## 2026-10-17 - C1 mixed-source training command prepared (no epochs run)
 
 Added `python -m appleleaf.cli.train_field` because the earlier EfficientNet CLI
