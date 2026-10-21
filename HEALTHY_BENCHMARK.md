@@ -23,7 +23,6 @@ The fixed manifest and validation evidence are in
 `validation_report.json`. Rebuild them with `scripts/build_healthy_benchmark.py`.
 
 ## Frozen-checkpoint evaluation
-
 All checkpoints were evaluated without retraining at their stored threshold of
 0.70 on 256x256 inputs.
 
@@ -85,7 +84,7 @@ operating-point comparisons, not comparisons at a common threshold.
 
 Keep pure 30/70 as the general lesion reference and hardneg05 as the reference
 for healthy FP area. Dualhealthy05 does not replace them. Benchmark checking is
-paused for now; preserve these results without further test-driven tuning.
+paused for now preserve these results without further test-driven tuning.
 
 Latest local outputs are in
 `artifacts/healthy_structural_benchmark_evaluation_dualhealthy05/`. Full
