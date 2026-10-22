@@ -1,5 +1,14 @@
 # EfficientNet-B0 robustness experiment
 
+Current status, 2026-10-22: the user completed robust training on 2026-10-12,
+and the saved epoch-13 checkpoint is present. The earlier paired robustness
+outputs also exist under `artifacts/robustness_comparison/`. The new three-model
+held-out evaluation reproduced all 475 original robust PV predictions (100%
+accuracy) and measured PP2020 accuracy 56.75%, macro-F1 0.5528. See
+[C1_HELDOUT_EVALUATION.md](C1_HELDOUT_EVALUATION.md). The preparation notes below
+describe the historical 2026-10-10 state; statements that training or comparison
+had not run apply to that date.
+
 Prepared 2026-10-10. **No new training has been run.** The user runs all epochs.
 The original EfficientNet-B0 is the **final in-distribution model candidate**, not
 a final deployment model. Preserve its epoch-11 checkpoint unchanged. Interface

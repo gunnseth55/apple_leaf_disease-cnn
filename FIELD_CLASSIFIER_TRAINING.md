@@ -1,5 +1,15 @@
 # C1 mixed-source EfficientNet-B0 fine-tuning
 
+## Subsequent held-out evaluation: 2026-10-22
+
+C1 test evaluation is now complete: PlantVillage **474/475 (99.79%)**, macro-F1
+**0.9982**; PP2020 **239/252 (94.84%)**, present-three-class macro-F1 **0.9465**.
+The paired three-model comparison, input validation, confidence analysis and
+results are in [C1_HELDOUT_EVALUATION.md](C1_HELDOUT_EVALUATION.md).
+The training record below describes the state at training completion; its
+`test_evaluated: false` metadata is preserved as historical provenance. No
+weights or training summaries were rewritten during evaluation.
+
 ## Completed user-run experiment: 2026-10-18
 
 All 10 epochs completed. **Epoch 10** achieved the highest validation selection

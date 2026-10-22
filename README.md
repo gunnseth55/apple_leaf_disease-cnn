@@ -15,11 +15,21 @@ Two versions of the same CNN are compared:
 See [PROJECT_PROGRESS.md](PROJECT_PROGRESS.md) for the dated experiment log,
 analysis, decisions, and changes made during development.
 
+The **2026-10-22 held-out C1 comparison is complete**. On the same 252 PP2020
+test images, reference / robust / C1 accuracy was **48.41% / 56.75% / 94.84%**,
+with three-class macro-F1 **0.4347 / 0.5528 / 0.9465**. On the 475-image
+PlantVillage test, accuracy was **99.79% / 100.00% / 99.79%**. C1 preserved the
+reference's PV headline performance while improving PP2020 recognition; field
+black rot remains unmeasured. See [C1_HELDOUT_EVALUATION.md](C1_HELDOUT_EVALUATION.md)
+for the input validation, procedure, recall, confusion matrices, confidence,
+limitations, and reproducible result locations. No training or demo promotion
+was performed for this comparison.
+
 The user-run C1 mixed-source EfficientNet-B0 experiment completed 10 epochs on
 PlantVillage + PP2020. Selected epoch 10 achieved **1.0000 PV validation macro-F1**
 and **0.9508 PP2020 present-class validation macro-F1** (95.22% accuracy), for a
-combined selection score of **0.9754**. Both test sets remain unevaluated for C1;
-the frozen reference and split manifests are unchanged. Full results and the
+combined selection score of **0.9754**. Subsequent held-out test results are
+linked above; the frozen reference and split manifests are unchanged. Training results and the
 selected checkpoint are in [FIELD_CLASSIFIER_TRAINING.md](FIELD_CLASSIFIER_TRAINING.md).
 This is validation performance, not confirmation of reliable field diagnosis or
 orchard black rot.
@@ -35,9 +45,9 @@ The [class and visual review](KASHMIR_EFFICIENTNET_REVIEW.md) records representa
 Kashmir failures without changing diagnoses, weights or thresholds.
 
 EfficientNet is the final in-distribution candidate, not the final deployment
-model. A PlantVillage-only robustness augmentation experiment and paired
-evaluation commands are ready for the user to run; no robust training has been
-performed. See [ROBUSTNESS_EXPERIMENT.md](ROBUSTNESS_EXPERIMENT.md).
+model. The user subsequently completed the PlantVillage-only robustness run;
+its selected epoch-13 checkpoint is included in the held-out comparison above.
+See [ROBUSTNESS_EXPERIMENT.md](ROBUSTNESS_EXPERIMENT.md) for the original protocol.
 
 The external Kashmir classifier evaluation, dataset audit, full metrics, and
 reproduction commands are in [KASHMIR_EVALUATION.md](KASHMIR_EVALUATION.md).

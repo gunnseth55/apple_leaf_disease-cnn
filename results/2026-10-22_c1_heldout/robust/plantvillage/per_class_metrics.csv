@@ -1,0 +1,5 @@
+class,precision,recall,f1-score,support
+Apple scab,1.0,1.0,1.0,95.0
+Black rot,1.0,1.0,1.0,93.0
+Cedar apple rust,1.0,1.0,1.0,41.0
+healthy,1.0,1.0,1.0,246.0

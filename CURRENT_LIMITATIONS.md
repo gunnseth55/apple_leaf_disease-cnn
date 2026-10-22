@@ -1,8 +1,8 @@
 # Current project limitations
 
-Status: 2026-10-21, based on the recorded experiments through 2026-10-18.
-This document summarizes existing evidence; no new training or evaluation was
-performed to prepare it.
+Status: 2026-10-22, including the completed C1 held-out comparison.
+This document summarizes recorded evidence; the latest evaluation is documented
+in [C1_HELDOUT_EVALUATION.md](C1_HELDOUT_EVALUATION.md).
 
 ## Classification and field generalization
 
@@ -23,22 +23,30 @@ performed to prepare it.
 Sources: [EfficientNet results](EFFICIENTNET_TRANSFER.md),
 [Kashmir evaluation](KASHMIR_EVALUATION.md), [demo](DEMO.md).
 
-## Mixed-source candidate is not yet test-validated
+## Mixed-source results have limited external coverage
 
 - C1 fine-tuning on PlantVillage and PP2020 completed ten epochs. The selected
   checkpoint reached 1.0000 PlantVillage validation macro-F1 and 0.9508 PP2020
   present-three-class validation macro-F1. Validation was used to select the
   checkpoint, so these are not independent test results.
-- Neither frozen test split has been evaluated for C1 in the recorded results.
-  Its improvement over the reference on held-out field tests remains unknown.
+- C1 now has frozen test results: 99.79% PV accuracy / 0.9982 macro-F1 and
+  94.84% PP2020 accuracy / 0.9465 present-three-class macro-F1. This preserves
+  reference PV headline performance and improves PP2020 accuracy by 46.43
+  percentage points, but establishes performance only on these test sources.
+  C1 still makes 13/252 PP2020 errors, including seven scab-to-healthy errors.
 - PP2020 provides scab, rust, and healthy examples, but no black-rot field class.
   Black-rot supervision still comes from PlantVillage; orchard black-rot
   reliability remains unestablished.
-- C1 has not replaced the frozen classifier used by the demo. The separate
-  PlantVillage-only robustness augmentation experiment is prepared but has no
-  recorded completed training run or robustness comparison.
+- C1 has not replaced the frozen classifier used by the demo. The robust model
+  is also trained and evaluated: 100.00% PV accuracy and 56.75% PP2020 accuracy.
+  These three saved recipes differ in augmentation, sampling and fine-tuning
+  exposure, so this comparison does not isolate the effect of data source alone.
+- C1's improved PP2020 confidence diagnostics do not calibrate its scores; one
+  of its 213 PP2020 predictions at confidence >= 0.90 was wrong. Its PV NLL was
+  worse than reference despite equal PV accuracy and macro-F1.
 
 Sources: [C1 training](FIELD_CLASSIFIER_TRAINING.md),
+[held-out comparison](C1_HELDOUT_EVALUATION.md),
 [robustness experiment](ROBUSTNESS_EXPERIMENT.md), [demo configuration](DEMO.md).
 
 ## Dataset labels, independence, and evaluation coverage
@@ -59,6 +67,9 @@ Sources: [C1 training](FIELD_CLASSIFIER_TRAINING.md),
 - Kashmir and the healthy benchmark have already been inspected. Further
   comparisons on these sets cannot substitute for confirmation on genuinely
   unseen external data, and test results must not guide tuning.
+- Both frozen classifier test splits have now been evaluated for C1. Preserve
+  their role as observed tests; do not use the new results to tune training,
+  thresholds or checkpoint selection.
 
 Sources: [Kashmir label audit](KASHMIR_LABEL_AUDIT.md),
 [EfficientNet results](EFFICIENTNET_TRANSFER.md),
@@ -115,10 +126,9 @@ Sources: [demo setup and checks](DEMO.md), [lesion data contract](LESION_DETECTI
 
 ## Evidence still needed
 
-1. A source-wise comparison of C1 and the frozen reference on the preserved
-   PlantVillage and PP2020 test splits, without test-driven tuning.
-2. Independently verified external disease labels, including field black rot,
-   and genuinely unseen data for confirmation.
+1. Confirmation on genuinely unseen orchards, seasons or devices, preserving
+   the completed source-wise comparison without test-driven tuning.
+2. Independently verified external disease labels, including field black rot.
 3. An independent orchard lesion benchmark with pixel-level annotations and
    healthy examples to measure both missed lesions and false positives.
 4. Evidence for confidence calibration, unknown-input handling, and combined

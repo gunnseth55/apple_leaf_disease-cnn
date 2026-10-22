@@ -1,0 +1,5 @@
+true_class,Apple scab,Black rot,Cedar apple rust,healthy
+Apple scab,94,0,0,1
+Black rot,0,93,0,0
+Cedar apple rust,0,0,41,0
+healthy,0,0,0,246

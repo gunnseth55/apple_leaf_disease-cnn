@@ -1,5 +1,50 @@
 # Project Progress Log
 
+## 2026-10-22 - C1 held-out evaluation and three-model comparison
+
+Question: did real-orchard fine-tuning improve recognition without sacrificing
+PlantVillage classifier performance? Loaded the frozen reference (epoch 11),
+robust (epoch 13) and C1 (epoch 10) EfficientNet-B0 checkpoints. No training,
+threshold selection, label changes, split changes or demo promotion occurred.
+
+Added `src/appleleaf/cli/evaluate_c1.py`. Before inference, validated checkpoint
+roles/preprocessing and validation selection, C1's frozen input/reference hashes,
+reference/robust PV inventories, C1 saved train/validation inventories and the
+complete frozen PP2020 split verifier. Decoded and checked all 4,843 source-split
+images; no path/normalized-pixel overlap was found. All models used the exact
+same ordered 475 PV and 252 PP2020 test images with deterministic 224px ImageNet
+preprocessing. Four outputs were retained; headline PP2020 macro-F1 averages
+the three supported classes and black-rot predictions remain errors.
+
+| Model | PV accuracy | PV macro-F1 | PP2020 accuracy | PP2020 macro-F1 |
+| --- | ---: | ---: | ---: | ---: |
+| Reference | 474/475 (99.79%) | 0.9982 | 122/252 (48.41%) | 0.4347 |
+| Robust | 475/475 (100.00%) | 1.0000 | 143/252 (56.75%) | 0.5528 |
+| C1 | 474/475 (99.79%) | 0.9982 | 239/252 (94.84%) | 0.9465 |
+
+PP2020 Scab recall: 76.40% / 75.28% / 89.89%; Cedar Rust recall:
+0.00% / 21.51% / 97.85%. C1 corrected 124 reference errors but regressed on seven
+PP2020 examples, a net gain of 117. PV aggregate parity conceals one corrected
+and one introduced scab-to-healthy error. PP2020 errors at confidence >= 0.90:
+25/87 / 23/96 / 1/213; these scores remain uncalibrated. C1 PV NLL is worse than
+reference despite equal accuracy and macro-F1. No PP2020 black-rot recall can
+be measured; broad orchard reliability and segmentation accuracy remain unproven.
+
+All 54 repository tests passed, including eight evaluation tests. Added
+`scripts/verify_c1_comparison.py`; its independent saved-output checks passed
+for all six evaluations. Original reference/robust PV labels and predictions
+were exactly reproduced. All frozen checkpoint/manifest/configuration/history
+hashes were preserved. Original training summaries retain their historical state.
+
+Local outputs: `artifacts/c1_heldout_comparison_v1/`. Portable CSV/JSON/NPZ/PNG
+snapshot: `results/2026-10-22_c1_heldout/`. Procedure, interpretation, all metric
+tables and commands: [C1_HELDOUT_EVALUATION.md](C1_HELDOUT_EVALUATION.md).
+Updated the README and current limitations, including correction of the stale
+claim that robust training had not completed. Decision: C1 is the stronger
+candidate on held-out PP2020 with reference PV headline performance preserved;
+retain the current demo until a separate integration decision, and avoid tuning
+on the observed tests.
+
 ## 2026-10-18 - C1 mixed-source training completed by user
 
 The user ran `python -m appleleaf.cli.train_field --epochs 10 --batch-size 16

@@ -1,0 +1,184 @@
+{
+  "sample_count": 475,
+  "correct_count": 474,
+  "accuracy": 0.9978947368421053,
+  "macro_f1": 0.9981701492857679,
+  "macro_f1_labels": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "macro_f1_all_four": 0.9981701492857679,
+  "class_order": [
+    "Apple scab",
+    "Black rot",
+    "Cedar apple rust",
+    "healthy"
+  ],
+  "per_class": {
+    "Apple scab": {
+      "precision": 1.0,
+      "recall": 0.9894736842105263,
+      "f1-score": 0.9947089947089947,
+      "support": 95.0
+    },
+    "Black rot": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 93.0
+    },
+    "Cedar apple rust": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 41.0
+    },
+    "healthy": {
+      "precision": 0.9959514170040485,
+      "recall": 1.0,
+      "f1-score": 0.9979716024340771,
+      "support": 246.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      94,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      93,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      41,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      246
+    ]
+  ],
+  "black_rot_prediction_count": 93,
+  "confidence": {
+    "mean": 0.9940308733990318,
+    "mean_correct": 0.9944555369610525,
+    "mean_errors": 0.7927403450012207,
+    "high_confidence_threshold": 0.9,
+    "high_confidence_count": 467,
+    "high_confidence_errors": 0,
+    "high_confidence_error_rate": 0.0,
+    "ece_10_bins": 0.003863863443073472,
+    "negative_log_likelihood": 0.009381355657690455,
+    "interpretation": "Uncalibrated softmax; descriptive analysis only, no threshold tuning"
+  },
+  "confidence_bins": [
+    {
+      "lower": 0.0,
+      "upper": 0.1,
+      "count": 0,
+      "correct": 0,
+      "errors": 0,
+      "accuracy": null,
+      "mean_confidence": null
+    },
+    {
+      "lower": 0.1,
+      "upper": 0.2,
+      "count": 0,
+      "correct": 0,
+      "errors": 0,
+      "accuracy": null,
+      "mean_confidence": null
+    },
+    {
+      "lower": 0.2,
+      "upper": 0.3,
+      "count": 0,
+      "correct": 0,
+      "errors": 0,
+      "accuracy": null,
+      "mean_confidence": null
+    },
+    {
+      "lower": 0.3,
+      "upper": 0.4,
+      "count": 0,
+      "correct": 0,
+      "errors": 0,
+      "accuracy": null,
+      "mean_confidence": null
+    },
+    {
+      "lower": 0.4,
+      "upper": 0.5,
+      "count": 0,
+      "correct": 0,
+      "errors": 0,
+      "accuracy": null,
+      "mean_confidence": null
+    },
+    {
+      "lower": 0.5,
+      "upper": 0.6,
+      "count": 0,
+      "correct": 0,
+      "errors": 0,
+      "accuracy": null,
+      "mean_confidence": null
+    },
+    {
+      "lower": 0.6,
+      "upper": 0.7,
+      "count": 1,
+      "correct": 1,
+      "errors": 0,
+      "accuracy": 1.0,
+      "mean_confidence": 0.6907853484153748
+    },
+    {
+      "lower": 0.7,
+      "upper": 0.8,
+      "count": 4,
+      "correct": 3,
+      "errors": 1,
+      "accuracy": 0.75,
+      "mean_confidence": 0.7415661513805389
+    },
+    {
+      "lower": 0.8,
+      "upper": 0.9,
+      "count": 3,
+      "correct": 3,
+      "errors": 0,
+      "accuracy": 1.0,
+      "mean_confidence": 0.8739542166392008
+    },
+    {
+      "lower": 0.9,
+      "upper": 1.0,
+      "count": 467,
+      "correct": 467,
+      "errors": 0,
+      "accuracy": 1.0,
+      "mean_confidence": 0.9976140305367986
+    }
+  ],
+  "metadata": {
+    "model": "c1",
+    "source": "plantvillage",
+    "best_epoch": 10,
+    "checkpoint_sha256": "2d2b223e25f0d2fc21bf26a3ff158dbc61294043e80a0ca0bac8618ba2a2fac7",
+    "test_manifest_sha256": "7dd76e04dc6cc99b7e7e7995aa709b03e4c9d38d0dadf29881682610e1f375ee",
+    "seconds": 9.84336889999986
+  }
+}
