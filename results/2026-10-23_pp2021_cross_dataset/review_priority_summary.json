@@ -1,0 +1,22 @@
+{
+  "pairs": 1293,
+  "unique_pp2021_records": 706,
+  "remaining_candidates_with_review_hold": 595,
+  "remaining_candidate_possible_protected_overlaps": 176,
+  "pair_counts_by_priority": {
+    "1": 356,
+    "2": 849,
+    "3": 88
+  },
+  "dhash_distance_pair_counts": {
+    "0": 865,
+    "1": 335,
+    "2": 83,
+    "3": 8,
+    "4": 2
+  },
+  "all_decisions_unresolved": true,
+  "automatic_rejections": 0,
+  "training_approvals": 0,
+  "note": "Priority uses confirmed reference-group history, including copy aliases; it is not a visual duplicate decision"
+}

@@ -1,0 +1,14 @@
+{
+  "dhash_method": "rgb_exif_lanczos17x16_right_gt_left_rowmajor_msb256_v1",
+  "incompatible_kashmir_phash_reused": false,
+  "legacy_header_hashes_directly_compared": false,
+  "passed": true,
+  "pillow_version": "12.3.0",
+  "pixel_method": "rgb_exif_wh_pipe_sha256_v1",
+  "pp2021_rows_reusing_saved_pixel_and_dhash": 18632,
+  "pp2021_wholesale_decoding_performed": false,
+  "raw_identical_pp2021_reference_parity_checks": 0,
+  "raw_identity_freshness": "all registry photo bytes streamed and compared to saved digests where available",
+  "reference_photo_paths": 6958,
+  "unique_reference_contents_decoded": 5889
+}

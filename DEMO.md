@@ -1,5 +1,14 @@
 # End-to-end apple leaf demo
 
+Presentation update, 2026-10-22: **C1 is now the default classifier**. The
+**Disease classifier** dropdown switches between C1, Reference and Robust on
+the same uploaded image or crop. Changing it clears previous results; press
+Analyze again. The page includes the frozen three-model test comparison and
+recall/confidence highlights. All models use saved weights; no training occurs.
+The frozen-configuration table below records the earlier reference default;
+C1 uses `artifacts/efficientnet_b0_field_c1_v1/apple_efficientnet_b0_field_c1_checkpoint.pt`
+with the same 224px classifier preprocessing. Segmentation is unchanged.
+
 This local Gradio prototype illustrates the two-model pipeline. Field-image
 classification remains poor, so this is a research demonstration rather than
 reliable field diagnosis. The softmax score is uncalibrated and can be high on

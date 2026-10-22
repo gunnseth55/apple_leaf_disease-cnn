@@ -15,7 +15,12 @@ from appleleaf.workflow import load_model as load_classifier
 from appleleaf_lesion.workflow import load_model as load_segmenter
 
 
-DEFAULT_CLASSIFIER = Path("artifacts/efficientnet_b0/apple_efficientnet_b0_checkpoint.pt")
+CLASSIFIER_CHECKPOINTS = {
+    "C1 field-adapted (PlantVillage + orchard)": Path("artifacts/efficientnet_b0_field_c1_v1/apple_efficientnet_b0_field_c1_checkpoint.pt"),
+    "Reference (PlantVillage)": Path("artifacts/efficientnet_b0/apple_efficientnet_b0_checkpoint.pt"),
+    "Robust (PlantVillage + augmentation)": Path("artifacts/efficientnet_b0_robust/apple_efficientnet_b0_robust_checkpoint.pt"),
+}
+DEFAULT_CLASSIFIER = next(iter(CLASSIFIER_CHECKPOINTS.values()))
 DEFAULT_SEGMENTER = Path("artifacts/lesion_detection_real30_synthetic70/unet_resnet34_lesion_checkpoint.pt")
 DEFAULT_COMPARISON = Path("artifacts/lesion_detection_real30_synthetic70_hardneg05/unet_resnet34_lesion_checkpoint.pt")
 PRIMARY = "30/70 real/synthetic (reference)"
@@ -87,6 +92,17 @@ class DemoPipeline:
                        for name, index in sorted(mapping.items(), key=lambda item: item[1])]
         self.classifier_transform = checkpoint_transform(metadata)
         self.classifier.requires_grad_(False).eval()
+        self.classifier_name = next((name for name, path in CLASSIFIER_CHECKPOINTS.items()
+                                     if path.resolve() == Path(classifier).resolve()), "Selected checkpoint")
+        self.classifiers = {self.classifier_name: (self.classifier, self.classifier_transform)}
+        for name, path in CLASSIFIER_CHECKPOINTS.items():
+            if name == self.classifier_name or not path.is_file():
+                continue
+            model, saved = load_classifier(path, self.device)
+            if (saved.get("architecture") != "efficientnet_b0" or saved.get("image_size") != 224
+                    or saved.get("preprocessing") != "imagenet_rgb_resize" or saved.get("class_to_index") != mapping):
+                raise ValueError(f"Incompatible comparison classifier: {path}")
+            self.classifiers[name] = (model.requires_grad_(False).eval(), checkpoint_transform(saved))
         self.segmenters = {}
         for name, path in self.paths.items():
             model, checkpoint = load_segmenter(path, self.device)
@@ -100,12 +116,17 @@ class DemoPipeline:
             self.segmenters[name] = (model.requires_grad_(False).eval(), threshold)
 
     @torch.inference_mode()
-    def predict(self, image, segmenter=PRIMARY):
+    def predict(self, image, segmenter=PRIMARY, classifier=None):
         image = prepare_image(image)
         if segmenter not in self.segmenters:
             raise ValueError("Choose one of the available segmentation models.")
-        inputs = self.classifier_transform(image).unsqueeze(0).to(self.device)
-        probabilities = self.classifier(inputs).softmax(dim=1)[0].cpu().numpy()
+        selected_model, transform = self.classifier, self.classifier_transform
+        if classifier is not None:
+            if classifier not in self.classifiers:
+                raise ValueError("Choose one of the available classifiers.")
+            selected_model, transform = self.classifiers[classifier]
+        inputs = transform(image).unsqueeze(0).to(self.device)
+        probabilities = selected_model(inputs).softmax(dim=1)[0].cpu().numpy()
         scores = dict(zip(self.labels, map(float, probabilities)))
         predicted = self.labels[int(probabilities.argmax())]
         confidence = float(probabilities.max())
@@ -115,6 +136,7 @@ class DemoPipeline:
         overlay, mask = lesion_overlay(image, probability, threshold)
         area = float((probability >= threshold).mean())
         details = (
+            f"**Classifier:** {classifier or getattr(self, 'classifier_name', 'Selected checkpoint')}  \n"
             f"**Predicted disease:** {predicted}  \n"
             f"**Softmax score:** {confidence:.2%} (uncalibrated; not diagnostic certainty)  \n"
             f"**Analyzed image dimensions:** {image.width} × {image.height} pixels  \n"
@@ -138,12 +160,12 @@ class DemoPipeline:
                 )
         return scores, image, overlay, mask, details
 
-    def predict_crop(self, editor, segmenter=PRIMARY):
-        return self.predict(prepare_crop(editor), segmenter)
+    def predict_crop(self, editor, segmenter=PRIMARY, classifier=None):
+        return self.predict(prepare_crop(editor), segmenter, classifier)
 
-    def compare_crop(self, original, editor, segmenter=PRIMARY):
-        full = self.predict(original, segmenter)
-        cropped = self.predict_crop(editor, segmenter)
+    def compare_crop(self, original, editor, segmenter=PRIMARY, classifier=None):
+        full = self.predict(original, segmenter, classifier)
+        cropped = self.predict_crop(editor, segmenter, classifier)
         rows = ["### Full image versus selected crop", "",
                 "| Class | Full-image softmax score | Crop softmax score |",
                 "| --- | ---: | ---: |"]
@@ -170,6 +192,21 @@ def build_demo(pipeline):
             "can be high even for an incorrect prediction. Red regions are predicted lesions "
             "and may include healthy structures."
         )
+        gr.Markdown(
+            "## Did orchard fine-tuning improve recognition?\n"
+            "Held-out evaluation · 475 PlantVillage images and 252 PP2020 orchard images · 22 Oct 2026\n\n"
+            "| Classifier | PlantVillage accuracy | Orchard accuracy | Orchard macro-F1 |\n"
+            "| --- | ---: | ---: | ---: |\n"
+            "| Reference | 99.79% | 48.41% | 0.4347 |\n"
+            "| Background-robust | 100.00% | 56.75% | 0.5528 |\n"
+            "| **C1 field-adapted** | **99.79%** | **94.84%** | **0.9465** |\n\n"
+            "**C1 improved orchard accuracy by 46.43 percentage points and matched reference PlantVillage accuracy.** "
+            "C1 orchard recall: Scab **89.89%**, Cedar Rust **97.85%**, Healthy **97.14%**. "
+            "Only **1 of 213** C1 orchard predictions with a score ≥ 90% was wrong, versus **25 of 87** for reference.\n\n"
+            "Orchard macro-F1 covers three represented classes; all four prediction outputs were retained. "
+            "PP2020 contains no black-rot examples, so field black-rot recall is unmeasured. "
+            "These are dataset results, not a guarantee for a new upload. Select a classifier below to try the same image."
+        )
         with gr.Row():
             with gr.Column():
                 upload = gr.Image(type="pil", image_mode="RGB", format="png", sources=["upload"], label="Full uploaded image")
@@ -177,6 +214,8 @@ def build_demo(pipeline):
                                         transforms=["crop"], brush=False, eraser=False, layers=False,
                                         label="Crop around a single leaf, then apply the crop", height=400)
             with gr.Column():
+                classifier_selection = gr.Dropdown(choices=list(pipeline.classifiers), value=pipeline.classifier_name,
+                                                    label="Disease classifier", interactive=True)
                 selection = gr.Radio(choices=list(pipeline.segmenters), value=PRIMARY, label="Lesion model")
                 gr.Markdown(
                     "The reference favors diseased-image Dice. The 5% hard-negative comparison "
@@ -200,34 +239,34 @@ def build_demo(pipeline):
             "The red overlay uses 45% opacity. All threshold-selected regions are retained."
         )
 
-        def analyze(image, model):
+        def analyze(image, model, classifier=None):
             try:
-                return pipeline.predict(image, model)
+                return pipeline.predict(image, model, classifier)
             except ValueError as error:
                 raise gr.Error(str(error)) from error
 
         outputs = [scores, original, overlay, mask, details]
-        def analyze_crop(value, model):
+        def analyze_crop(value, model, classifier=None):
             try:
-                return pipeline.predict_crop(value, model)
+                return pipeline.predict_crop(value, model, classifier)
             except ValueError as error:
                 raise gr.Error(str(error)) from error
 
-        def compare_images(image, value, model):
+        def compare_images(image, value, model, classifier=None):
             try:
-                return pipeline.compare_crop(image, value, model)
+                return pipeline.compare_crop(image, value, model, classifier)
             except ValueError as error:
                 raise gr.Error(str(error)) from error
 
-        run.click(analyze_crop, inputs=[editor, selection], outputs=outputs,
+        run.click(analyze_crop, inputs=[editor, selection, classifier_selection], outputs=outputs,
                   concurrency_limit=1, concurrency_id="inference", api_name="analyze_crop")
-        full_run.click(analyze, inputs=[upload, selection], outputs=outputs,
+        full_run.click(analyze, inputs=[upload, selection, classifier_selection], outputs=outputs,
                        concurrency_limit=1, concurrency_id="inference", api_name="analyze")
-        compare.click(compare_images, inputs=[upload, editor, selection], outputs=[*outputs, comparison],
+        compare.click(compare_images, inputs=[upload, editor, selection, classifier_selection], outputs=[*outputs, comparison],
                       concurrency_limit=1, concurrency_id="inference", api_name="compare_crop")
         # Clear previous results when either input changes, preventing stale output pairs.
         upload.change(seed_crop, inputs=upload, outputs=editor, queue=False, api_name="seed_crop")
-        for component in [upload, editor, selection]:
+        for component in [upload, editor, selection, classifier_selection]:
             component.change(lambda: [None, None, None, None, "", ""],
                              outputs=[*outputs, comparison], queue=False)
         # Switching analysis modes also clears a comparison made for a previous input.

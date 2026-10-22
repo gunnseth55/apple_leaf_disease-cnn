@@ -1,5 +1,85 @@
 # Project Progress Log
 
+## 2026-10-23 - C2-C cross-dataset matching completed; visual review pending
+
+Implemented `scripts/audit_pp2021_cross_dataset.py` and matched all 18,632 PP2021
+records, including excluded/quarantined originals, against 6,958 reference photo
+paths. Registry covers original Apple PV files/splits, all 2,533 PP2020 members,
+C1 train/validation/frozen test roles, Zenodo real/synthetic/render inputs,
+protected healthy evaluation and Kashmir recovered/original aliases. Masks and
+LFS pointers are auxiliary evidence, not photo-index entries.
+
+Stream-verified raw SHA for all 25,590 photo paths. Reused saved PP2021 pixel and
+dHash identities; decoded 5,889 distinct reference contents to bridge the PP2021
+width-height-pipe pixel header and legacy tuple headers, with explicit EXIF/RGB
+normalization. Exact indices and complete five-block dHash256 distance <=4
+screening replaced an unconditional cross product; no pair truncation occurred.
+
+Found no cross-dataset raw/pixel exact duplicates. Reproduced all 27 original
+internal PP2021 pairs. Found 1,293 nonexact path-level perceptual pairs, all
+against PP2020, involving 706 PP2021 records. Generated 216 complete review pages
+and unresolved decision templates. No new visual duplicate decisions were made.
+Among the 14,464 remaining C2-B candidates, 595 have visual holds (594 Rust,
+one Healthy), including 176 with potential protected PP2020 links (88 test,
+88 validation). Another 3,181 Frogeye records await diagnostic mapping review;
+10,688 have no detected overlap but remain pending protocol/label review. All
+54 original quarantine records remain quarantined and no training is authorized.
+
+All 79 tests passed, including 14 audit tests and two independent-verifier tests.
+`scripts/verify_pp2021_cross_dataset.py` independently reconstructed graph groups
+and compared complete pair sets with an eight-block index: passed, zero
+unsupported unions. Preservation checks confirmed 421 metadata/weight files,
+26,282 workspace image/archive file-metadata records and all indexed photo
+receipts unchanged. No source-image edits, label changes, model loading/training,
+checkpoint writes or split assignments occurred.
+
+Full audit: `data/field_manifests/pp2021_cross_dataset_v1/`. Compact verified
+snapshot and inherited-role priority queue:
+`results/2026-10-23_pp2021_cross_dataset/`, reproducible through
+`scripts/summarize_pp2021_cross_dataset.py`. Procedure, actual results and next
+review step: [PP2021_CROSS_DATASET_AUDIT.md](PP2021_CROSS_DATASET_AUDIT.md).
+Next: adjudicate perceptual candidates with protected-history links first;
+propagate only confirmed relationships in a new version before C2 split design.
+
+## 2026-10-22 - C2-B PP2021 conflict quarantine and C2-C plan
+
+Question: can PP2021 single-label candidates be preserved safely while blocking
+all internally conflicting exact duplicates before cross-dataset verification?
+Inspected the five source schemas and reused their hashes/group assignments.
+Added `scripts/quarantine_pp2021_conflicts.py`; no image decoding, source image
+hashing, inference, training, checkpoint edit or split change was performed.
+
+Verified 18,632 original records, 18,605 normalized-pixel identities and all 27
+conflicting two-record groups. Quarantined all 54 originals, including 27 Rust
+candidates. Original candidate counts 4,826 Scab / 3,181 Frogeye / 1,860 Rust /
+4,624 Healthy become 4,826 / 3,181 / 1,833 / 4,624: 14,464 remaining candidates.
+They are all pending cross-dataset audit, with training/unseen-evaluation
+permissions false. Frogeye-to-black-rot remains explicitly provisional.
+
+Preserved the original 14,491-candidate manifest and two older incomplete
+derived CSVs at the audit root. Published the four complete CSV/JSON outputs
+together in `data/field_manifests/pp2021_audit/internal_quarantine_v1/`.
+An actual second run verified/reused identical outputs without overwriting.
+Nine new tests passed, including real-data counts, malformed provenance,
+source/checkpoint/split preservation, mutation detection and no-overwrite;
+all 63 repository tests passed. Actual-run SHA checks preserved 417 protected
+metadata/checkpoint files; path/size/mtime/ctime checks preserved 29,446
+image/archive paths. These metadata checks are not a new byte-level image audit.
+
+Reviewed the PP2020 audit/adjudication/role/split utilities and Kashmir/Zenodo/
+healthy manifests. Found incompatible pixel-hash headers (PP2021 width-height
+pipe versus legacy tuple-size) and incompatible Kashmir DCT pHash versus dHash.
+Planned a reference-side canonical hash bridge, indexed exact matching and
+complete five-block dHash256 screening at distance <=4, visual review and
+transitive strongest restrictions over all PP2021 records. Frozen C1 roles must
+override older prospective eligibility flags. No cross-dataset matching, C2 split
+assignment, automatic visual rejection or training was performed.
+
+Quarantine procedure/results: [PP2021_QUARANTINE.md](PP2021_QUARANTINE.md).
+Next implementation specification: [PP2021_CROSS_DATASET_PLAN.md](PP2021_CROSS_DATASET_PLAN.md).
+Next: implement `scripts/audit_pp2021_cross_dataset.py` and its fail-closed tests;
+the documented command is a planned interface, not an existing executable.
+
 ## 2026-10-22 - C1 held-out evaluation and three-model comparison
 
 Question: did real-orchard fine-tuning improve recognition without sacrificing

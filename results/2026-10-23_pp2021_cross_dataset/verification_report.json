@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "photo_nodes": 25590,
+  "pp2021_records": 18632,
+  "reference_paths": 6958,
+  "confirmed_groups": 24483,
+  "exact_pairs": 27,
+  "nonexact_perceptual_pairs": 1293,
+  "pending_visual_review_pairs": 1293,
+  "all_original_quarantine_records_preserved": 54,
+  "independent_index": "eight 32-bit blocks, >=4 matching blocks; exact pair sets equal main five-block screen",
+  "source_and_output_hashes_verified": true,
+  "photo_file_metadata_unchanged": true,
+  "unsupported_confirmed_unions": 0,
+  "training_performed": false,
+  "model_or_image_loading_performed": false
+}

@@ -1,0 +1,40 @@
+{
+  "approved_for_training": 0,
+  "assigned_splits": 0,
+  "audit_status": "matching_complete_visual_and_diagnostic_review_pending",
+  "c2b_quarantined_records": 54,
+  "c2b_remaining_candidates": 14464,
+  "c2b_removed_candidates": 27,
+  "exact_cross_dataset_pairs": 0,
+  "exact_internal_pp2021_pairs": 27,
+  "exact_pair_count": 27,
+  "limitations": [
+    "dHash <=4 is a review screen, not automatic rejection or proof of independence",
+    "Frogeye/black-rot diagnostic equivalence remains provisional",
+    "Historical dataset use is bounded by supplied local records"
+  ],
+  "nonexact_perceptual_pairs": 1293,
+  "original_candidates": 14491,
+  "pairs_pending_visual_review": 1293,
+  "pp2021_confirmed_reference_overlap_records": 0,
+  "pp2021_records": 18632,
+  "pp2021_status_counts": {
+    "no_detected_overlap_pending_protocol_and_label_review": 14713,
+    "pending_diagnostic_mapping_review": 3181,
+    "pending_visual_duplicate_review": 684,
+    "quarantined_label_conflict": 54
+  },
+  "remaining_candidate_source_label_counts": {
+    "frog_eye_leaf_spot": 3181,
+    "healthy": 4624,
+    "rust": 1833,
+    "scab": 4826
+  },
+  "remaining_candidate_status_counts": {
+    "no_detected_overlap_pending_protocol_and_label_review": 10688,
+    "pending_diagnostic_mapping_review": 3181,
+    "pending_visual_duplicate_review": 595
+  },
+  "review_sheet_tiles": 1293,
+  "training_performed": false
+}

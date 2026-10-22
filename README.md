@@ -15,6 +15,13 @@ Two versions of the same CNN are compared:
 See [PROJECT_PROGRESS.md](PROJECT_PROGRESS.md) for the dated experiment log,
 analysis, decisions, and changes made during development.
 
+PP2021 preparation for C2: [internal-conflict quarantine](PP2021_QUARANTINE.md)
+is complete (27 groups / 54 records; 14,464 candidates remain pending).
+The [cross-dataset matching audit](PP2021_CROSS_DATASET_AUDIT.md) is complete:
+no cross-dataset raw/pixel exact matches were found, but 1,293 perceptual pairs
+require review, affecting 595 remaining candidates. No C2 training or split
+assignment has started.
+
 The **2026-10-22 held-out C1 comparison is complete**. On the same 252 PP2020
 test images, reference / robust / C1 accuracy was **48.41% / 56.75% / 94.84%**,
 with three-class macro-F1 **0.4347 / 0.5528 / 0.9465**. On the 475-image
